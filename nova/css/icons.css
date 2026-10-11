@@ -1,0 +1,272 @@
+/*
+ * Project       : Nova主题
+ * Description   : 图标样式（CSS mask 内联 SVG，无需字体文件）
+ */
+
+[class^="nova-icon-"],
+[class*=" nova-icon-"] {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    font-size: inherit;
+    line-height: 1;
+    vertical-align: -0.15em;
+    background-color: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
+
+/* 首页 */
+.nova-icon-home {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>');
+}
+/* 搜索 */
+.nova-icon-search {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 10-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1114 9.5 4.5 4.5 0 019.5 14z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 10-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1114 9.5 4.5 4.5 0 019.5 14z"/></svg>');
+}
+/* 用户 */
+.nova-icon-user {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12a4 4 0 10-4-4 4 4 0 004 4zm0 2c-3.3 0-8 1.7-8 5v3h16v-3c0-3.3-4.7-5-8-5z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12a4 4 0 10-4-4 4 4 0 004 4zm0 2c-3.3 0-8 1.7-8 5v3h16v-3c0-3.3-4.7-5-8-5z"/></svg>');
+}
+/* 时间 */
+.nova-icon-time {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11.99 2a10 10 0 100 20 10 10 0 000-20zM13 12.6V7h-2v7l5 3 1-1.6-4-1.4z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11.99 2a10 10 0 100 20 10 10 0 000-20zM13 12.6V7h-2v7l5 3 1-1.6-4-1.4z"/></svg>');
+}
+/* 浏览 */
+.nova-icon-view {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zM12 17a5 5 0 115-5 5 5 0 01-5 5zm0-8a3 3 0 103 3 3 3 0 00-3-3z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zM12 17a5 5 0 115-5 5 5 0 01-5 5zm0-8a3 3 0 103 3 3 3 0 00-3-3z"/></svg>');
+}
+/* 评论 */
+.nova-icon-comment {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 6h-2v9H6v2a1 1 0 001 1h11l4 4V7a1 1 0 00-1-1zm-4 6V3a1 1 0 00-1-1H3a1 1 0 00-1 1v14l4-4h10a1 1 0 001-1z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 6h-2v9H6v2a1 1 0 001 1h11l4 4V7a1 1 0 00-1-1zm-4 6V3a1 1 0 00-1-1H3a1 1 0 00-1 1v14l4-4h10a1 1 0 001-1z"/></svg>');
+}
+/* 点赞 */
+.nova-icon-like {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A6.1 6.1 0 0116.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A6.1 6.1 0 0116.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
+}
+/* 分享 */
+.nova-icon-share {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>');
+}
+/* 编辑 */
+.nova-icon-edit {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>');
+}
+/* 关闭 */
+.nova-icon-close {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>');
+}
+/* 锁 */
+.nova-icon-lock {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 8h-1V6a5 5 0 00-10 0v2H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zM9 6a3 3 0 016 0v2H9V6zm3 11a2 2 0 112-2 2 2 0 01-2 2z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 8h-1V6a5 5 0 00-10 0v2H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zM9 6a3 3 0 016 0v2H9V6zm3 11a2 2 0 112-2 2 2 0 01-2 2z"/></svg>');
+}
+/* 邮箱 */
+.nova-icon-email {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>');
+}
+/* 验证码 */
+.nova-icon-code {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>');
+}
+/* 签到 */
+.nova-icon-sign {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 14l-4-4 1.41-1.41L12 14.17l5.59-5.58L19 10l-7 7z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 14l-4-4 1.41-1.41L12 14.17l5.59-5.58L19 10l-7 7z"/></svg>');
+}
+/* 积分 */
+.nova-icon-points {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z"/></svg>');
+}
+/* VIP */
+.nova-icon-vip {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2zm0 4l4.2 6H7.8L12 6zm0 6l2.2 3.2h-4.4L12 12z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2zm0 4l4.2 6H7.8L12 6zm0 6l2.2 3.2h-4.4L12 12z"/></svg>');
+}
+/* 钱包 */
+.nova-icon-wallet {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 18v1a2 2 0 01-2 2H5a3 3 0 01-3-3V6a3 3 0 013-3h14v3H5a1 1 0 00-1 1v.2A2 2 0 015 7h16v2H5a1 1 0 000 2h16v2h-3a2 2 0 00-2 2v3a2 2 0 002 2h3zm3-2h-3v-3h3v3z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 18v1a2 2 0 01-2 2H5a3 3 0 01-3-3V6a3 3 0 013-3h14v3H5a1 1 0 00-1 1v.2A2 2 0 015 7h16v2H5a1 1 0 000 2h16v2h-3a2 2 0 00-2 2v3a2 2 0 002 2h3zm3-2h-3v-3h3v3z"/></svg>');
+}
+/* 金钱 */
+.nova-icon-money {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 3.5h-2v2.3c-1.6.5-2.8 1.6-2.8 3.2 0 2.6 3 2.6 3 4.3 0 .8-.7 1.2-1.5 1.2S8.2 15.9 8.2 15h-2c0 1.7 1.2 2.9 2.8 3.3V20h2v-1.7c1.6-.5 2.9-1.7 2.9-3.3 0-2.6-3-2.7-3-4.3 0-.7.7-1.2 1.6-1.2.9 0 1.5.5 1.5 1.2h2c0-1.7-1.3-2.9-3-3.3V5.5z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 3.5h-2v2.3c-1.6.5-2.8 1.6-2.8 3.2 0 2.6 3 2.6 3 4.3 0 .8-.7 1.2-1.5 1.2S8.2 15.9 8.2 15h-2c0 1.7 1.2 2.9 2.8 3.3V20h2v-1.7c1.6-.5 2.9-1.7 2.9-3.3 0-2.6-3-2.7-3-4.3 0-.7.7-1.2 1.6-1.2.9 0 1.5.5 1.5 1.2h2c0-1.7-1.3-2.9-3-3.3V5.5z"/></svg>');
+}
+/* 订单 */
+.nova-icon-order {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5h18v2H3V5zm0 6h18v2H3v-2zm0 6h12v2H3v-2z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5h18v2H3V5zm0 6h18v2H3v-2zm0 6h12v2H3v-2z"/></svg>');
+}
+/* 购物袋 */
+.nova-icon-bag {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6h-3V4a3 3 0 00-6 0v2H6a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V8a2 2 0 00-2-2zM11 4a1 1 0 012 0v2h-2V4z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6h-3V4a3 3 0 00-6 0v2H6a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V8a2 2 0 00-2-2zM11 4a1 1 0 012 0v2h-2V4z"/></svg>');
+}
+/* 绑定 */
+.nova-icon-bind {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.9 12c0-1.7 1.3-3 3-3h4V7H7a5 5 0 000 10h4v-2H7c-1.7 0-3-1.3-3-3zm4.6 1h7v2h-7v-2zm9.5-1c0 1.7-1.3 3-3 3h-4v2h4a5 5 0 000-10h-4v2h4c1.7 0 3 1.3 3 3z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.9 12c0-1.7 1.3-3 3-3h4V7H7a5 5 0 000 10h4v-2H7c-1.7 0-3-1.3-3-3zm4.6 1h7v2h-7v-2zm9.5-1c0 1.7-1.3 3-3 3h-4v2h4a5 5 0 000-10h-4v2h4c1.7 0 3 1.3 3 3z"/></svg>');
+}
+/* 论坛 */
+.nova-icon-forum {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 6h-2v9H6v2a1 1 0 001 1h11l4 4V7a1 1 0 00-1-1zm-4 6V3a1 1 0 00-1-1H3a1 1 0 00-1 1v14l4-4h10a1 1 0 001-1z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 6h-2v9H6v2a1 1 0 001 1h11l4 4V7a1 1 0 00-1-1zm-4 6V3a1 1 0 00-1-1H3a1 1 0 00-1 1v14l4-4h10a1 1 0 001-1z"/></svg>');
+}
+/* 商城 */
+.nova-icon-shop {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 9l3 12h10l3-12H4zm3 10l-2-8h3l2 8h-3zm4 0l2-8h-3l-2 8h3zm5 0l-2-8h3l2 8h-3zM4 7h16V5H4v2z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 9l3 12h10l3-12H4zm3 10l-2-8h3l2 8h-3zm4 0l2-8h-3l-2 8h3zm5 0l-2-8h3l2 8h-3zM4 7h16V5H4v2z"/></svg>');
+}
+/* 消息 */
+.nova-icon-msg {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22a2 2 0 002-2h-4a2 2 0 002 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 00-3 0v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22a2 2 0 002-2h-4a2 2 0 002 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 00-3 0v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>');
+}
+/* 文章 */
+.nova-icon-post {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 12H8v-2h5v2zm3-4H8V8h8v2zm0-4h-4V2l4 4z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 12H8v-2h5v2zm3-4H8V8h8v2zm0-4h-4V2l4 4z"/></svg>');
+}
+/* 置顶箭头 */
+.nova-icon-top {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4l8 8h-5v8h-6v-8H4l8-8z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4l8 8h-5v8h-6v-8H4l8-8z"/></svg>');
+}
+/* 左箭头 */
+.nova-icon-left {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z"/></svg>');
+}
+/* 右箭头 */
+.nova-icon-right {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12l-4.58 4.59z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12l-4.58 4.59z"/></svg>');
+}
+/* 下箭头 */
+.nova-icon-down {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>');
+}
+/* 更多 */
+.nova-icon-more {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a2 2 0 10-2-2 2 2 0 002 2zm0 2a2 2 0 102 2 2 2 0 00-2-2zm0 6a2 2 0 102 2 2 2 0 00-2-2z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a2 2 0 10-2-2 2 2 0 002 2zm0 2a2 2 0 102 2 2 2 0 00-2-2zm0 6a2 2 0 102 2 2 2 0 00-2-2z"/></svg>');
+}
+/* 公告 */
+.nova-icon-notice {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22a2 2 0 002-2h-4a2 2 0 002 2zm6-6v-5a6 6 0 00-5-5.9V4a1 1 0 00-2 0v1.1A6 6 0 006 11v5l-2 2v1h16v-1l-2-2z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22a2 2 0 002-2h-4a2 2 0 002 2zm6-6v-5a6 6 0 00-5-5.9V4a1 1 0 00-2 0v1.1A6 6 0 006 11v5l-2 2v1h16v-1l-2-2z"/></svg>');
+}
+/* 上传 */
+.nova-icon-upload {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>');
+}
+/* 标签 */
+.nova-icon-tag {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.41 11.58l-9-9A2 2 0 0011 2H4a2 2 0 00-2 2v7a2 2 0 00.59 1.42l9 9a2 2 0 002.82 0l7-7a2 2 0 000-2.84zM7 7a1.5 1.5 0 111.5-1.5A1.5 1.5 0 017 7z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.41 11.58l-9-9A2 2 0 0011 2H4a2 2 0 00-2 2v7a2 2 0 00.59 1.42l9 9a2 2 0 002.82 0l7-7a2 2 0 000-2.84zM7 7a1.5 1.5 0 111.5-1.5A1.5 1.5 0 017 7z"/></svg>');
+}
+/* 复制 */
+.nova-icon-copy {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 00-2 2v14h2V3h12V1zm3 4H8a2 2 0 00-2 2v14a2 2 0 002 2h11a2 2 0 002-2V7a2 2 0 00-2-2zm0 16H8V7h11v14z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 00-2 2v14h2V3h12V1zm3 4H8a2 2 0 00-2 2v14a2 2 0 002 2h11a2 2 0 002-2V7a2 2 0 00-2-2zm0 16H8V7h11v14z"/></svg>');
+}
+/* 列表 */
+.nova-icon-list {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5h2v2H3V5zm0 6h2v2H3v-2zm0 6h2v2H3v-2zm4 0h14v2H7v-2zm0-6h14v2H7v-2zm0-6h14v2H7V5z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5h2v2H3V5zm0 6h2v2H3v-2zm0 6h2v2H3v-2zm4 0h14v2H7v-2zm0-6h14v2H7v-2zm0-6h14v2H7V5z"/></svg>');
+}
+/* 回复 */
+.nova-icon-reply {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg>');
+}
+/* 退出 */
+.nova-icon-signout {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4a2 2 0 00-2 2v14a2 2 0 002 2h8v-2H4V5z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4a2 2 0 00-2 2v14a2 2 0 002 2h8v-2H4V5z"/></svg>');
+}
+/* 设置 */
+.nova-icon-set {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.43 12.98a7.8 7.8 0 000-1.96l2.11-1.65-2-3.46-2.49 1a7.8 7.8 0 00-1.7-1l-.38-2.65h-4l-.38 2.65a7.8 7.8 0 00-1.7 1l-2.49-1-2 3.46 2.11 1.65a7.8 7.8 0 000 1.96L4.4 14.63l2 3.46 2.49-1a7.8 7.8 0 001.7 1l.38 2.65h4l.38-2.65a7.8 7.8 0 001.7-1l2.49 1 2-3.46-2.11-1.65zM12 15.5A3.5 3.5 0 1115.5 12 3.5 3.5 0 0112 15.5z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.43 12.98a7.8 7.8 0 000-1.96l2.11-1.65-2-3.46-2.49 1a7.8 7.8 0 00-1.7-1l-.38-2.65h-4l-.38 2.65a7.8 7.8 0 00-1.7 1l-2.49-1-2 3.46 2.11 1.65a7.8 7.8 0 000 1.96L4.4 14.63l2 3.46 2.49-1a7.8 7.8 0 001.7 1l.38 2.65h4l.38-2.65a7.8 7.8 0 001.7-1l2.49 1 2-3.46-2.11-1.65zM12 15.5A3.5 3.5 0 1115.5 12 3.5 3.5 0 0112 15.5z"/></svg>');
+}
+/* 成功 */
+.nova-icon-success {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>');
+}
+/* 长左箭头 */
+.nova-icon-arrow-left {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>');
+}
+/* 长右箭头 */
+.nova-icon-arrow-right {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg>');
+}
+/* 尖括号 */
+.nova-icon-chevron-right {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>');
+}
+/* 文件夹 */
+.nova-icon-folder {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2h-8l-2-2z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2h-8l-2-2z"/></svg>');
+}
+/* QQ */
+.nova-icon-qq {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2c-4.42 0-8 3.34-8 7.46 0 2.28 1.11 4.3 2.84 5.65l-.71 4.08 2.4-1.17a8.8 8.8 0 006.94 0l2.4 1.17-.71-4.08C18.89 13.76 20 11.74 20 9.46 20 5.34 16.42 2 12 2zm-2.5 7.5a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm5 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2c-4.42 0-8 3.34-8 7.46 0 2.28 1.11 4.3 2.84 5.65l-.71 4.08 2.4-1.17a8.8 8.8 0 006.94 0l2.4 1.17-.71-4.08C18.89 13.76 20 11.74 20 9.46 20 5.34 16.42 2 12 2zm-2.5 7.5a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm5 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg>');
+}
+/* 微信 */
+.nova-icon-wechat {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 003 9.5c0 2.1 1 3.9 2.5 5.1L4.9 17l2.7-1.4a6.6 6.6 0 001.9.3 6.5 6.5 0 006.5-6.5A6.5 6.5 0 009.5 3zm0 2A4.5 4.5 0 0114 9.5 4.5 4.5 0 019.5 14a4.9 4.9 0 01-1.7-.3L6.6 14.2l.4-1.9A4.5 4.5 0 015 9.5 4.5 4.5 0 019.5 5zM21 14.5a5.5 5.5 0 01-5.5 5.5 5.8 5.8 0 01-1.7-.3l-2.2 1.2.5-2A5.5 5.5 0 1118 10.5a5.7 5.7 0 01-.2 1.5h3.2zm-13-3a.8.8 0 100 1.6.8.8 0 000-1.6zm5 0a.8.8 0 100 1.6.8.8 0 000-1.6zm3.2 4.5a.8.8 0 100-1.6.8.8 0 000 1.6z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 003 9.5c0 2.1 1 3.9 2.5 5.1L4.9 17l2.7-1.4a6.6 6.6 0 001.9.3 6.5 6.5 0 006.5-6.5A6.5 6.5 0 009.5 3zm0 2A4.5 4.5 0 0114 9.5 4.5 4.5 0 019.5 14a4.9 4.9 0 01-1.7-.3L6.6 14.2l.4-1.9A4.5 4.5 0 015 9.5 4.5 4.5 0 019.5 5zM21 14.5a5.5 5.5 0 01-5.5 5.5 5.8 5.8 0 01-1.7-.3l-2.2 1.2.5-2A5.5 5.5 0 1118 10.5a5.7 5.7 0 01-.2 1.5h3.2zm-13-3a.8.8 0 100 1.6.8.8 0 000-1.6zm5 0a.8.8 0 100 1.6.8.8 0 000-1.6zm3.2 4.5a.8.8 0 100-1.6.8.8 0 000 1.6z"/></svg>');
+}
+/* 微博 */
+.nova-icon-weibo {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3a9 9 0 109 9 9 9 0 00-9-9zm0 2.2a6.8 6.8 0 11-6.8 6.8A6.8 6.8 0 0112 5.2zm-.6 3.1a3.7 3.7 0 00-2.7 1.2 3.3 3.3 0 00-.8 2.3 3.8 3.8 0 00.8 1.3 1.8 1.8 0 00-1 .8 1.6 1.6 0 00-.1.9 1.7 1.7 0 001.4 1.4 5.2 5.2 0 002.2 0 2.6 2.6 0 001.9-1.5 3.6 3.6 0 00.5-1.9 3.9 3.9 0 00-1-2.8 3.6 3.6 0 00-1.2-.7zm4.4-1.3a4.4 4.4 0 011.1 3.2 4.6 4.6 0 01-.6 2.3 2 2 0 00.8-1.6 2.1 2.1 0 00-.5-1.4 2.2 2.2 0 00-.8-.5zm-4.4.6a2.8 2.8 0 011.6 1.3 2.7 2.7 0 010 2 1.8 1.8 0 01-1.5 1 3.5 3.5 0 01-1.5 0 1.1 1.1 0 01-.9-1 1 1 0 01.1-.6 1.2 1.2 0 01.7-.5 2.7 2.7 0 001.5-1.8z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3a9 9 0 109 9 9 9 0 00-9-9zm0 2.2a6.8 6.8 0 11-6.8 6.8A6.8 6.8 0 0112 5.2zm-.6 3.1a3.7 3.7 0 00-2.7 1.2 3.3 3.3 0 00-.8 2.3 3.8 3.8 0 00.8 1.3 1.8 1.8 0 00-1 .8 1.6 1.6 0 00-.1.9 1.7 1.7 0 001.4 1.4 5.2 5.2 0 002.2 0 2.6 2.6 0 001.9-1.5 3.6 3.6 0 00.5-1.9 3.9 3.9 0 00-1-2.8 3.6 3.6 0 00-1.2-.7zm4.4-1.3a4.4 4.4 0 011.1 3.2 4.6 4.6 0 01-.6 2.3 2 2 0 00.8-1.6 2.1 2.1 0 00-.5-1.4 2.2 2.2 0 00-.8-.5zm-4.4.6a2.8 2.8 0 011.6 1.3 2.7 2.7 0 010 2 1.8 1.8 0 01-1.5 1 3.5 3.5 0 01-1.5 0 1.1 1.1 0 01-.9-1 1 1 0 01.1-.6 1.2 1.2 0 01.7-.5 2.7 2.7 0 001.5-1.8z"/></svg>');
+}
+/* Github */
+.nova-icon-github {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 002 12a10 10 0 006.84 9.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83a2.13 2.13 0 01.64-1.34c-2.22-.25-4.56-1.11-4.56-4.94a3.87 3.87 0 011-2.69 3.59 3.59 0 01.1-2.64s.84-.27 2.75 1a9.38 9.38 0 015 0c1.91-1.3 2.75-1 2.75-1a3.59 3.59 0 01.1 2.64 3.87 3.87 0 011 2.69c0 3.84-2.34 4.68-4.57 4.93a2.39 2.39 0 01.68 1.85v2.75c0 .27.18.58.69.48A10 10 0 0022 12 10 10 0 0012 2z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 002 12a10 10 0 006.84 9.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83a2.13 2.13 0 01.64-1.34c-2.22-.25-4.56-1.11-4.56-4.94a3.87 3.87 0 011-2.69 3.59 3.59 0 01.1-2.64s.84-.27 2.75 1a9.38 9.38 0 015 0c1.91-1.3 2.75-1 2.75-1a3.59 3.59 0 01.1 2.64 3.87 3.87 0 011 2.69c0 3.84-2.34 4.68-4.57 4.93a2.39 2.39 0 01.68 1.85v2.75c0 .27.18.58.69.48A10 10 0 0022 12 10 10 0 0012 2z"/></svg>');
+}
+/* 支付宝 */
+.nova-icon-alipay {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm-5.7 8.2h3.4a4 4 0 00.7-1.9H6.6a3.4 3.4 0 00-.3 1.9zm3.2-3.7h2.8a6.6 6.6 0 00-.3-2.5 3.5 3.5 0 00-2.5 2.5zm8.7 3.7h-2a7.4 7.4 0 01-1.4 2.7 5.8 5.8 0 01-2 1.6l2.4 4.3a3.5 3.5 0 003-8.6z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm-5.7 8.2h3.4a4 4 0 00.7-1.9H6.6a3.4 3.4 0 00-.3 1.9zm3.2-3.7h2.8a6.6 6.6 0 00-.3-2.5 3.5 3.5 0 00-2.5 2.5zm8.7 3.7h-2a7.4 7.4 0 01-1.4 2.7 5.8 5.8 0 01-2 1.6l2.4 4.3a3.5 3.5 0 003-8.6z"/></svg>');
+}
+/* 银行转账 */
+.nova-icon-bank {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 10l9-6 9 6h-2v8h2v2H3v-2h2v-8H3zm4 0v8h2v-8H7zm4 0v8h2v-8h-2zm4 0v8h2v-8h-2z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 10l9-6 9 6h-2v8h2v2H3v-2h2v-8H3zm4 0v8h2v-8H7zm4 0v8h2v-8h-2zm4 0v8h2v-8h-2z"/></svg>');
+}
+/* Qzone */
+.nova-icon-qzone {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm5.4 6.1l1.9.6-3.7 5.2-.7 5.1h-1.2l-.6-5.1-3.7-5.2 1.9-.6 3.1 2.9 3.1-2.9zM9 14.5l.4 3.3H6.6l.4-3.3-2.1-3.2-1 4.6-3.3.6 1-5.2-3.9-1.6 1.1-3.5 4 1.6 4.1-.7-1.8 2.7L9 14.5z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm5.4 6.1l1.9.6-3.7 5.2-.7 5.1h-1.2l-.6-5.1-3.7-5.2 1.9-.6 3.1 2.9 3.1-2.9zM9 14.5l.4 3.3H6.6l.4-3.3-2.1-3.2-1 4.6-3.3.6 1-5.2-3.9-1.6 1.1-3.5 4 1.6 4.1-.7-1.8 2.7L9 14.5z"/></svg>');
+}

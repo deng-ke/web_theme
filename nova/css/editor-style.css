@@ -1,0 +1,118 @@
+/*
+ * Project       : Nova主题
+ * Description   : 后台编辑器样式
+ */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #444;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 28px 0 14px;
+    line-height: 1.4;
+    color: #333;
+}
+
+h2 {
+    font-size: 21px;
+    padding-left: 12px;
+    border-left: 4px solid #1e80ff;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+p {
+    margin-bottom: 16px;
+}
+
+a {
+    color: #1e80ff;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+blockquote {
+    margin: 16px 0;
+    padding: 12px 18px;
+    background: #f0f7ff;
+    border-left: 4px solid #1e80ff;
+    border-radius: 0 5px 5px 0;
+    color: #666;
+}
+
+code {
+    background: #f5f6f8;
+    color: #e05661;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: Consolas, Monaco, "Courier New", monospace;
+}
+
+pre {
+    background: #282c34;
+    color: #d6d9dd;
+    padding: 16px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+
+table {
+    width: 100%;
+    margin-bottom: 16px;
+    border: 1px solid #eaecef;
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    border: 1px solid #eaecef;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+table th {
+    background: #f8f9fb;
+    font-weight: 600;
+}
+
+ul,
+ol {
+    padding-left: 24px;
+    margin-bottom: 16px;
+}
+
+li {
+    margin-bottom: 6px;
+}
+
+.nova-pay-box {
+    text-align: center;
+    background: #f8fbff;
+    border: 1px dashed #1e80ff;
+    border-radius: 8px;
+    padding: 30px 20px;
+    margin: 20px 0;
+}

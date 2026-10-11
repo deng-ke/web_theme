@@ -1,0 +1,4841 @@
+/*
+ * Project       : Nova主题
+ * Description   : 主样式设计系统（原创，Zibll 风格白卡片/圆角/主题色）
+ */
+
+/* =========================================================
+   1. CSS 变量与重置
+   ========================================================= */
+:root {
+    --nova-color: #1e80ff;
+    --nova-color-dark: #1664d8;
+    --nova-color-light: #e8f2ff;
+    --nova-color-soft: #f0f7ff;
+    --nova-radius: 8px;
+    --nova-radius-sm: 5px;
+    --nova-container: 1200px;
+    --nova-bg: #f5f6f8;
+    --nova-card: #ffffff;
+    --nova-border: #eaecef;
+    --nova-text: #333333;
+    --nova-text-2: #666666;
+    --nova-text-3: #999999;
+    --nova-red: #f1404b;
+    --nova-orange: #ff8212;
+    --nova-green: #12b76a;
+    --nova-vip: #ffd21f;
+    --nova-shadow: 0 1px 6px rgba(80, 80, 80, 0.04);
+    --nova-shadow-hover: 0 6px 24px rgba(80, 80, 80, 0.12);
+    --nova-transition: all 0.2s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--nova-text);
+    background: var(--nova-bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border: 0;
+    vertical-align: middle;
+}
+
+a {
+    color: var(--nova-text);
+    text-decoration: none;
+    transition: var(--nova-transition);
+    outline: 0;
+}
+
+a:hover {
+    color: var(--nova-color);
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+input,
+button,
+select,
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    outline: none;
+}
+
+button {
+    cursor: pointer;
+    border: 0;
+    background: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+::selection {
+    background: var(--nova-color);
+    color: #fff;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c8cdd4;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* =========================================================
+   2. 布局系统
+   ========================================================= */
+.nova-container {
+    max-width: var(--nova-container);
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.nova-main {
+    min-height: 60vh;
+    padding-bottom: 40px;
+}
+
+.nova-app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.nova-layout {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -12px;
+}
+
+.nova-content {
+    width: calc(100% - 320px);
+    padding: 0 12px;
+    min-width: 0;
+}
+
+.nova-sidebar {
+    width: 320px;
+    padding: 0 12px;
+    min-width: 0;
+}
+
+.nova-sidebar-inner {
+    position: sticky;
+    top: 70px;
+}
+
+/* 单栏页面（无侧边栏时内容居中） */
+.nova-content.nova-content-full {
+    width: 100%;
+}
+
+/* 卡片容器 */
+.nova-single-layout,
+.nova-index-layout,
+.nova-archive-layout,
+.nova-bbs-single-layout,
+.nova-shop-single-layout,
+.nova-uc-layout {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -12px;
+}
+
+/* =========================================================
+   3. 通用组件
+   ========================================================= */
+/* 按钮 */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px 20px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: center;
+    border-radius: var(--nova-radius-sm);
+    border: 1px solid transparent;
+    transition: var(--nova-transition);
+    white-space: nowrap;
+    user-select: none;
+}
+
+.btn:hover {
+    opacity: 0.88;
+}
+
+.btn-primary {
+    background: var(--nova-color);
+    color: #fff;
+    border-color: var(--nova-color);
+}
+
+.btn-primary:hover {
+    background: var(--nova-color-dark);
+    color: #fff;
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--nova-text-2);
+    border-color: #d5d9df;
+}
+
+.btn-outline:hover {
+    color: var(--nova-color);
+    border-color: var(--nova-color);
+}
+
+.btn-block {
+    display: flex;
+    width: 100%;
+}
+
+.btn-sm {
+    padding: 5px 12px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.btn-lg {
+    padding: 12px 28px;
+    font-size: 15px;
+}
+
+.btn-disabled,
+.btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* 卡片 */
+.card {
+    background: var(--nova-card);
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.card:last-child {
+    margin-bottom: 0;
+}
+
+/* 通用盒子 */
+.box {
+    background: var(--nova-card);
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+/* 空状态 */
+.nova-empty-box {
+    background: var(--nova-card);
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--nova-text-3);
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.nova-empty-icon {
+    font-size: 48px;
+    color: #d5d9df;
+    margin-bottom: 12px;
+    display: block;
+}
+
+/* 标题块 */
+.nova-block-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nova-block-title::before {
+    content: "";
+    width: 4px;
+    height: 16px;
+    background: var(--nova-color);
+    border-radius: 2px;
+    display: inline-block;
+}
+
+/* 高亮文字 */
+.nova-hl {
+    color: var(--nova-color);
+}
+
+/* 头像 */
+.nova-avatar-sm {
+    display: inline-flex;
+    position: relative;
+}
+
+.nova-avatar-sm img {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+.nova-avatar-lg {
+    display: inline-flex;
+    position: relative;
+}
+
+.nova-avatar-lg img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+/* 徽章 */
+.nova-vip-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #7a5b00;
+    background: linear-gradient(135deg, #ffe38a, #ffd21f);
+    border-radius: 3px;
+    line-height: 1.4;
+}
+
+.nova-verify-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    font-size: 10px;
+    color: #fff;
+    background: var(--nova-color);
+    border-radius: 50%;
+    margin-left: 3px;
+    vertical-align: -2px;
+}
+
+/* =========================================================
+   4. 头部导航
+   ========================================================= */
+.nova-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 1px 8px rgba(80, 80, 80, 0.06);
+}
+
+.nova-header-inner {
+    display: flex;
+    align-items: center;
+    height: 60px;
+}
+
+.nova-header-placeholder {
+    height: 60px;
+}
+
+/* Logo */
+.nova-logo {
+    display: flex;
+    align-items: center;
+    margin-right: 24px;
+    flex-shrink: 0;
+}
+
+.nova-logo img {
+    max-height: 40px;
+    width: auto;
+}
+
+.nova-logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--nova-text);
+    white-space: nowrap;
+}
+
+.nova-logo-text:hover {
+    color: var(--nova-color);
+}
+
+/* 导航菜单 */
+.nova-nav {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-menu {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nova-menu li {
+    position: relative;
+}
+
+.nova-menu>li>a {
+    display: block;
+    padding: 0 14px;
+    line-height: 60px;
+    font-size: 14px;
+    color: var(--nova-text);
+    white-space: nowrap;
+}
+
+.nova-menu>li>a:hover,
+.nova-menu>li.current-menu-item>a {
+    color: var(--nova-color);
+}
+
+.nova-menu>li.current-menu-item>a {
+    font-weight: 600;
+}
+
+/* 二级菜单 */
+.nova-menu .sub-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 150px;
+    background: #fff;
+    border-radius: var(--nova-radius-sm);
+    box-shadow: var(--nova-shadow-hover);
+    padding: 6px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: var(--nova-transition);
+    z-index: 10;
+}
+
+.nova-menu li:hover>.sub-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nova-menu .sub-menu a {
+    display: block;
+    padding: 8px 18px;
+    font-size: 13px;
+    color: var(--nova-text-2);
+}
+
+.nova-menu .sub-menu a:hover {
+    color: var(--nova-color);
+    background: var(--nova-color-soft);
+}
+
+/* 头部右侧 */
+.nova-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    margin-left: 16px;
+}
+
+.nova-header-search {
+    position: relative;
+}
+
+.nova-search-form {
+    display: flex;
+    align-items: center;
+    background: #f2f3f5;
+    border-radius: 20px;
+    padding: 0 6px 0 14px;
+    height: 36px;
+    width: 170px;
+    transition: var(--nova-transition);
+}
+
+.nova-search-form:focus-within {
+    background: #eef0f3;
+    box-shadow: 0 0 0 2px rgba(30, 128, 255, 0.15);
+}
+
+.nova-search-input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    font-size: 13px;
+    padding: 0;
+}
+
+.nova-search-btn {
+    color: var(--nova-text-3);
+    font-size: 16px;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+}
+
+.nova-search-btn:hover {
+    color: var(--nova-color);
+}
+
+/* 登录按钮 */
+.nova-login-btns {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 用户下拉 */
+.nova-user-box {
+    position: relative;
+}
+
+.nova-user-menu {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    min-width: 150px;
+    background: #fff;
+    border-radius: var(--nova-radius-sm);
+    box-shadow: var(--nova-shadow-hover);
+    padding: 6px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: var(--nova-transition);
+    z-index: 10;
+}
+
+.nova-user-box:hover .nova-user-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nova-user-menu a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    font-size: 13px;
+    color: var(--nova-text-2);
+}
+
+.nova-user-menu a:hover {
+    color: var(--nova-color);
+    background: var(--nova-color-soft);
+}
+
+/* 移动端开关 */
+.nova-nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+}
+
+.nova-nav-toggle span {
+    display: block;
+    height: 2px;
+    background: var(--nova-text);
+    border-radius: 1px;
+    transition: var(--nova-transition);
+}
+
+/* 移动端菜单 */
+.nova-mobile-nav {
+    display: none;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 998;
+}
+
+.nova-mobile-nav-inner {
+    background: #fff;
+    max-height: 70%;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nova-mobile-nav .nova-menu {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.nova-mobile-nav .nova-menu>li>a {
+    line-height: 1.5;
+    padding: 12px 20px;
+    border-bottom: 1px solid #f5f6f8;
+}
+
+.nova-mobile-nav .nova-menu .sub-menu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    padding: 0 0 0 16px;
+}
+
+/* 顶部公告 */
+.nova-notice {
+    background: var(--nova-color-light);
+    color: var(--nova-color-dark);
+    border-radius: var(--nova-radius);
+    padding: 10px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.nova-notice-text {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 面包屑 */
+.nova-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--nova-text-3);
+    padding: 14px 0;
+}
+
+.nova-breadcrumb a {
+    color: var(--nova-text-3);
+}
+
+.nova-breadcrumb a:hover {
+    color: var(--nova-color);
+}
+
+.nova-breadcrumb .nova-icon-chevron-right {
+    font-size: 11px;
+    color: #c8cdd4;
+}
+
+/* =========================================================
+   5. 首页
+   ========================================================= */
+.nova-index-page {
+    padding-top: 16px;
+}
+
+/* 首页 Tab */
+.nova-index-tabs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 4px;
+    margin-bottom: 16px;
+}
+
+.nova-tab-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nova-tab-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 20px;
+    border-radius: var(--nova-radius-sm);
+    font-size: 14px;
+    color: var(--nova-text-2);
+    transition: var(--nova-transition);
+}
+
+.nova-tab-link:hover {
+    color: var(--nova-color);
+}
+
+.nova-tab-link.nova-active {
+    background: var(--nova-color);
+    color: #fff;
+}
+
+/* 首页轮播 */
+.nova-slider {
+    position: relative;
+    border-radius: var(--nova-radius);
+    overflow: hidden;
+    margin-bottom: 16px;
+    box-shadow: var(--nova-shadow);
+}
+
+.nova-slider a {
+    display: block;
+}
+
+.nova-slider img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+}
+
+.nova-slider-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 30px 20px 16px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* 置顶文章 */
+.nova-sticky-posts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.nova-sticky-card {
+    display: flex;
+    gap: 14px;
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 16px;
+    align-items: center;
+    transition: var(--nova-transition);
+}
+
+.nova-sticky-card:hover {
+    box-shadow: var(--nova-shadow-hover);
+    transform: translateY(-2px);
+}
+
+.nova-sticky-thumb {
+    width: 110px;
+    height: 74px;
+    border-radius: var(--nova-radius-sm);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.nova-sticky-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-sticky-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--nova-red);
+    background: #fff1f2;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-bottom: 6px;
+}
+
+.nova-sticky-body h3 {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 文章列表 */
+.nova-posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+/* 文章卡片 */
+.nova-post-card {
+    display: flex;
+    gap: 18px;
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 20px;
+    transition: var(--nova-transition);
+}
+
+.nova-post-card:hover {
+    box-shadow: var(--nova-shadow-hover);
+    transform: translateY(-2px);
+}
+
+.nova-post-thumb {
+    width: 220px;
+    height: 138px;
+    border-radius: var(--nova-radius-sm);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.nova-post-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.nova-post-cat {
+    display: inline-flex;
+    align-self: flex-start;
+    font-size: 12px;
+    color: var(--nova-color);
+    background: var(--nova-color-light);
+    padding: 2px 10px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+}
+
+.nova-post-cat:hover {
+    color: #fff;
+    background: var(--nova-color);
+}
+
+.nova-post-title {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.nova-post-title a {
+    color: var(--nova-text);
+}
+
+.nova-post-title a:hover {
+    color: var(--nova-color);
+}
+
+.nova-post-excerpt {
+    font-size: 13px;
+    color: var(--nova-text-3);
+    line-height: 1.7;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: auto;
+}
+
+.nova-post-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+.nova-post-meta .nova-meta-author {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nova-post-meta .nova-meta-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nova-post-meta .nova-meta-name {
+    color: var(--nova-text-2);
+}
+
+.nova-post-meta .nova-meta-name:hover {
+    color: var(--nova-color);
+}
+
+.nova-post-meta .nova-meta-time,
+.nova-post-meta .nova-meta-view,
+.nova-post-meta .nova-meta-comment {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 分页 */
+.nova-paging {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.nova-page-prev,
+.nova-page-next,
+.nova-page-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    font-size: 13px;
+    background: #fff;
+    border-radius: var(--nova-radius-sm);
+    box-shadow: var(--nova-shadow);
+    color: var(--nova-text-2);
+    transition: var(--nova-transition);
+}
+
+.nova-page-num:hover,
+.nova-page-prev:hover,
+.nova-page-next:hover {
+    color: var(--nova-color);
+}
+
+.nova-page-num.nova-current {
+    background: var(--nova-color);
+    color: #fff;
+}
+
+.nova-page-dots {
+    color: var(--nova-text-3);
+    padding: 0 2px;
+}
+
+/* 加载更多 */
+.nova-loadmore-wrap {
+    text-align: center;
+    padding: 10px 0 20px;
+}
+
+.nova-loadmore-btn {
+    min-width: 180px;
+}
+
+.nova-loadmore-done {
+    color: var(--nova-text-3);
+    font-size: 13px;
+}
+
+/* 列表加载动画 */
+.nova-posts-loading {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+}
+
+.nova-icon-loading {
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    border: 2px solid #e3e6ea;
+    border-top-color: var(--nova-color);
+    border-radius: 50%;
+    animation: nova-rotate 0.8s linear infinite;
+}
+
+@keyframes nova-rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 搜索建议下拉 */
+.nova-search-drop {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-radius: var(--nova-radius-sm);
+    box-shadow: var(--nova-shadow-hover);
+    padding: 6px 0;
+    z-index: 20;
+    display: none;
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+.nova-search-drop a {
+    display: block;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--nova-text-2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nova-search-drop a:hover {
+    color: var(--nova-color);
+    background: var(--nova-color-soft);
+}
+
+/* =========================================================
+   6. 文章详情页
+   ========================================================= */
+.nova-single-page,
+.nova-shop-single-page,
+.nova-bbs-single-page {
+    padding-top: 16px;
+}
+
+.nova-single-body,
+.nova-product-single {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 28px;
+    margin-bottom: 16px;
+}
+
+/* 文章头 */
+.nova-post-header .nova-post-title {
+    font-size: 22px;
+    line-height: 1.4;
+    -webkit-line-clamp: unset;
+    margin-bottom: 14px;
+}
+
+.nova-post-header-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--nova-text-3);
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--nova-border);
+}
+
+/* 文章内容 */
+.nova-post-content {
+    font-size: 15px;
+    line-height: 1.9;
+    color: #444;
+    padding: 20px 0;
+    word-wrap: break-word;
+}
+
+.nova-post-content p {
+    margin-bottom: 16px;
+}
+
+.nova-post-content h1,
+.nova-post-content h2,
+.nova-post-content h3,
+.nova-post-content h4,
+.nova-post-content h5,
+.nova-post-content h6 {
+    margin: 28px 0 14px;
+    line-height: 1.4;
+    color: var(--nova-text);
+}
+
+.nova-post-content h2 {
+    font-size: 21px;
+    padding-left: 12px;
+    border-left: 4px solid var(--nova-color);
+}
+
+.nova-post-content h3 {
+    font-size: 18px;
+}
+
+.nova-post-content h4 {
+    font-size: 16px;
+}
+
+.nova-post-content img {
+    border-radius: var(--nova-radius-sm);
+    height: auto;
+}
+
+.nova-post-content a {
+    color: var(--nova-color);
+    border-bottom: 1px dashed var(--nova-color);
+}
+
+.nova-post-content ul,
+.nova-post-content ol {
+    padding-left: 24px;
+    margin-bottom: 16px;
+}
+
+.nova-post-content ul {
+    list-style: disc;
+}
+
+.nova-post-content ol {
+    list-style: decimal;
+}
+
+.nova-post-content li {
+    margin-bottom: 6px;
+}
+
+.nova-post-content blockquote {
+    margin: 16px 0;
+    padding: 12px 18px;
+    background: var(--nova-color-soft);
+    border-left: 4px solid var(--nova-color);
+    border-radius: 0 var(--nova-radius-sm) var(--nova-radius-sm) 0;
+    color: var(--nova-text-2);
+}
+
+.nova-post-content code {
+    background: #f5f6f8;
+    color: #e05661;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: Consolas, Monaco, "Courier New", monospace;
+}
+
+.nova-post-content pre {
+    background: #282c34;
+    color: #d6d9dd;
+    padding: 16px;
+    border-radius: var(--nova-radius-sm);
+    overflow-x: auto;
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+.nova-post-content pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+
+.nova-post-content table {
+    width: 100%;
+    margin-bottom: 16px;
+    border: 1px solid var(--nova-border);
+}
+
+.nova-post-content table th,
+.nova-post-content table td {
+    border: 1px solid var(--nova-border);
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.nova-post-content table th {
+    background: #f8f9fb;
+    font-weight: 600;
+}
+
+/* 付费内容预览 */
+.nova-pay-preview {
+    position: relative;
+    max-height: 260px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.nova-pay-preview::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 120px;
+    background: linear-gradient(transparent, #fff);
+}
+
+/* 付费购买框 */
+.nova-pay-box {
+    text-align: center;
+    background: linear-gradient(180deg, #f8fbff, #fff);
+    border: 1px dashed var(--nova-color);
+    border-radius: var(--nova-radius);
+    padding: 30px 20px;
+    margin: 20px 0;
+}
+
+.nova-pay-box .nova-pay-price {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--nova-red);
+    margin: 10px 0;
+}
+
+.nova-pay-box .nova-pay-points {
+    font-size: 13px;
+    color: var(--nova-text-3);
+    margin-bottom: 16px;
+}
+
+.nova-pay-box .nova-pay-action {
+    display: inline-flex;
+    gap: 10px;
+}
+
+/* 文章标签 */
+.nova-post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 0;
+    border-top: 1px solid var(--nova-border);
+    margin-top: 10px;
+}
+
+.nova-post-tags .nova-meta-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.nova-post-tags a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--nova-text-2);
+    background: #f2f3f5;
+    padding: 3px 12px;
+    border-radius: 20px;
+}
+
+.nova-post-tags a:hover {
+    color: #fff;
+    background: var(--nova-color);
+}
+
+/* 文章底部操作栏 */
+.nova-post-action-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 20px 0 6px;
+}
+
+.nova-post-action-bar .nova-like-btn,
+.nova-post-action-bar .nova-share-btn,
+.nova-post-action-bar .nova-reward-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 22px;
+    font-size: 14px;
+    color: var(--nova-text-2);
+    background: #f5f6f8;
+    border-radius: 20px;
+    transition: var(--nova-transition);
+}
+
+.nova-post-action-bar .nova-like-btn:hover {
+    color: var(--nova-red);
+    background: #fff1f2;
+}
+
+.nova-post-action-bar .nova-like-btn.nova-liked {
+    color: #fff;
+    background: var(--nova-red);
+}
+
+.nova-post-action-bar .nova-share-btn:hover {
+    color: var(--nova-color);
+    background: var(--nova-color-light);
+}
+
+.nova-post-action-bar .nova-reward-btn:hover {
+    color: var(--nova-orange);
+    background: #fff6ec;
+}
+
+/* 分享弹层 */
+.nova-share-box {
+    display: none;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    padding: 16px;
+}
+
+.nova-share-box.nova-show {
+    display: flex;
+}
+
+.nova-share-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--nova-text-2);
+}
+
+.nova-share-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    font-size: 22px;
+    color: #fff;
+    border-radius: 50%;
+}
+
+/* 作者卡片 */
+.nova-author-card {
+    display: flex;
+    gap: 16px;
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 20px;
+    margin-bottom: 16px;
+    align-items: center;
+}
+
+.nova-author-card img {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nova-author-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-author-name {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.nova-author-desc {
+    font-size: 13px;
+    color: var(--nova-text-3);
+}
+
+.nova-author-btn {
+    flex-shrink: 0;
+}
+
+/* 上一篇下一篇 */
+.nova-post-nav {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.nova-post-nav-item {
+    flex: 1;
+    min-width: 0;
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: var(--nova-transition);
+}
+
+.nova-post-nav-item:hover {
+    box-shadow: var(--nova-shadow-hover);
+}
+
+.nova-post-nav-label {
+    font-size: 12px;
+    color: var(--nova-text-3);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nova-post-nav-title {
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 相关推荐 */
+.nova-related-posts {
+    margin-bottom: 16px;
+}
+
+.nova-related-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.nova-related-card {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    overflow: hidden;
+    transition: var(--nova-transition);
+}
+
+.nova-related-card:hover {
+    box-shadow: var(--nova-shadow-hover);
+    transform: translateY(-2px);
+}
+
+.nova-related-thumb {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    display: block;
+}
+
+.nova-related-body {
+    padding: 10px 14px 14px;
+}
+
+.nova-related-title {
+    font-size: 13px;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.nova-related-meta {
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+/* 版权声明 */
+.nova-post-copyright {
+    background: #f8f9fb;
+    border-radius: var(--nova-radius-sm);
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--nova-text-2);
+    line-height: 1.8;
+}
+
+.nova-copyright-title {
+    font-weight: 600;
+    color: var(--nova-text);
+    margin-bottom: 4px;
+}
+
+/* 目录 */
+.nova-toc {
+    background: #f8f9fb;
+    border-radius: var(--nova-radius-sm);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+
+.nova-toc-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.nova-toc ul {
+    padding-left: 18px;
+    list-style: none;
+}
+
+.nova-toc li {
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+
+.nova-toc a {
+    color: var(--nova-text-2);
+}
+
+.nova-toc a:hover {
+    color: var(--nova-color);
+}
+/* =========================================================
+   7. 评论
+   ========================================================= */
+.nova-single-comments {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 24px 28px;
+}
+
+.nova-comments-head {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nova-comments-closed {
+    color: var(--nova-text-3);
+    text-align: center;
+    padding: 20px 0;
+}
+
+.nova-comment-list {
+    margin-bottom: 20px;
+}
+
+.nova-comment-item {
+    display: flex;
+    gap: 12px;
+    padding: 16px 0;
+    border-bottom: 1px solid #f5f6f8;
+}
+
+.nova-comment-item:last-child {
+    border-bottom: 0;
+}
+
+.nova-comment-avatar {
+    flex-shrink: 0;
+}
+
+.nova-comment-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nova-comment-inner {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-comment-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.nova-comment-author {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.nova-comment-floor {
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+.nova-comment-time {
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+.nova-comment-content {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #444;
+    word-wrap: break-word;
+}
+
+.nova-comment-content p {
+    margin-bottom: 8px;
+}
+
+.nova-comment-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 8px;
+}
+
+.nova-comment-actions .nova-reply-btn,
+.nova-comment-actions .nova-cancel-reply {
+    font-size: 12px;
+    color: var(--nova-text-3);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nova-comment-actions .nova-reply-btn:hover,
+.nova-comment-actions .nova-cancel-reply:hover {
+    color: var(--nova-color);
+}
+
+.nova-comment-pending {
+    font-size: 12px;
+    color: var(--nova-orange);
+    background: #fff6ec;
+    padding: 1px 8px;
+    border-radius: 3px;
+}
+
+/* 子评论缩进 */
+.nova-comment-list .children {
+    padding-left: 28px;
+}
+
+/* 评论表单 */
+.nova-comment-form {
+    background: #f8f9fb;
+    border-radius: var(--nova-radius-sm);
+    padding: 18px;
+}
+
+.nova-comment-field {
+    margin-bottom: 14px;
+}
+
+.nova-comment-field input,
+.nova-comment-field textarea {
+    width: 100%;
+    border: 1px solid #e3e6ea;
+    border-radius: var(--nova-radius-sm);
+    padding: 10px 14px;
+    font-size: 14px;
+    background: #fff;
+    transition: var(--nova-transition);
+}
+
+.nova-comment-field input:focus,
+.nova-comment-field textarea:focus {
+    border-color: var(--nova-color);
+    box-shadow: 0 0 0 2px rgba(30, 128, 255, 0.12);
+}
+
+.nova-comment-field-textarea textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+/* =========================================================
+   8. 表单系统
+   ========================================================= */
+.nova-form-group {
+    margin-bottom: 18px;
+}
+
+.nova-form-group label {
+    display: block;
+    font-size: 13px;
+    color: var(--nova-text-2);
+    margin-bottom: 7px;
+}
+
+.nova-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid #e3e6ea;
+    border-radius: var(--nova-radius-sm);
+    background: #fff;
+    transition: var(--nova-transition);
+}
+
+.nova-input-wrap:focus-within {
+    border-color: var(--nova-color);
+    box-shadow: 0 0 0 2px rgba(30, 128, 255, 0.12);
+}
+
+.nova-input-wrap .nova-icon {
+    position: absolute;
+    left: 12px;
+    color: var(--nova-text-3);
+}
+
+.nova-input-wrap input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    padding: 10px 14px;
+    font-size: 14px;
+    background: transparent;
+}
+
+.nova-input-code {
+    display: flex;
+    gap: 10px;
+}
+
+.nova-input-code .nova-input-wrap {
+    flex: 1;
+}
+
+.nova-code-btn {
+    flex-shrink: 0;
+    width: 110px;
+    border: 1px solid #e3e6ea;
+    border-radius: var(--nova-radius-sm);
+    background: #f8f9fb;
+    font-size: 13px;
+    color: var(--nova-text-2);
+}
+
+.nova-code-btn:hover {
+    color: var(--nova-color);
+    border-color: var(--nova-color);
+}
+
+/* 验证码图片 */
+.nova-captcha-field {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.nova-captcha-field .nova-captcha-input {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-captcha-img {
+    height: 42px;
+    border-radius: var(--nova-radius-sm);
+    cursor: pointer;
+    border: 1px solid #e3e6ea;
+    flex-shrink: 0;
+}
+
+/* 复选框 */
+.nova-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: var(--nova-text-2);
+    cursor: pointer;
+}
+
+.nova-checkbox input {
+    accent-color: var(--nova-color);
+    width: 15px;
+    height: 15px;
+}
+
+.nova-form-actions {
+    margin-top: 20px;
+}
+
+/* 密码表单 */
+.nova-password-form {
+    max-width: 460px;
+    margin: 0 auto;
+}
+
+/* 头像上传 */
+.nova-profile-avatar-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 10px;
+}
+
+.nova-avatar-upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--nova-color);
+    background: var(--nova-color-light);
+    padding: 7px 16px;
+    border-radius: var(--nova-radius-sm);
+    cursor: pointer;
+}
+
+.nova-avatar-upload-btn:hover {
+    color: #fff;
+    background: var(--nova-color);
+}
+
+.nova-avatar-file {
+    display: none;
+}
+
+/* =========================================================
+   9. 归档页 / 搜索 / 404
+   ========================================================= */
+.nova-archive-page,
+.nova-search-page {
+    padding-top: 16px;
+}
+
+.nova-archive-header,
+.nova-search-header {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 26px 28px;
+    margin-bottom: 16px;
+}
+
+.nova-archive-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.nova-archive-desc {
+    font-size: 13px;
+    color: var(--nova-text-3);
+}
+
+.nova-archive-meta {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--nova-text-3);
+}
+
+/* 封面式归档头 */
+.nova-archive-cover {
+    position: relative;
+    border-radius: var(--nova-radius);
+    overflow: hidden;
+    margin-bottom: 16px;
+    box-shadow: var(--nova-shadow);
+}
+
+.nova-archive-cover img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+.nova-archive-mask {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 30px 28px 18px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
+    color: #fff;
+}
+
+.nova-archive-title-wrap .nova-archive-title {
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.nova-archive-mask .nova-archive-desc {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* 分类导航 */
+.nova-cat-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.nova-cat-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border-radius: var(--nova-radius-sm);
+    box-shadow: var(--nova-shadow);
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--nova-text-2);
+}
+
+.nova-cat-item:hover,
+.nova-cat-item.nova-current {
+    color: #fff;
+    background: var(--nova-color);
+}
+
+.nova-search-count {
+    font-size: 13px;
+    color: var(--nova-text-3);
+    margin-top: 4px;
+}
+
+/* 404 */
+.nova-404-page {
+    padding: 60px 0;
+}
+
+.nova-404-box {
+    text-align: center;
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 60px 20px;
+}
+
+.nova-404-img {
+    font-size: 100px;
+    color: #d5d9df;
+    line-height: 1;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.nova-404-box h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.nova-404-box p {
+    color: var(--nova-text-3);
+    margin-bottom: 24px;
+}
+
+.nova-404-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+/* =========================================================
+   10. 侧边栏小工具
+   ========================================================= */
+.nova-sidebar .widget {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.nova-sidebar .widget-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nova-sidebar .widget-title::before {
+    content: "";
+    width: 4px;
+    height: 14px;
+    background: var(--nova-color);
+    border-radius: 2px;
+}
+
+.nova-widgets-fluid .widget {
+    margin-bottom: 0;
+}
+
+/* 小工具文章列表 */
+.nova-widget-post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.nova-widget-post-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.nova-widget-post-thumb {
+    width: 86px;
+    height: 56px;
+    border-radius: var(--nova-radius-sm);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.nova-widget-post-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-widget-post-title {
+    font-size: 13px;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.nova-widget-post-meta {
+    font-size: 12px;
+    color: var(--nova-text-3);
+    margin-top: 4px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* 小工具评论列表 */
+.nova-widget-comment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.nova-widget-comment-item {
+    display: flex;
+    gap: 10px;
+}
+
+.nova-widget-comment-item img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.nova-widget-comment-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-widget-comment-head {
+    font-size: 12px;
+    color: var(--nova-text-3);
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.nova-widget-comment-author {
+    color: var(--nova-text-2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nova-widget-comment-content {
+    font-size: 13px;
+    color: #444;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.nova-widget-comment-post {
+    font-size: 12px;
+    color: var(--nova-text-3);
+    margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 小工具搜索 */
+.nova-widget-search .nova-search-form {
+    width: 100%;
+    border: 1px solid #e3e6ea;
+    background: #fff;
+}
+
+/* 标签云 */
+.nova-tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.nova-tag-cloud a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--nova-text-2);
+    background: #f2f3f5;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.nova-tag-cloud a:hover {
+    color: #fff;
+    background: var(--nova-color);
+}
+
+/* 关于小工具 */
+.nova-widget-about {
+    text-align: center;
+}
+
+.nova-widget-about-logo {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.nova-widget-about-desc {
+    font-size: 13px;
+    color: var(--nova-text-3);
+    line-height: 1.8;
+    margin-bottom: 12px;
+}
+
+.nova-widget-about-stats {
+    display: flex;
+    border-top: 1px solid #f5f6f8;
+    padding-top: 12px;
+}
+
+.nova-widget-about-stats>div {
+    flex: 1;
+}
+
+.nova-widget-about-stats b {
+    display: block;
+    font-size: 15px;
+    color: var(--nova-text);
+}
+
+.nova-widget-about-stats span {
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+/* 用户卡片小工具 */
+.nova-widget-user-card {
+    text-align: center;
+}
+
+.nova-widget-user-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.nova-widget-user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nova-widget-user-info {
+    flex: 1;
+}
+
+.nova-widget-user-name {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.nova-widget-user-stats {
+    display: flex;
+    border-top: 1px solid #f5f6f8;
+    padding-top: 12px;
+}
+
+.nova-widget-user-stats>div {
+    flex: 1;
+}
+
+.nova-widget-user-stats b {
+    display: block;
+    font-size: 14px;
+}
+
+.nova-widget-user-stats span {
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+/* =========================================================
+   11. 用户中心
+   ========================================================= */
+.nova-uc-page {
+    padding-top: 16px;
+}
+
+.nova-uc-layout {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -12px;
+}
+
+.nova-uc-side {
+    width: 240px;
+    padding: 0 12px;
+    flex-shrink: 0;
+}
+
+.nova-uc-main {
+    flex: 1;
+    min-width: 0;
+    padding: 0 12px;
+}
+
+/* 用户信息卡 */
+.nova-uc-user {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 24px 18px;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.nova-uc-user img {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.nova-uc-user-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.nova-uc-vip {
+    font-size: 12px;
+    color: #7a5b00;
+    background: linear-gradient(135deg, #ffe38a, #ffd21f);
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 3px;
+    margin-bottom: 12px;
+}
+
+.nova-uc-user-stats {
+    display: flex;
+    border-top: 1px solid #f5f6f8;
+    padding-top: 12px;
+}
+
+.nova-uc-user-stats>div {
+    flex: 1;
+}
+
+.nova-uc-user-stats b {
+    display: block;
+    font-size: 15px;
+}
+
+.nova-uc-user-stats span {
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+/* 用户中心菜单 */
+.nova-uc-menu {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    overflow: hidden;
+    margin-bottom: 16px;
+    position: sticky;
+    top: 70px;
+}
+
+.nova-uc-nav a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    font-size: 14px;
+    color: var(--nova-text-2);
+    border-left: 3px solid transparent;
+}
+
+.nova-uc-nav a:hover {
+    color: var(--nova-color);
+    background: var(--nova-color-soft);
+}
+
+.nova-uc-nav a.nova-active {
+    color: var(--nova-color);
+    background: var(--nova-color-soft);
+    border-left-color: var(--nova-color);
+    font-weight: 600;
+}
+
+/* 用户中心内容卡 */
+.nova-uc-home,
+.nova-uc-profile,
+.nova-uc-posts,
+.nova-uc-comments,
+.nova-uc-likes,
+.nova-uc-shop-orders {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 24px;
+    margin-bottom: 16px;
+}
+
+.nova-uc-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.nova-uc-stat {
+    background: #f8f9fb;
+    border-radius: var(--nova-radius-sm);
+    padding: 16px;
+    text-align: center;
+}
+
+.nova-uc-stat b {
+    display: block;
+    font-size: 22px;
+    color: var(--nova-color);
+}
+
+.nova-uc-stat span {
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+/* 最近发布 */
+.nova-uc-recent-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.nova-uc-recent-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f5f6f8;
+}
+
+.nova-uc-recent-item:last-child {
+    border-bottom: 0;
+}
+
+.nova-uc-recent-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nova-uc-recent-item time {
+    font-size: 12px;
+    color: var(--nova-text-3);
+    flex-shrink: 0;
+}
+
+/* 我的文章列表 */
+.nova-uc-post-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f5f6f8;
+}
+
+.nova-uc-post-item:last-child {
+    border-bottom: 0;
+}
+
+.nova-uc-post-thumb {
+    width: 120px;
+    height: 76px;
+    border-radius: var(--nova-radius-sm);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.nova-uc-post-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-uc-post-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nova-uc-post-meta {
+    font-size: 12px;
+    color: var(--nova-text-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.nova-uc-post-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--nova-orange);
+    background: #fff6ec;
+    padding: 2px 10px;
+    border-radius: 3px;
+}
+
+/* 我的评论 */
+.nova-uc-comment-item {
+    padding: 12px 0;
+    border-bottom: 1px solid #f5f6f8;
+}
+
+.nova-uc-comment-item:last-child {
+    border-bottom: 0;
+}
+
+.nova-uc-comment-content {
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 6px;
+    word-wrap: break-word;
+}
+
+.nova-uc-comment-meta {
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+.nova-uc-empty {
+    text-align: center;
+    color: var(--nova-text-3);
+    padding: 30px 0;
+}
+
+/* 订单列表 */
+.nova-uc-order-item {
+    border: 1px solid var(--nova-border);
+    border-radius: var(--nova-radius-sm);
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.nova-uc-order-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 16px;
+    background: #f8f9fb;
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+.nova-uc-order-body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+}
+
+.nova-uc-order-body img {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--nova-radius-sm);
+    object-fit: cover;
+}
+
+.nova-uc-order-body .nova-order-name {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nova-uc-order-foot {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 10px 16px;
+    border-top: 1px solid #f5f6f8;
+}
+
+.nova-uc-order-price {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--nova-red);
+}
+
+/* =========================================================
+   12. 消息中心
+   ========================================================= */
+.nova-msg-center {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 24px;
+    margin-bottom: 16px;
+}
+
+.nova-msg-tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--nova-border);
+    margin-bottom: 16px;
+}
+
+.nova-msg-tabs .nova-tab-link {
+    border-radius: var(--nova-radius-sm) var(--nova-radius-sm) 0 0;
+    background: transparent;
+    color: var(--nova-text-2);
+}
+
+.nova-msg-tabs .nova-tab-link.nova-active {
+    background: var(--nova-color-soft);
+    color: var(--nova-color);
+    font-weight: 600;
+}
+
+.nova-msg-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.nova-msg-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f5f6f8;
+}
+
+.nova-msg-item:last-child {
+    border-bottom: 0;
+}
+
+.nova-msg-item.nova-unread .nova-msg-body {
+    position: relative;
+}
+
+.nova-msg-item.nova-unread .nova-msg-body::after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    right: -14px;
+    width: 7px;
+    height: 7px;
+    background: var(--nova-red);
+    border-radius: 50%;
+}
+
+.nova-msg-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nova-msg-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-msg-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.nova-msg-from {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.nova-msg-type {
+    font-size: 12px;
+    color: var(--nova-color);
+    background: var(--nova-color-light);
+    padding: 1px 8px;
+    border-radius: 3px;
+}
+
+.nova-msg-time {
+    font-size: 12px;
+    color: var(--nova-text-3);
+    margin-left: auto;
+}
+
+.nova-msg-content {
+    font-size: 13px;
+    color: var(--nova-text-2);
+    line-height: 1.7;
+    word-wrap: break-word;
+}
+
+.nova-msg-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.nova-msg-actions .nova-msg-btn,
+.nova-msg-actions .nova-msg-del-btn {
+    font-size: 12px;
+    color: var(--nova-text-3);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nova-msg-actions .nova-msg-btn:hover {
+    color: var(--nova-color);
+}
+
+.nova-msg-actions .nova-msg-del-btn:hover {
+    color: var(--nova-red);
+}
+
+.nova-msg-all-read {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--nova-text-3);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nova-msg-all-read:hover {
+    color: var(--nova-color);
+}
+/* =========================================================
+   13. 论坛模块
+   ========================================================= */
+.nova-bbs-plate-page,
+.nova-bbs-edit-page {
+    padding-top: 16px;
+}
+
+/* 板块头部 */
+.nova-plate-header {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 22px 26px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.nova-plate-icon-lg {
+    width: 58px;
+    height: 58px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #fff;
+    background: linear-gradient(135deg, #6aa8ff, #1e80ff);
+    flex-shrink: 0;
+}
+
+.nova-plate-header-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-plate-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.nova-plate-desc {
+    font-size: 13px;
+    color: var(--nova-text-3);
+}
+
+.nova-plate-meta {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+.nova-plate-header-action {
+    flex-shrink: 0;
+}
+
+/* 板块网格 */
+.nova-plate-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.nova-plate-card {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 20px;
+    display: flex;
+    gap: 14px;
+    transition: var(--nova-transition);
+}
+
+.nova-plate-card:hover {
+    box-shadow: var(--nova-shadow-hover);
+    transform: translateY(-2px);
+}
+
+.nova-plate-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #fff;
+    background: linear-gradient(135deg, #6aa8ff, #1e80ff);
+    flex-shrink: 0;
+}
+
+.nova-plate-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-plate-name {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.nova-plate-latest {
+    font-size: 12px;
+    color: var(--nova-text-3);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 热门板块 */
+.nova-hot-plates {
+    margin-bottom: 16px;
+}
+
+.nova-hot-plate {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: var(--nova-shadow);
+    padding: 6px 16px;
+    margin: 0 8px 8px 0;
+    font-size: 13px;
+    color: var(--nova-text-2);
+}
+
+.nova-hot-plate:hover {
+    color: #fff;
+    background: var(--nova-color);
+}
+
+/* 帖子列表 */
+.nova-bbs-post-list {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 0 20px;
+    margin-bottom: 16px;
+}
+
+.nova-bbs-post-item {
+    display: flex;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid #f5f6f8;
+}
+
+.nova-bbs-post-item:last-child {
+    border-bottom: 0;
+}
+
+.nova-bbs-post-avatar img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nova-bbs-post-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-bbs-post-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.nova-bbs-post-title {
+    font-size: 15px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nova-bbs-tag {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    color: var(--nova-red);
+    background: #fff1f2;
+    padding: 1px 7px;
+    border-radius: 3px;
+}
+
+.nova-bbs-tag.nova-bbs-tag-digest {
+    color: var(--nova-orange);
+    background: #fff6ec;
+}
+
+.nova-bbs-post-meta {
+    display: flex;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--nova-text-3);
+    flex-wrap: wrap;
+}
+
+.nova-bbs-post-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 帖子详情 */
+.nova-bbs-content {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 28px;
+    margin-bottom: 16px;
+}
+
+.nova-bbs-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.nova-bbs-stats {
+    display: flex;
+    gap: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--nova-border);
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+.nova-bbs-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nova-bbs-post-content {
+    font-size: 15px;
+    line-height: 1.9;
+    color: #444;
+    word-wrap: break-word;
+}
+
+.nova-bbs-post-content p {
+    margin-bottom: 14px;
+}
+
+.nova-bbs-post-content img {
+    border-radius: var(--nova-radius-sm);
+}
+
+.nova-bbs-post-author {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    background: #f8f9fb;
+    border-radius: var(--nova-radius-sm);
+    padding: 14px 18px;
+    margin-bottom: 16px;
+}
+
+.nova-bbs-post-author img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nova-bbs-post-author-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-bbs-post-author-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.nova-bbs-post-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* 发帖编辑 */
+.nova-bbs-edit-form {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 24px;
+    margin-bottom: 16px;
+}
+
+.nova-bbs-plate-select {
+    width: 100%;
+    border: 1px solid #e3e6ea;
+    border-radius: var(--nova-radius-sm);
+    padding: 10px 14px;
+    font-size: 14px;
+    background: #fff;
+}
+
+.nova-bbs-edit-form textarea {
+    width: 100%;
+    min-height: 240px;
+    border: 1px solid #e3e6ea;
+    border-radius: var(--nova-radius-sm);
+    padding: 12px 14px;
+    font-size: 14px;
+    resize: vertical;
+}
+
+.nova-bbs-edit-form textarea:focus {
+    border-color: var(--nova-color);
+    box-shadow: 0 0 0 2px rgba(30, 128, 255, 0.12);
+}
+
+.nova-bbs-edit-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* =========================================================
+   14. 商城模块
+   ========================================================= */
+.nova-shop-cat-page {
+    padding-top: 16px;
+}
+
+.nova-shop-cat-header {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 22px 26px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.nova-shop-cat-header h1 {
+    font-size: 18px;
+}
+
+.nova-shop-cats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.nova-shop-cats a {
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
+    color: var(--nova-text-2);
+    background: #f2f3f5;
+    padding: 4px 14px;
+    border-radius: 20px;
+}
+
+.nova-shop-cats a:hover,
+.nova-shop-cats a.nova-current {
+    color: #fff;
+    background: var(--nova-color);
+}
+
+/* 商品网格 */
+.nova-product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.nova-product-card {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    overflow: hidden;
+    transition: var(--nova-transition);
+    display: flex;
+    flex-direction: column;
+}
+
+.nova-product-card:hover {
+    box-shadow: var(--nova-shadow-hover);
+    transform: translateY(-3px);
+}
+
+.nova-product-thumb {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    display: block;
+}
+
+.nova-product-body {
+    padding: 12px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.nova-product-title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.nova-product-stats {
+    font-size: 12px;
+    color: var(--nova-text-3);
+    margin-bottom: 8px;
+}
+
+.nova-product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.nova-product-price {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--nova-red);
+}
+
+.nova-product-price::before {
+    content: "¥";
+    font-size: 12px;
+    margin-right: 1px;
+}
+
+.nova-product-sales {
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+/* 商品详情 */
+.nova-product-single {
+    display: flex;
+    gap: 24px;
+}
+
+.nova-product-gallery {
+    width: 380px;
+    flex-shrink: 0;
+}
+
+.nova-product-gallery img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: var(--nova-radius-sm);
+}
+
+.nova-product-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.nova-product-info h1 {
+    font-size: 20px;
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+
+.nova-product-price-box {
+    background: #fff6ec;
+    border-radius: var(--nova-radius-sm);
+    padding: 14px 18px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.nova-product-price-box .nova-product-price {
+    font-size: 26px;
+}
+
+.nova-product-price-box del {
+    color: var(--nova-text-3);
+    font-size: 13px;
+}
+
+.nova-product-buy {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--nova-border);
+}
+
+/* 数量选择器 */
+.nova-product-qty {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #e3e6ea;
+    border-radius: var(--nova-radius-sm);
+    overflow: hidden;
+}
+
+.nova-qty-minus,
+.nova-qty-plus {
+    width: 34px;
+    height: 38px;
+    font-size: 15px;
+    color: var(--nova-text-2);
+    background: #f8f9fb;
+}
+
+.nova-qty-minus:hover,
+.nova-qty-plus:hover {
+    color: var(--nova-color);
+}
+
+.nova-qty-input {
+    width: 50px;
+    height: 38px;
+    border: 0;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* 商品详情内容 */
+.nova-product-content {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #444;
+}
+
+.nova-product-content h2,
+.nova-product-content h3 {
+    margin: 20px 0 10px;
+    color: var(--nova-text);
+}
+
+.nova-product-content p {
+    margin-bottom: 12px;
+}
+
+.nova-product-content img {
+    border-radius: var(--nova-radius-sm);
+}
+
+/* 购物车 */
+.nova-cart-page {
+    padding-top: 16px;
+}
+
+.nova-cart-list {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 0 20px;
+    margin-bottom: 16px;
+}
+
+.nova-cart-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid #f5f6f8;
+}
+
+.nova-cart-item:last-child {
+    border-bottom: 0;
+}
+
+.nova-cart-thumb {
+    width: 70px;
+    height: 70px;
+    border-radius: var(--nova-radius-sm);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.nova-cart-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-cart-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nova-cart-price {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--nova-red);
+}
+
+.nova-cart-qty {
+    flex-shrink: 0;
+}
+
+.nova-cart-del {
+    flex-shrink: 0;
+    color: var(--nova-text-3);
+    font-size: 16px;
+}
+
+.nova-cart-del:hover {
+    color: var(--nova-red);
+}
+
+.nova-cart-summary {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.nova-cart-total {
+    font-size: 14px;
+    color: var(--nova-text-2);
+}
+
+.nova-cart-total b {
+    font-size: 22px;
+    color: var(--nova-red);
+    margin: 0 4px;
+}
+
+/* 结算 */
+.nova-checkout-page {
+    padding-top: 16px;
+}
+
+.nova-checkout-form {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 24px;
+    margin-bottom: 16px;
+}
+
+.nova-checkout-address,
+.nova-checkout-summary {
+    margin-bottom: 20px;
+}
+
+.nova-checkout-address h3,
+.nova-checkout-summary h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nova-checkout-item {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f5f6f8;
+}
+
+.nova-checkout-item img {
+    width: 54px;
+    height: 54px;
+    border-radius: var(--nova-radius-sm);
+    object-fit: cover;
+}
+
+.nova-checkout-name {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nova-checkout-total {
+    text-align: right;
+    font-size: 14px;
+    color: var(--nova-text-2);
+    padding-top: 14px;
+}
+
+.nova-checkout-total b {
+    font-size: 24px;
+    color: var(--nova-red);
+}
+
+/* =========================================================
+   15. 支付系统
+   ========================================================= */
+.nova-pay-page,
+.nova-vip-page,
+.nova-card-page,
+.nova-withdraw-page,
+.nova-balance-page,
+.nova-points-page,
+.nova-orders-page {
+    padding-top: 16px;
+}
+
+.nova-pay-container {
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+/* 订单信息 */
+.nova-pay-order {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 24px;
+    margin-bottom: 16px;
+}
+
+.nova-pay-order-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--nova-text-2);
+}
+
+.nova-pay-order-row b {
+    color: var(--nova-text);
+}
+
+.nova-pay-price {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--nova-red);
+}
+
+/* 支付通道 */
+.nova-pay-channels {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 24px;
+}
+
+.nova-pay-channel-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.nova-pay-channel {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #e3e6ea;
+    border-radius: var(--nova-radius-sm);
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: var(--nova-transition);
+}
+
+.nova-pay-channel:hover {
+    border-color: var(--nova-color);
+}
+
+.nova-pay-channel.nova-active {
+    border-color: var(--nova-color);
+    background: var(--nova-color-soft);
+    box-shadow: 0 0 0 2px rgba(30, 128, 255, 0.15);
+}
+
+.nova-pay-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.nova-pay-icon.nova-alipay {
+    background: #1677ff;
+}
+
+.nova-pay-icon.nova-wechat {
+    background: #12b76a;
+}
+
+.nova-pay-icon.nova-bank {
+    background: #7b61ff;
+}
+
+.nova-pay-icon.nova-balance {
+    background: var(--nova-orange);
+}
+
+/* 余额支付按钮 */
+.nova-pay-balance-btn {
+    width: 100%;
+    padding: 13px;
+    font-size: 15px;
+}
+
+/* 微信二维码 */
+.nova-wechat-qrcode {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.nova-wechat-qrcode img {
+    width: 200px;
+    height: 200px;
+    border-radius: var(--nova-radius-sm);
+    border: 1px solid var(--nova-border);
+}
+
+.nova-wechat-qrcode p {
+    font-size: 13px;
+    color: var(--nova-text-3);
+    margin-top: 10px;
+}
+
+/* 银行转账信息 */
+.nova-bank-info {
+    background: #f8f9fb;
+    border-radius: var(--nova-radius-sm);
+    padding: 16px 18px;
+    margin-bottom: 14px;
+    font-size: 14px;
+    line-height: 2;
+}
+
+.nova-bank-remark {
+    font-size: 12px;
+    color: var(--nova-text-3);
+    margin-bottom: 14px;
+}
+
+.nova-bank-pending {
+    text-align: center;
+    color: var(--nova-orange);
+    font-size: 14px;
+    padding: 14px;
+}
+
+/* 支付结果页 */
+.nova-return-box {
+    text-align: center;
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 60px 20px;
+    max-width: 480px;
+    margin: 40px auto;
+}
+
+.nova-return-icon {
+    font-size: 60px;
+    line-height: 1;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.nova-return-icon.nova-success {
+    color: var(--nova-green);
+}
+
+.nova-return-icon.nova-fail {
+    color: var(--nova-red);
+}
+
+.nova-return-box h2 {
+    font-size: 19px;
+    margin-bottom: 10px;
+}
+
+.nova-return-box p {
+    color: var(--nova-text-3);
+    margin-bottom: 24px;
+}
+
+.nova-return-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+/* VIP 页 */
+.nova-vip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.nova-vip-card {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 24px;
+    text-align: center;
+    transition: var(--nova-transition);
+    position: relative;
+}
+
+.nova-vip-card:hover {
+    box-shadow: var(--nova-shadow-hover);
+    transform: translateY(-3px);
+}
+
+.nova-vip-card.nova-hot {
+    border: 2px solid var(--nova-vip);
+}
+
+.nova-vip-head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.nova-vip-head-icon {
+    font-size: 26px;
+    color: #ffb400;
+}
+
+.nova-vip-head-info {
+    text-align: left;
+}
+
+.nova-vip-name {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.nova-vip-days {
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+.nova-vip-price {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--nova-red);
+    margin-bottom: 16px;
+}
+
+.nova-vip-price::before {
+    content: "¥";
+    font-size: 14px;
+    margin-right: 2px;
+}
+
+.nova-vip-buy {
+    width: 100%;
+}
+
+/* 充值卡 */
+.nova-card-form {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 28px;
+    max-width: 420px;
+    margin: 0 auto 16px;
+    text-align: center;
+}
+
+.nova-card-num {
+    text-align: center;
+    letter-spacing: 2px;
+    font-size: 16px;
+}
+
+/* 提现 */
+.nova-withdraw-form {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 24px;
+    margin-bottom: 16px;
+}
+
+.nova-withdraw-balance {
+    background: var(--nova-color-soft);
+    border-radius: var(--nova-radius-sm);
+    padding: 12px 16px;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.nova-withdraw-balance b {
+    color: var(--nova-color);
+    font-size: 17px;
+}
+
+.nova-withdraw-list {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 0 20px;
+}
+
+.nova-withdraw-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f5f6f8;
+    font-size: 13px;
+}
+
+.nova-withdraw-item:last-child {
+    border-bottom: 0;
+}
+
+.nova-withdraw-amount {
+    font-weight: 600;
+    color: var(--nova-red);
+}
+
+.nova-withdraw-account {
+    color: var(--nova-text-3);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+}
+
+/* 余额/积分页 */
+.nova-balance-total,
+.nova-points-total {
+    text-align: center;
+    padding: 30px 0 10px;
+}
+
+.nova-balance-num,
+.nova-points-num {
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--nova-color);
+    line-height: 1.2;
+}
+
+.nova-balance-tip,
+.nova-points-info {
+    font-size: 13px;
+    color: var(--nova-text-3);
+    margin-top: 6px;
+}
+
+.nova-balance-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+/* 积分商品 */
+.nova-points-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.nova-points-item {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 20px;
+    text-align: center;
+}
+
+.nova-points-item b {
+    font-size: 20px;
+    color: var(--nova-orange);
+    display: block;
+    margin-bottom: 6px;
+}
+
+.nova-points-item span {
+    font-size: 12px;
+    color: var(--nova-text-3);
+    display: block;
+    margin-bottom: 12px;
+}
+
+/* 签到 */
+.nova-sign-box {
+    text-align: center;
+    padding: 30px 0 16px;
+}
+
+.nova-sign-calendar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.nova-sign-calendar .nova-sign-day {
+    width: 52px;
+    padding: 8px 0;
+    background: #f2f3f5;
+    border-radius: var(--nova-radius-sm);
+    text-align: center;
+}
+
+.nova-sign-calendar .nova-sign-day b {
+    display: block;
+    font-size: 14px;
+}
+
+.nova-sign-calendar .nova-sign-day span {
+    font-size: 11px;
+    color: var(--nova-text-3);
+}
+
+.nova-sign-calendar .nova-sign-day.nova-signed {
+    background: var(--nova-color);
+    color: #fff;
+}
+
+.nova-sign-calendar .nova-sign-day.nova-signed span {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.nova-sign-btn {
+    min-width: 200px;
+    padding: 12px 30px;
+    font-size: 15px;
+}
+
+/* 签到记录 */
+.nova-sign-records {
+    margin-top: 20px;
+}
+
+.nova-sign-record-list {
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+.nova-sign-record-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #f5f6f8;
+    font-size: 13px;
+    color: var(--nova-text-2);
+}
+
+.nova-sign-record-item:last-child {
+    border-bottom: 0;
+}
+
+/* 订单列表页 */
+.nova-order-list {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 0 20px;
+}
+
+.nova-order-item {
+    padding: 14px 0;
+    border-bottom: 1px solid #f5f6f8;
+}
+
+.nova-order-item:last-child {
+    border-bottom: 0;
+}
+
+.nova-order-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+.nova-order-num {
+    font-family: Consolas, monospace;
+}
+
+.nova-order-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.nova-order-status.nova-status-0 {
+    color: var(--nova-orange);
+    background: #fff6ec;
+}
+
+.nova-order-status.nova-status-1 {
+    color: var(--nova-green);
+    background: #ecfdf4;
+}
+
+.nova-order-status.nova-status-2 {
+    color: var(--nova-color);
+    background: var(--nova-color-light);
+}
+
+.nova-order-status.nova-status-3 {
+    color: var(--nova-text-3);
+    background: #f2f3f5;
+}
+
+.nova-order-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.nova-order-type {
+    font-size: 13px;
+    color: var(--nova-text-2);
+}
+
+.nova-order-foot {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--nova-red);
+}
+/* =========================================================
+   16. 登录注册
+   ========================================================= */
+.nova-auth-page {
+    padding: 40px 0;
+}
+
+.nova-auth-box {
+    max-width: 420px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 34px 32px;
+}
+
+.nova-auth-title {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.nova-auth-switch {
+    text-align: center;
+    font-size: 13px;
+    color: var(--nova-text-3);
+    margin-bottom: 24px;
+}
+
+.nova-auth-switch a {
+    color: var(--nova-color);
+}
+
+.nova-auth-form {
+    margin-bottom: 18px;
+}
+
+.nova-auth-submit {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+}
+
+.nova-lostpwd-link {
+    display: block;
+    text-align: right;
+    font-size: 13px;
+    margin-top: -8px;
+    margin-bottom: 14px;
+}
+
+.nova-lostpwd-link a {
+    color: var(--nova-text-3);
+}
+
+.nova-lostpwd-link a:hover {
+    color: var(--nova-color);
+}
+
+/* 社交登录 */
+.nova-oauth-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--nova-text-3);
+    margin: 18px 0;
+}
+
+.nova-oauth-divider::before,
+.nova-oauth-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--nova-border);
+}
+
+.nova-oauth-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.nova-oauth-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--nova-text-2);
+}
+
+.nova-oauth-btn i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    font-size: 20px;
+    color: #fff;
+}
+
+.nova-oauth-btn.nova-oauth-qq i {
+    background: #12b7f5;
+}
+
+.nova-oauth-btn.nova-oauth-wechat i {
+    background: #12b76a;
+}
+
+.nova-oauth-btn.nova-oauth-weibo i {
+    background: #e05244;
+}
+
+.nova-oauth-btn.nova-oauth-github i {
+    background: #24292f;
+}
+
+/* 账号绑定 */
+.nova-bind-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.nova-bind-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid var(--nova-border);
+    border-radius: var(--nova-radius-sm);
+    padding: 14px 16px;
+}
+
+.nova-bind-item i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    font-size: 18px;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.nova-bind-item .nova-bind-box {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-bind-item b {
+    display: block;
+    font-size: 14px;
+}
+
+.nova-bind-item span {
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+/* =========================================================
+   17. 作者页
+   ========================================================= */
+.nova-author-page {
+    padding-top: 16px;
+}
+
+.nova-author-page-header {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 28px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.nova-author-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(135deg, #6aa8ff, #1e80ff);
+}
+
+.nova-author-page-info {
+    position: relative;
+    padding-top: 46px;
+    display: flex;
+    gap: 18px;
+    align-items: flex-end;
+}
+
+.nova-author-page-info img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    object-fit: cover;
+    box-shadow: var(--nova-shadow);
+}
+
+.nova-author-name {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.nova-author-desc {
+    font-size: 13px;
+    color: var(--nova-text-3);
+    margin-top: 4px;
+}
+
+.nova-author-page-meta {
+    margin-left: auto;
+    display: flex;
+    gap: 20px;
+}
+
+.nova-author-stats {
+    text-align: center;
+}
+
+.nova-author-stats b {
+    display: block;
+    font-size: 18px;
+    color: var(--nova-color);
+}
+
+.nova-author-stats span {
+    font-size: 12px;
+    color: var(--nova-text-3);
+}
+
+.nova-author-page-actions {
+    display: flex;
+    gap: 10px;
+    position: relative;
+    padding-top: 14px;
+    margin-left: auto;
+}
+
+/* =========================================================
+   18. 友情链接
+   ========================================================= */
+.nova-links-page {
+    padding-top: 16px;
+}
+
+.nova-links-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.nova-link-item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    background: #fff;
+    border-radius: var(--nova-radius);
+    box-shadow: var(--nova-shadow);
+    padding: 16px 18px;
+    transition: var(--nova-transition);
+}
+
+.nova-link-item:hover {
+    box-shadow: var(--nova-shadow-hover);
+    transform: translateY(-2px);
+}
+
+.nova-link-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.nova-link-avatar-text {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #6aa8ff, #1e80ff);
+    flex-shrink: 0;
+}
+
+.nova-link-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.nova-link-info b {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.nova-link-info span {
+    font-size: 12px;
+    color: var(--nova-text-3);
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   19. 页脚
+   ========================================================= */
+.nova-footer {
+    background: #262b33;
+    color: #9aa3ae;
+    margin-top: 20px;
+}
+
+.nova-footer-widgets {
+    padding: 34px 0 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.nova-footer-widgets .widget {
+    margin-bottom: 16px;
+}
+
+.nova-footer-widgets .widget-title {
+    color: #d5d9df;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 14px;
+}
+
+.nova-footer-widgets a {
+    color: #9aa3ae;
+    line-height: 2;
+}
+
+.nova-footer-widgets a:hover {
+    color: #fff;
+}
+
+.nova-footer-widgets .nova-tag-cloud a {
+    background: rgba(255, 255, 255, 0.08);
+    color: #9aa3ae;
+}
+
+.nova-footer-widgets .nova-tag-cloud a:hover {
+    background: var(--nova-color);
+    color: #fff;
+}
+
+.nova-footer-bottom {
+    padding: 18px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 13px;
+}
+
+.nova-footer-copy {
+    color: #7c848e;
+}
+
+.nova-footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.nova-footer-links a {
+    color: #9aa3ae;
+}
+
+.nova-footer-links a:hover {
+    color: #fff;
+}
+
+.nova-beian {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nova-beian a {
+    color: #7c848e;
+}
+
+.nova-beian a:hover {
+    color: #fff;
+}
+
+/* 移动端底部导航 */
+.nova-tabbar {
+    display: none;
+}
+
+/* 回到顶部 */
+.nova-backtop {
+    position: fixed;
+    right: 24px;
+    bottom: 90px;
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--nova-transition);
+}
+
+.nova-backtop.nova-show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nova-backtop a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 12px rgba(80, 80, 80, 0.15);
+    font-size: 17px;
+    color: var(--nova-text-2);
+}
+
+.nova-backtop a:hover {
+    color: #fff;
+    background: var(--nova-color);
+}
+
+/* =========================================================
+   20. 页面加载动画
+   ========================================================= */
+.nova-page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    height: 2px;
+    background: transparent;
+    pointer-events: none;
+}
+
+.nova-loader-bar {
+    height: 100%;
+    width: 0;
+    background: var(--nova-color);
+    box-shadow: 0 0 8px rgba(30, 128, 255, 0.5);
+    transition: width 0.2s ease;
+}
+
+/* =========================================================
+   21. 弹窗
+   ========================================================= */
+.nova-modal-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--nova-transition);
+}
+
+.nova-modal-mask.nova-show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nova-modal {
+    background: #fff;
+    border-radius: var(--nova-radius);
+    max-width: 440px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 24px;
+    transform: translateY(14px);
+    transition: var(--nova-transition);
+}
+
+.nova-modal-mask.nova-show .nova-modal {
+    transform: translateY(0);
+}
+
+.nova-modal-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nova-modal-close {
+    font-size: 16px;
+    color: var(--nova-text-3);
+}
+
+.nova-modal-close:hover {
+    color: var(--nova-red);
+}
+
+/* Toast 提示 */
+.nova-toast {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    z-index: 10001;
+    background: rgba(0, 0, 0, 0.78);
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-size: 13px;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--nova-transition);
+    max-width: 80vw;
+    text-align: center;
+}
+
+.nova-toast.nova-show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.nova-toast.nova-success {
+    background: rgba(18, 183, 106, 0.92);
+}
+
+.nova-toast.nova-error {
+    background: rgba(241, 64, 75, 0.92);
+}
+
+/* =========================================================
+   22. 懒加载图片
+   ========================================================= */
+.nova-lazy {
+    background: #f2f3f5 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23c8cdd4" d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8 8 8 0 01-8 8zm1-13h-2v6h2z"/></svg>') no-repeat center;
+    background-size: 26px;
+    transition: opacity 0.3s ease;
+}
+
+.nova-lazy.nova-loaded {
+    background: none;
+}
+
+/* =========================================================
+   23. 响应式
+   ========================================================= */
+@media (max-width: 1024px) {
+    .nova-content {
+        width: calc(100% - 280px);
+    }
+
+    .nova-sidebar {
+        width: 280px;
+    }
+
+    .nova-related-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .nova-product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .nova-plate-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .nova-product-gallery {
+        width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nova-header-inner {
+        height: 52px;
+    }
+
+    .nova-header-placeholder {
+        height: 52px;
+    }
+
+    .nova-nav {
+        display: none;
+    }
+
+    .nova-header-search {
+        display: none;
+    }
+
+    .nova-nav-toggle {
+        display: flex;
+    }
+
+    .nova-mobile-nav.nova-show {
+        display: block;
+    }
+
+    .nova-mobile-nav {
+        top: 52px;
+    }
+
+    .nova-content,
+    .nova-sidebar {
+        width: 100%;
+    }
+
+    .nova-sidebar-inner {
+        position: static;
+    }
+
+    .nova-sticky-posts {
+        grid-template-columns: 1fr;
+    }
+
+    .nova-post-card {
+        padding: 14px;
+        gap: 12px;
+    }
+
+    .nova-post-thumb {
+        width: 120px;
+        height: 90px;
+    }
+
+    .nova-post-title {
+        font-size: 15px;
+    }
+
+    .nova-post-meta {
+        gap: 8px;
+    }
+
+    .nova-single-body {
+        padding: 18px;
+    }
+
+    .nova-post-header .nova-post-title {
+        font-size: 19px;
+    }
+
+    .nova-post-content {
+        font-size: 14px;
+    }
+
+    .nova-related-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .nova-post-nav {
+        flex-direction: column;
+    }
+
+    .nova-product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .nova-product-single {
+        flex-direction: column;
+    }
+
+    .nova-product-gallery {
+        width: 100%;
+    }
+
+    .nova-plate-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .nova-vip-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .nova-points-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .nova-links-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .nova-uc-side {
+        width: 100%;
+    }
+
+    .nova-uc-menu {
+        position: static;
+        display: flex;
+        overflow-x: auto;
+    }
+
+    .nova-uc-nav {
+        display: flex;
+    }
+
+    .nova-uc-nav a {
+        white-space: nowrap;
+        border-left: 0;
+        border-bottom: 3px solid transparent;
+    }
+
+    .nova-uc-nav a.nova-active {
+        border-left: 0;
+        border-bottom-color: var(--nova-color);
+    }
+
+    .nova-uc-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .nova-pay-channel-list {
+        grid-template-columns: 1fr;
+    }
+
+    /* 移动端底部导航 */
+    .nova-tabbar {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 998;
+        background: #fff;
+        box-shadow: 0 -1px 8px rgba(80, 80, 80, 0.08);
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .nova-tabbar a {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        padding: 8px 0 6px;
+        font-size: 11px;
+        color: var(--nova-text-3);
+    }
+
+    .nova-tabbar a.nova-active {
+        color: var(--nova-color);
+    }
+
+    .nova-tabbar i {
+        font-size: 20px;
+    }
+
+    .nova-main {
+        padding-bottom: 70px;
+    }
+
+    .nova-backtop {
+        right: 14px;
+        bottom: 80px;
+    }
+
+    .nova-author-page-info {
+        flex-wrap: wrap;
+        padding-top: 40px;
+    }
+
+    .nova-author-page-meta {
+        margin-left: 0;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .nova-slider img {
+        height: 180px;
+    }
+
+    .nova-comment-list .children {
+        padding-left: 14px;
+    }
+
+    .nova-comments,
+    .nova-single-comments {
+        padding: 16px;
+    }
+
+    .nova-footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nova-checkout-item {
+        flex-wrap: wrap;
+    }
+
+    .nova-index-tabs {
+        overflow-x: auto;
+    }
+
+    .nova-tab-link {
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .nova-related-grid,
+    .nova-product-grid,
+    .nova-points-list,
+    .nova-links-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .nova-post-card {
+        flex-direction: column;
+    }
+
+    .nova-post-thumb {
+        width: 100%;
+        height: 170px;
+    }
+
+    .nova-sticky-thumb {
+        width: 90px;
+        height: 64px;
+    }
+
+    .nova-auth-box {
+        padding: 24px 20px;
+    }
+
+    .nova-product-buy {
+        flex-wrap: wrap;
+    }
+
+    .nova-cart-summary {
+        flex-direction: column;
+    }
+
+    .nova-uc-post-thumb {
+        width: 90px;
+        height: 62px;
+    }
+}
