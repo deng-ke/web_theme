@@ -1,0 +1,318 @@
+.widget_ui_slider_box > img {
+    width: calc(60% - 6px);
+    margin: 3px;
+}
+.widget_ui_slider_g {
+    padding: 5px 0;
+}
+.ashu_upload_button,
+.delimg_upload_button {
+    margin: 3px !important;
+}
+.ok_button {
+    float: right;
+}
+.hide {
+    display: none !important;
+}
+.panel-hide {
+    display: none;
+}
+.panel {
+    border: 1px solid #ddd;
+    display: block;
+}
+.panel .panel-title {
+    margin: 0;
+    padding: 10px;
+    background: #f4f5f6;
+}
+.panel .panel-conter {
+    padding: 6px;
+}
+.panel .panel-title:before {
+    content: '\f140';
+    font: normal 20px/1 dashicons;
+    margin: -2px;
+    float: right;
+}
+.fab,
+.far,
+.fas {
+    font-family: FontAwesome;
+    font-style: normal;
+}
+
+/**---------------侧栏小工具：按栏导出/导入（工具条 + 弹层）-----------**/
+.zib-wie-toolbar {
+    margin: 8px 0 12px;
+}
+
+.zib-wie-toolbar .button {
+    margin-right: 6px;
+    margin-bottom: 4px;
+}
+
+.zib-wie-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.zib-wie-modal.is-open {
+    display: flex;
+}
+
+.zib-wie-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.zib-wie-modal__dialog {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: min(920px, 96vw);
+    max-height: 90vh;
+    overflow: auto;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #c3c4c7;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+    padding: 18px 20px 16px;
+    box-sizing: border-box;
+}
+
+.zib-wie-modal__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 2em;
+    height: 2em;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    color: #646970;
+}
+
+.zib-wie-modal__close:hover {
+    color: #1d2327;
+}
+
+.zib-wie-modal__title {
+    margin: 0 32px 10px 0;
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+.zib-wie-modal__hint {
+    margin: 0 0 10px;
+    font-size: 13px;
+}
+
+.zib-wie-modal__import-mode {
+    margin: 0 0 12px;
+    padding: 10px 12px;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.zib-wie-modal__import-mode-title {
+    margin: 0 0 8px;
+    font-weight: 600;
+}
+
+.zib-wie-modal__import-mode-row {
+    display: block;
+    margin: 6px 0 0;
+    cursor: pointer;
+}
+
+.zib-wie-modal__import-mode-row input {
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.zib-wie-modal__textarea {
+    width: 100%;
+    min-height: 240px;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 12px;
+    line-height: 1.45;
+    box-sizing: border-box;
+}
+
+.zib-wie-modal__actions {
+    margin: 12px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.zib-wie-modal__result {
+    margin: 10px 0 0;
+    font-size: 13px;
+}
+
+.zib-wie-modal__result.is-ok {
+    color: #008a20;
+}
+
+.zib-wie-modal__result.is-warn {
+    color: #996800;
+}
+
+.zib-wie-modal__result.is-err {
+    color: #d63638;
+}
+
+.zib-wie-modal__reload-wrap {
+    margin: 12px 0 0;
+}
+
+.zib-wie-template-layer {
+    z-index: 1000120;
+}
+
+.zib-wie-template-list-wrap {
+    margin-bottom: 12px;
+}
+
+.zib-wie-template-list {
+    max-height: 42vh;
+    overflow: auto;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.zib-wie-template-item {
+    flex: 1 1 30%;
+    min-width: 360px;
+}
+
+.zib-wie-template-item:last-child {
+    border-bottom: none;
+}
+
+.zib-wie-template-item-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    height: 100%;
+}
+
+.zib-wie-template-item-label {
+    display: flex;
+    flex: 1 1 auto;
+    gap: 10px;
+    align-items: flex-start;
+    margin: 0;
+    cursor: pointer;
+    min-width: 0;
+    padding: 10px 12px;
+    background: #fbfbfb;
+    border-radius: 8px;
+    border: 1px solid #efeeee;
+    height: stretch;
+}
+
+.zib-wie-template-item-label:hover {
+    background: #f7fbfe;
+}
+
+.zib-wie-template-item-label input[type='radio'] {
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.zib-wie-template-item-expand {
+    flex-shrink: 0;
+    margin-top: 0 !important;
+    line-height: 1;
+    min-height: 28px;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+}
+
+.zib-wie-template-expand-icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.zib-wie-template-expand-icon::before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 6px solid #50575e;
+    transition: transform 0.15s ease;
+}
+
+.zib-wie-template-item-expand.is-expanded .zib-wie-template-expand-icon::before {
+    transform: rotate(90deg);
+}
+
+.zib-wie-template-item-modules {
+    padding: 0 12px 12px 40px;
+    margin: 0;
+    background: #f6f7f7;
+    border-top: 1px solid #eee;
+}
+
+.zib-wie-template-module-list {
+    margin: 8px 0 0;
+    padding-left: 1.2em;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.zib-wie-template-module-list li {
+    margin-bottom: 4px;
+}
+
+.zib-wie-template-module-id {
+    font-size: 11px;
+    color: #646970;
+    margin-left: 4px;
+}
+
+.zib-wie-template-item-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.zib-wie-template-item-title {
+    font-weight: 600;
+}
+
+.zib-wie-template-item-remind {
+    font-size: 12px;
+    color: #fc844c;
+    line-height: 1.4;
+}
+
+.zib-wie-template-item-desc {
+    font-size: 12px;
+    color: #646970;
+    line-height: 1.4;
+}
+

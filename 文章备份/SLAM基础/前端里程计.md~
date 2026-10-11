@@ -1,0 +1,702 @@
+# 第1章 特征点法
+
+## 1.1 ORB特征
+
+$$ ORB特征点 = Oriented_{FAST}关键点 + BRIEF描述子 $$
+
+![SLAM-VO1-1](http://www.dengke.xyz/usr/uploads/2020/04/3304531470.png)
+
+### 1.1.1 关键点
+
+**FAST关键点：**
+
+* 思想：FAST是一种角点，主要检测像素灰度变化明显的地方。如果一个像素与它邻域的像素差别较大，那它更可能是角点。
+
+* 检测算法：
+  * 在图像中选取像素$ p $，假设它的亮度为$ I_p $。
+  * 设置一个阈值$ T $（比如$ I_p $的20%）
+  * 以像素$ p $为中心，选取半径为3的圆上的16个像素点
+  * 假设选取的圆上，有连续的N个点的亮度大于$ I_p+T $或小于$ I_p-T $，那么像素$ p $可被认为是特征点（N通常取12，即为FAST-12,。其它常用的值为9和11，分别为FAST-9，FAST-11）
+  * 循环以上四步，对每一个像素执行相同的操作。
+
+![SLAM-VO1-2](http://www.dengke.xyz/usr/uploads/2020/04/4114599661.png)
+
+* FAST-12算法的预检测：直接检测邻域圆上的第1、5、9、13个像素的亮度，只有当其中三个同时满足检测算法第4步的条件，当前像素才可能是一个角点，否则应该直接排除。
+
+**改进：**
+
+* 提取固定数量的特征：指定最终要提取的角点数量N，对原始FAST角点分别计算Harris响应值，然后选取前N个具有最大响应值的角点，作为最终的角点集合。
+
+* 添加尺度和旋转：
+  * 尺度：构建图像金字塔，在金字塔的每一层上检测FAST角点来实现。
+  * 旋转：
+    * 在一个小的图像块$ B $中，定义图像块的矩为（$ I(x,y) $是(x,y)处的灰度值）：
+$$ m_{pq} = \sum_{x,y \in B} x^p y^q I(x,y), \quad p,q={0,1} $$
+    * 通过矩可以找到图像块的质心:
+$$ C = \left( \frac{m_{10}}{m_00},\frac{m_{01}}{m_{00}} \right) $$
+    * 连接图像块的几何中心$ O $与质心$ C $，得到一个方向向量$ \vec{OC} $，于是特征点的方向可以定义为：
+$$ \theta = \arctan(m_{01}/m_{10}) $$
+
+### 1.1.2 描述子
+
+BRIEF描述子：一种二进制描述子，其描述向量由数个0和1组成，这里的0和1编码了关键点附近两个像素$ (p、q) $的大小关系：如果$ p $比$ q $大，则取1；反之取0。
+
+选取$ p、q $点：按照某种概率分布，随机挑选其位置。常见选取128对点，BRIEF-128。
+
+### 1.1.3 特征匹配
+
+**数据关联问题：**
+
+确定当前看到的路标与之前看到的路标之间的对应关系。通过描述子的差异判断哪些特征点为同一个点。
+
+![SLAM-VO1-3](http://www.dengke.xyz/usr/uploads/2020/04/3965306171.png)
+
+**方法：**
+
+* 暴力匹配：对左图某特征点的BRIEF，测量与右图所有特征点BRIEF的汉明距离。排序后，取最近的一个作为匹配点（两个二进制串之间的汉明距离，是它们不同位数的个数）。
+
+* 快速：快速最近邻（FLANN）。
+
+## 1.2 2D-2D：对极几何
+
+**对极几何：** 已知两幅图中若干对配对好的特征点，如何恢复出在两帧之间摄像机的运动。
+
+**应用场景：** 单目相机。
+
+### 1.2.1 对极约束和本质矩阵
+
+**几何关系：**
+
+* 运动变化：$ \boldsymbol{R} $和$ \boldsymbol{t} $（第一帧到第二帧）
+
+* 成像平面：$ I_1 $、$ I_2 $
+
+* 投影：$ p_1 $、$ p_2 $
+
+* 极平面：$ P $、$ O_1 $、$ O_2 $确定的平面
+
+* 基线：$ O_1O_2 $
+
+* 极点：基线和两成像平面的交点$ e_1 $、$ e_2 $
+
+* 极线：极平面和成像平面的交线$ l_1 $、$ l_2 $
+
+![SLAM-VO1-4](http://www.dengke.xyz/usr/uploads/2020/04/2056141861.png)
+
+**推导：**
+
+* 在第一帧的坐标系下，设点$ P $的坐标为：
+
+$$ \boldsymbol{P} = {\left[ X,Y,Z \right]}^T $$
+
+* $ \boldsymbol{p}_1 $、$ \boldsymbol{p}_2 $的像素位置如下（根据针孔成像原理），若使用齐次归一化坐标可简化：
+
+$$ s_1\boldsymbol{p}_1 = \boldsymbol{K}\boldsymbol{P}, \quad s_2\boldsymbol{p}_2 = \boldsymbol{K} (\boldsymbol{R}\boldsymbol{P}+\boldsymbol{t}) $$
+
+$$ \boldsymbol{p}_1 = \boldsymbol{K}\boldsymbol{P}, \quad \boldsymbol{p}_2 = \boldsymbol{K} (\boldsymbol{R}\boldsymbol{P}+\boldsymbol{t}) $$
+
+* 令$ \boldsymbol{x}_1=\boldsymbol{K}^{-1}\boldsymbol{p}_1 $，$ \boldsymbol{x}_2=\boldsymbol{K}^{-1}\boldsymbol{p}_2 $，带入上式得：
+
+$$ \boldsymbol{x}_2 = \boldsymbol{R}\boldsymbol{x}_1 + \boldsymbol{t} $$
+
+* 两边同时左乘$ \boldsymbol{t}^{\wedge} $（相当于两边同时与$ \boldsymbol{t} $做外积），然后同时左乘$ {\boldsymbol{x}_2}^T $：
+
+$$ {\boldsymbol{x}_2}^T \boldsymbol{t}^{\wedge} \boldsymbol{x}_2 = {\boldsymbol{x}_2}^T \boldsymbol{t}^{\wedge} \boldsymbol{R} \boldsymbol{x}_1 $$
+
+* $ \boldsymbol{t}^{\wedge}\boldsymbol{x}_2 $与$ \boldsymbol{t} $和$ \boldsymbol{x}_2 $都垂直，因此上式左侧为0。
+
+$$ {\boldsymbol{x}_2}^T \boldsymbol{t}^{\wedge} \boldsymbol{R} \boldsymbol{x}_1=0 $$
+
+* 对极约束：几何意义是$ O_1，P，O_2 $三者共面，对极约束包含了平移和旋转。其中$ F $：基础矩阵（Fundamental Matrix）；$ E $：本质矩阵（Essential Matrix）
+
+$$ {\boldsymbol{p}_2}^T \boldsymbol{K}^{-T} \boldsymbol{t}^{\wedge} \boldsymbol{R} \boldsymbol{K}^{-1} \boldsymbol{p}_1 = 0 $$
+
+$$ \Downarrow $$
+
+$$
+\begin{cases}
+{\boldsymbol{x}_2}^T \boldsymbol{E} \boldsymbol{x}_1 = {\boldsymbol{p}_2}^T \boldsymbol{F} \boldsymbol{p}_1 = 0 \\
+\boldsymbol{E} = \boldsymbol{t}^{\wedge} \boldsymbol{R} \\
+\boldsymbol{F} = \boldsymbol{K}^{-T} \boldsymbol{E} \boldsymbol{K}^{-1}
+\end{cases}
+$$
+
+**结论：**
+
+对极约束给出了两个匹配点的空间位置关系。利用该关系，对相机位姿估计分为如下两步（实际中常用）：
+
+* 根据配对点的像素位置，求出$ \boldsymbol{E} $或$ \boldsymbol{F} $。
+
+* 根据$ \boldsymbol{E} $或$ \boldsymbol{F} $，求出$ \boldsymbol{R} $，$ \boldsymbol{t} $。
+
+#### 1.2.1.1 八点法求E
+
+* 构建对极约束：假设一对匹配点，归一化齐次坐标为$ \boldsymbol{x}_1=[u_1,v_1,1]^T，\boldsymbol{x}_2=[u_2,v_2,1]^T $，根据对极约束有：
+$$ \begin{bmatrix} u_1&v_1&1 \end{bmatrix} \begin{bmatrix} e_1&e_2&e_3\\e_4&e_5&e_6\\e_7&e_8&e_9 \end{bmatrix} \begin{bmatrix} u_2\\v_2\\1 \end{bmatrix} = 0 $$
+
+* 关于$ \boldsymbol{e} $的线性形式：
+$$
+\begin{cases}
+[u_1u_2,u_1v_2,u_1,v_1u_2,v_1v_2,v_1,u_2,v_2,1] \cdot \boldsymbol{e} = 0\\
+\boldsymbol{e} = [e_1,e_2,e_3,e_4,e_5,e_6,e_7,e_8,e_9]^T
+\end{cases}
+$$
+
+* 代入8对匹配点：如果8对匹配点组成的矩阵秩为8，则$ \boldsymbol{E} $的各元素可由下式求得：
+$$
+\begin{bmatrix}
+u_1^1u_2^1 &u_1^1v_2^1 &u_1^1 &v_1^1u_2^1 &v_1^1v_2^1 &v_1^1 &u_2^1 &v_2^1 &1 \\
+u_1^2u_2^2 &u_1^2v_2^2 &u_1^2 &v_1^2u_2^2 &v_1^2v_2^2 &v_1^2 &u_2^2 &v_2^2 &1 \\
+\vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots &\vdots \\
+u_1^8u_2^8 &u_1^8v_2^8 &u_1^8 &v_1^8u_2^8 &v_1^8v_2^8 &v_1^8 &u_2^8 &v_2^8 &1 \\
+\end{bmatrix}
+\begin{bmatrix}
+e_1 \\ e_2 \\ e_3 \\ e_4 \\ e_5 \\ e_6 \\ e_7 \\ e_8 \\ e_9
+\end{bmatrix}
+= 0
+$$
+
+#### 1.2.1.2 求位姿R、t
+
+根据估算得到的$ \boldsymbol{E} $，恢复两帧之间的运动$ \boldsymbol{R} $，$ \boldsymbol{t} $。
+
+设$ \boldsymbol{E} $的SVD分解如下，其中$ \boldsymbol{U} $ $ \boldsymbol{V} $为正交矩阵，$ \boldsymbol{\Sigma} $为奇异值矩阵。
+
+$$ \boldsymbol{E} = \boldsymbol{U \Sigma V}^T $$
+
+根据$ \boldsymbol{E} $的内在性质，$ \boldsymbol{\Sigma}=\mathrm{diag}(\delta,\delta,0) $，在SVD分解中，对于任一$ \boldsymbol{E} $，存在两个可能的$ \boldsymbol{R,t} $与之对应：
+
+$$
+\boldsymbol{t}_1^{\wedge} = \boldsymbol{UR}_{Z(\frac{\pi}{2})}\boldsymbol{\Sigma U}^T, \quad \boldsymbol{R}_1 = \boldsymbol{UR}_{Z(\frac{\pi}{2})}^T\boldsymbol{V}^T\\
+\boldsymbol{t}_2^{\wedge} = \boldsymbol{UR}_{Z(-\frac{\pi}{2})}\boldsymbol{\Sigma U}^T, \quad \boldsymbol{R}_2 = \boldsymbol{UR}_{Z(-\frac{\pi}{2})}^T\boldsymbol{V}^T
+$$
+
+有4个可能的解，只有第一种解，在两个相机中都具有真正的深度。
+
+![SLAM-VO1-5](http://www.dengke.xyz/usr/uploads/2020/04/366186098.png)
+
+### 1.2.2 单应矩阵
+
+若场景中的特征点都落在同一平面上（无人机俯视相机，或扫地机顶视相机中常见），则可以通过单应性来进行运动估计。
+
+特征点落在某个平面，假设平面满足：
+
+$$
+\boldsymbol{n}^T\boldsymbol{P} + d = 0 \\
+-\frac{\boldsymbol{n}^T\boldsymbol{P}}{d} = 1
+$$
+
+对于$ \boldsymbol{p}_2 $点有：
+
+$$
+\begin{aligned}
+\boldsymbol{p}_2 &= \boldsymbol{K} \left( \boldsymbol{RP}+t \right) \\
+&= \boldsymbol{K} \left( \boldsymbol{RP} + t\cdot\left(-\frac{\boldsymbol{n}^T\boldsymbol{P}}{d}\right) \right) \\
+&= \boldsymbol{K} \left( \boldsymbol{R} - \frac{\boldsymbol{tn}^T}{d} \right) \boldsymbol{P} \\
+&= \boldsymbol{K} \left( \boldsymbol{R} - \frac{\boldsymbol{tn}^T}{d} \right) \boldsymbol{K}^{-1} \boldsymbol{p}_1
+\end{aligned}
+$$
+
+简化上式，得到$ \boldsymbol{p}_1 $和$ \boldsymbol{p}_2 $之间的变换。其中$ \boldsymbol{H} $为单应矩阵（Homography）
+
+$$ \boldsymbol{p}_2 = \boldsymbol{H} \boldsymbol{p}_1 $$
+
+把上式展开，等号在非零因子下成立，实际中通常乘以一个非零因子使得$ h_9=1 $
+
+$$
+\begin{bmatrix} u_2\\v_2\\1 \end{bmatrix} =
+\begin{bmatrix} h_1&h_2&h_3\\h_4&h_5&h_6\\h_7&h_8&h_9 \end{bmatrix}
+\begin{bmatrix} u_1\\v_1\\1 \end{bmatrix}
+$$
+
+**求单应矩阵H：**
+
+思路与求$ \boldsymbol{E} $类似
+
+* 根据上述展开式，可得：
+$$
+\begin{cases}
+u_2 = h_1u_1 + h_2v_1 + h_3 - h_7u_1u_2 - h_8v_1u_2 \\
+v_2 = h_4u_1 + h_5v_1 + h_6 - h_7u_1v_2 - h_8v_1v_2
+\end{cases}
+$$
+
+* 1组匹配点构造出2项约束，因此自由度为8的$ \boldsymbol{H} $矩阵通过4对匹配点（不能三点共线）计算。
+
+$$
+\begin{bmatrix} u_1^1&v_1^1&1&0&0&0&-u_1^1u_2^1&-v_1^1u_2^1\\0&0&0&u_1^1&v_1^1&1&-u_1^1v_2^1&-v_1^1v_2^1\\u_1^2&v_1^2&1&0&0&0&-u_1^2u_2^2&-v_1^2u_2^2\\0&0&0&u_1^2&v_1^2&1&-u_1^2v_2^2&-v_1^2v_2^2\\u_1^2&v_1^3&1&0&0&0&-u_1^3u_2^3&-v_1^3u_2^3\\0&0&0&u_1^3&v_1^3&1&-u_1^3v_2^3&-v_1^3v_2^3\\u_1^4&v_1^4&1&0&0&0&-u_1^4u_2^4&-v_1^4u_2^4\\0&0&0&u_1^4&v_1^4&1&-u_1^4v_2^4&-v_1^4v_2^4 \end{bmatrix}
+\begin{bmatrix} h_1\\h_2\\h_3\\h_4\\h_5\\h_6\\h_7\\h_8 \end{bmatrix}
+= \begin{bmatrix} u_2^1\\v_2^1\\u_2^2\\v_2^2\\u_2^3\\v_2^3\\u_2^4\\v_2^4 \end{bmatrix}
+$$
+
+**求位姿R、t：**
+
+类似本质矩阵，将单应矩阵分解得到位姿。
+
+方法：数值法、解析法。
+
+### 1.2.3 三角测量
+
+得到相机的运动后，下一步需要使用该运动信息估计特征点的空间位置。使用三角测量方法：通过在两处观察同一个点的夹角，确定该点的距离。
+
+理论上直线$ O_1p_1 $、$ O_2p_2 $在场景中交于一点$ P $，该点是两个特征点对应的地图点在三维场景中的位置。然而由于噪声的影响，两条直线无法相交（如下图）。根据对极约束有：
+
+$$ s_1\boldsymbol{x}_1 = s_2\boldsymbol{R}\boldsymbol{x}_2 + \boldsymbol{t} $$
+
+两边同左乘$ \boldsymbol{x}_1^{\wedge} $，右侧关于$ s_2 $的一个方程，可求出$ s_2 $、$ s_1 $（两帧下点的深度），即确定了它们的空间坐标。
+
+$$ s_1\boldsymbol{x}_1^{\wedge}\boldsymbol{x}_1 = 0 = s_{2}\boldsymbol{x}_1^{\wedge}\boldsymbol{R}\boldsymbol{x}_2 + \boldsymbol{x}_1^{\wedge}\boldsymbol{t} $$
+
+实际中因为误差求出的$ \boldsymbol{R、t} $不一定使得上式为零，因此常用最小二乘解而不是零解。
+
+![SLAM-VO1-6](http://www.dengke.xyz/usr/uploads/2020/04/2300771020.png)
+
+### 1.2.4 存在问题与特殊情况
+
+**尺度不确定性：**
+
+单目视觉中，对两张图像的$ \boldsymbol{t} $归一化，相当于固定了尺度。但是实际中不确定平移量具体是多少。
+
+
+
+**初始化的纯旋转问题：**
+
+从$ \boldsymbol{E} $分解到$ \boldsymbol{R、t} $过程中，如果相机发生纯旋转，导致$ \boldsymbol{t} $为零，则得到的$ \boldsymbol{E} $也将为零，无法求解$ \boldsymbol{R} $。即使使用$ \boldsymbol{H} $求出旋转，但仅有旋转也无法求出三角测量的结果。
+
+单目初始化不能只有纯旋转，必须有一定程度的平移。
+
+**多于8对点的情况：**
+
+八点法求$ \boldsymbol{E} $中，关于$ \boldsymbol{e} $的线性形式计为如下。如果8对匹配点，的大小为；如果匹配点多于8对，该方程构成一个超定方程，不一定存在$ \boldsymbol{e} $的解。
+
+$$ \boldsymbol{Ae} $$
+
+* 因此可构建如下最小二乘求解：
+
+$$ \min_e ||\boldsymbol{Ae}||_2^2 = \min_e \boldsymbol{e}^T\boldsymbol{A}^T\boldsymbol{Ae} $$
+
+* 针对可能存在的误匹配情况，也可使用随机采样一致性（RANSAC）求解。
+
+## 1.3 3D-2D：PnP
+
+**PnP：** 已知n个3D空间点（世界坐标）及其投影位置（像素坐标）时，如何估计相机位姿。
+
+**应用场景：** （1）双目或RGB-D，直接使用PnP；（2）单目，先用对极几何进行初始化，再用PnP。
+
+**方法：** 直接线性变换（DLT）、P3P、EPnP、Bundle Adjustment。通常先使用P3P/EPnP等方法估计相机位姿，然后构建最小二乘优化问题对估计值进行调整（Bundle Adjustment）。
+
+### 1.3.1 直接线性变换（DLT）
+
+已知空间点齐次坐标为$ \boldsymbol{P}=(X,Y,Z,1)^T $，在图像$ I_1 $中，投影到特征点$ \boldsymbol{x}_1=(u_1,v_1,1)^T $（使用归一化齐次坐标，$ \boldsymbol{K} $已知，去掉$ \boldsymbol{K} $影响）。为了求解相机位姿$ \boldsymbol{R、t} $，定义3×4的增广矩阵$ [\boldsymbol{R}|\boldsymbol{t}] $，展开如下：
+
+$$
+s\begin{bmatrix} u_1\\v_1\\1 \end{bmatrix} = 
+\begin{bmatrix} t_1&t_2&t_3&t_4\\t_5&t_6&t_7&t_8\\t_9&t_10&t_11&t_12 \end{bmatrix}
+\begin{bmatrix} X\\Y\\Z\\1 \end{bmatrix}
+$$
+
+（与求$ \boldsymbol{E} $矩阵类似）利用最后一行把$ s $消去，可得到约束$ u_1、v_1 $，简化定义并得到如下关系式：
+
+$$ u_1 = \frac{t_1X+t_2Y+t_3Z+t_4}{t_9X+t_{10}Y+t_{11}Z+t_{12}}, \quad v_1 = \frac{t_5X+t_6Y+t_7Z+t_8}{t_9X+t_{10}Y+t_{11}Z+t_{12}} $$
+
+$$
+\begin{cases}
+\boldsymbol{t}_1^T\boldsymbol{P} - \boldsymbol{t}_3^T\boldsymbol{P}u_1 = 0 \\
+\boldsymbol{t}_2^T\boldsymbol{P} - \boldsymbol{t}_3^T\boldsymbol{P}v_1 = 0 \\
+\boldsymbol{t}_1 = (t_1,t_2,t_3,t_4)^T \\
+\boldsymbol{t}_2 = (t_5,t_6,t_7,t_8)^T \\
+\boldsymbol{t}_3 = (t_9,t_{10},t_{11},t_{12})^T
+\end{cases}
+$$
+
+上式中$ \boldsymbol{t} $为待求变量，每个特征点提供了两个关于$ \boldsymbol{t} $的线性约束。假设共有N个特征点，可得如下方程组。由于共有12维，最少可通过6对匹配点实现线性求解。
+
+$$
+\begin{bmatrix} \boldsymbol{P}_1^T & 0 & -u_1\boldsymbol{P}_1^T \\ 0 & \boldsymbol{P}_1^T & -v_1\boldsymbol{P}_1^T \\ \vdots&\vdots&\vdots \\ \boldsymbol{P}_N^T & 0 & -u_N\boldsymbol{P}_N^T \\ 0 & \boldsymbol{P}_N^T & -v_N\boldsymbol{P}_N^T \end{bmatrix}
+\begin{bmatrix} \boldsymbol{t}_1 \\ \boldsymbol{t}_2 \\ \boldsymbol{t}_3 \end{bmatrix} = 0
+$$
+
+上述DLT求解中，直接将$ \boldsymbol{T} $矩阵看成12个未知数，忽略了内在关系$ \boldsymbol{R} \in SO(3) $。因此求出的解不一定满足，需要针对左边3×3的矩阵块，寻找最好的旋转矩阵与之对应。常用QR分解完成，相当于把$ \boldsymbol{T} $矩阵空间投影到$ SE(3) $流行上，转换成旋转和平移。
+
+### 1.3.2 P3P
+
+![SLAM-VO1-7](http://www.dengke.xyz/usr/uploads/2020/04/3980633079.png)
+
+**过程：**
+
+输入数据为3对3D-2D匹配点，记3D点为$ A,B,C $（世界坐标系），投影在相机成像平面上的2D点为$ a,b,c $；一对验证点$ D,d $用于选取正确的解（吴消元法）。
+
+* 根据余弦定理可得：
+
+$$
+\begin{cases}
+OA^2 + OB^2 - 2OA \cdot OB \cdot \cos{(a,b)} = AB^2 \\
+OB^2 + OC^2 - 2OB \cdot OC \cdot \cos{(b,c)} = BC^2 \\
+OA^2 + OC^2 - 2OA \cdot OC \cdot \cos{(c,a)} = AC^2
+\end{cases}
+$$
+
+* 记$ x=OA/OC $，$ y=OB/OC $，再另$ v=AB^2/OC^2 $，$ uv=BC^2/OC^2 $，$ wv=AC^2/OC^2 $可得：
+
+$$
+\begin{cases}
+x^2 + y^2 - 2xy\cos{(a,b)} - v = 0 \\
+y^2 + 1^2 - 2y\cos{(b,c)} - uv = 0 \\
+x^2 + 1^2 - 2x\cos{(a,c)} - wv = 0
+\end{cases}
+$$
+
+* 将1式中的$ v $代入2、3式，可得如下关于$ x,y $的二元二次方程组。该方程组中余弦角已知，$ u,w $可通过3D点的世界坐标求出，但是$ x,y $未知的，会随着相机的移动发生变换。
+
+$$
+\begin{cases}
+(1-u)y^2-ux^2-\cos{(b,c)}y+2uxy\cos{(a,b)}+1=0 \\
+(1-w)x^2-wy^2-\cos{(a,c)}x+2wxy\cos{(a,b)}+1=0
+\end{cases}
+$$
+
+* 使用吴消元法求解上述方程组，则可根据相机成像原理、三角形相似求出$ A,B,C $三点在相机坐标系下的坐标。然后再根据3D-3D点对，求解ICP问题得出相机运动$ \boldsymbol{R,t} $。
+
+**优缺点：**
+
+* 求出了相机坐标系下的3D点，将问题转换成了3D-3D的ICP问题。
+
+* P3P只利用了3对点的信息，当给定点多余3组时，难以利用更多信息。
+
+* 若3D或2D点受到噪声影响，或者存在误匹配，则算法失效。
+
+### 1.3.3 Bundle Adjustment
+
+DLT、P3P、EPnP等线性方法，先求相机位姿，再求空间点位置。而非线性优化则是把它们都看成优化变量，放在一起优化，可用于对PnP或ICP给出的结果进行优化。
+
+在SLAM中通常先用P3P/EPnP等方法估计相机位姿，然后构建最小二乘优化问题对估值进行调整（Bundle Adjustment）。
+
+**重投影误差：**
+
+对于$ n $个三维空间点$ P $和它们的投影$ p $，已使用上述方法求出相机的$ \boldsymbol{R,t} $（李代数表示为$ \boldsymbol{\xi} $）。假设空间点坐标为$ \boldsymbol{P}_i=[X_i,Y_i,Z_i]^T $，其投影的像素坐标为$ \boldsymbol{u}_i=[u_i,v_i]^T $，根据相机成像原理，可得：
+
+$$
+s_i \begin{bmatrix} u_i\\v_i\\1 \end{bmatrix}
+= \boldsymbol{K} \mathrm{exp}(\boldsymbol{\xi}^{\wedge}) \begin{bmatrix} X_i\\Y_i\\Z_i\\1 \end{bmatrix}
+$$
+
+$$ \Downarrow $$
+
+$$ s_i\boldsymbol{u}_i = \boldsymbol{K} \mathrm{exp}(\boldsymbol{\xi}^{\wedge}) \boldsymbol{P}_i $$
+
+* 目标：由于相机位姿未知及观测点的噪声，上式存在误差。把误差求和，构建最小二乘问题，然后寻找最好的相机位姿，使误差项最小化。其中误差项为重投影误差：将3D点按照当前估计的位姿进行投影得到的位置与像素坐标相比较得到的误差。
+
+$$ \boldsymbol{\xi}^{\ast} = \mathrm{arg} \min_\boldsymbol{\xi}{\frac{1}{2} \sum_{i=1}^n{||\boldsymbol{u}_i-\frac{1}{s_i}\boldsymbol{K}\mathrm{exp}(\boldsymbol{\xi}^{\wedge})\boldsymbol{P}_i||_2^2}} $$
+
+* 关键：求解最小二乘问题需要知道每个误差项关于优化变量的导数，即线性化，其中关键是求$ \boldsymbol{J} $，之后即可根据G-N、L-M等方法求解。
+
+$$
+\begin{cases}
+\boldsymbol{e} (\boldsymbol{x} + \Delta \boldsymbol{x}) \approx \boldsymbol{e}(\boldsymbol{x}) + \boldsymbol{J} \Delta \boldsymbol{x} \\
+\boldsymbol{e}_i = \boldsymbol{u}_i - \frac{1}{s_i}\boldsymbol{K}\mathrm{exp}(\boldsymbol{\xi}^{\wedge})\boldsymbol{P}_i
+\end{cases}
+$$
+
+**优化位姿：**
+
+* 定义中间变量$ \boldsymbol{P}^{\prime} $，则投影模型则改写为下式：
+
+$$
+\begin{cases}
+s\boldsymbol{u} = \boldsymbol{KP}^{\prime} \\
+\boldsymbol{P}^{\prime} = \left( \mathrm{exp}(\boldsymbol{\xi}^{\wedge}) \boldsymbol{P} \right)_{1:3} = [X^{\prime},Y^{\prime},Z^{\prime}]^T
+\end{cases}
+$$
+$$ \Downarrow $$
+$$ 
+\begin{bmatrix} su\\sv\\s \end{bmatrix}
+=\begin{bmatrix} f_x & 0 & c_x \\ 0 & f_y & c_y \\ 0 & 0 & 1 \end{bmatrix} 
+ \begin{bmatrix} X^{\prime} \\ Y^{\prime} \\ Z^{\prime} \end{bmatrix}
+$$
+$$ \Downarrow $$
+$$ u=f_x\frac{X^{\prime}}{Z^{\prime}}+c_x, \quad v=f_y\frac{Y^{\prime}}{Z^{\prime}}+c_y $$
+
+* 根据重投影误差思想，对上式的$ u,v $与实际的测量值比较。对$ \boldsymbol{\xi}^{\wedge} $左乘扰动量$ \delta \boldsymbol{\xi} $，然后考虑$ \boldsymbol{e} $的变化关于扰动量的导数，利用链式法则可得下式。其中$ \bigoplus $指李代数上的左乘扰动。
+
+$$
+\frac{\partial \boldsymbol{e}}{\partial \delta \boldsymbol{\xi}}
+= \lim_{\delta\boldsymbol{\xi} \to 0} \frac{e(\delta \boldsymbol{\xi} \bigoplus \boldsymbol{\xi})}{\delta \boldsymbol{\xi}}
+= \frac{\partial \boldsymbol{e}}{\partial \boldsymbol{P}^{\prime}} \frac{\partial \boldsymbol{P}^{\prime}}{\partial \delta \boldsymbol{\xi}}
+$$
+
+* 上式中右侧第一项是误差关于投影点的导数，根据第1步定义可得如下第1式；第二项为变换后的点关于李代数的导数，根据李代数扰动模型求导结果，且$ \boldsymbol{P}^{\prime} $的定义中只取前3维，可得如下第2式：
+
+$$
+\begin{aligned}
+\frac{\partial \boldsymbol{e}}{\partial \boldsymbol{P}^{\prime}} &= - \begin{bmatrix} \frac{\partial u}{\partial X^{\prime}} & \frac{\partial u}{\partial Y^{\prime}} & \frac{\partial u}{\partial Z^{\prime}} \\ \frac{\partial v}{\partial X^{\prime}} & \frac{\partial v}{\partial Y^{\prime}} & \frac{\partial v}{\partial Z^{\prime}} \end{bmatrix} \\
+&= - \begin{bmatrix} \frac{f_x}{Z^{\prime}} & 0 & -\frac{f_x X^{\prime}}{Z^{\prime 2}} \\ 0 & \frac{f_y}{Z^{\prime}} & -\frac{f_y Y^{\prime}}{Z^{\prime 2}} \end{bmatrix}
+\end{aligned}
+$$
+
+$$ \frac{\partial \boldsymbol{P}^{\prime}}{\partial \delta \boldsymbol{\xi}} = [\boldsymbol{I},-\boldsymbol{P}^{\prime \wedge}] $$
+
+* 将上述两式相乘，得到$ 2 \times 6 $的雅克比矩阵。该矩阵描述了重投影误差关于相机位姿李代数的一阶变化关系。其中保留负号因为误差为观测值减去预测值。
+
+$$ \frac{\partial \boldsymbol{e}}{\partial \delta \boldsymbol{\xi}} = -\begin{bmatrix} \frac{f_x}{Z^{\prime}} & 0 & -\frac{f_x X^{\prime}}{Z^{\prime 2}} & -\frac{f_x X^{\prime} Y^{\prime}}{Z^{\prime 2}} & f_x+\frac{f_x X^2}{Z^{\prime 2}} & -\frac{f_x Y^{\prime}}{Z^{\prime}} \\ 0 & \frac{f_y}{Z^{\prime}} & -\frac{f_y Y^{\prime}}{Z^{\prime 2}} & -f_y-\frac{f_y Y^{\prime 2}}{Z^{\prime 2}} & \frac{f_y X^{\prime} Y^{\prime}}{Z^{\prime 2}} & \frac{f_y X^{\prime}}{Z^{\prime 2}} \end{bmatrix} $$
+
+**优化特征点空间位置：**
+
+* 优化特征点空间位置，需要得到$ \boldsymbol{e} $关于空间点$ \boldsymbol{P} $的导数，采用链式法则：
+
+$$ \frac{\partial \boldsymbol{e}}{\partial \boldsymbol{P}} = \frac{\partial \boldsymbol{e}}{\partial \boldsymbol{P}^{\prime}} \frac{\partial \boldsymbol{P}^{\prime}}{\partial \boldsymbol{P}} $$
+
+* 上式右侧第1项已在“优化位姿”中得到；对于第2项，根据定义有：
+
+$$ \boldsymbol{P}^{\prime} = \mathrm{exp}(\boldsymbol{\xi}^{\wedge}) \boldsymbol{P} = \boldsymbol{RP}+\boldsymbol{t} $$
+$$ \frac{\partial \boldsymbol{P}^{\prime}}{\partial \boldsymbol{P}} = \boldsymbol{R} $$
+
+* 两项相乘得到导数为：
+
+$$
+\frac{\partial \boldsymbol{e}^{\prime}}{\partial \boldsymbol{P}}
+= - \begin{bmatrix} \frac{f_x}{Z^{\prime}} & 0 & -\frac{f_x X^{\prime}}{Z^{\prime 2}} \\ 0 & \frac{f_y}{Z^{\prime}} & -\frac{f_y Y^{\prime}}{Z^{\prime 2}} \end{bmatrix} \boldsymbol{R}
+$$
+
+## 1.4 3D-3D：ICP
+
+**ICP：** 迭代最近点（Iterative Closest Point, ICP）：假设有一组匹配好的3D点（比如两组RGB-D图像进行了匹配），需要找到一个欧氏变换$ \boldsymbol{R,t} $使下式成立：
+
+$$ \boldsymbol{P}={\boldsymbol{p}_1,\ldots,\boldsymbol{p}_1}, \quad \boldsymbol{P}^{\prime}={\boldsymbol{p}_1^{\prime},\ldots,\boldsymbol{p}_1^{\prime}} $$
+
+$$ \forall i, \quad \boldsymbol{p}_i = \boldsymbol{Rp}_i^{\prime} + \boldsymbol{t} $$
+
+**应用场景：** 已知一组配对好的3D点（如两个匹配好的RGB-D图像），估计位姿。
+
+**方法：** SVD、非线性优化方法。
+
+### 1.4.1 SVD方法
+
+**SVD法推导：**
+
+* 构建SVD目标函数：首先定义第i对点的误差项为$ \boldsymbol{e}_i=\boldsymbol{p}_i-(\boldsymbol{Rp}_i^{\prime}+\boldsymbol{t}) $，然后构建最小二乘问题使得误差平方和达到极小的$ \boldsymbol{R,t} $
+
+$$ \min_{\boldsymbol{R,t}}J = \frac{1}{2} \sum_{i=1}^n||(\boldsymbol{p}_i-(\boldsymbol{Rp}_i^{\prime}+\boldsymbol{t}))||_2^2 $$
+
+* 简化最小二乘问题，定义两组点的质心：
+
+$$ \boldsymbol{p}=\frac{1}{n}\sum_{i=1}^n(\boldsymbol{p}_i), \quad \boldsymbol{p}^{\prime}=\frac{1}{n}\sum_{i=1}^n(\boldsymbol{p}_i^{\prime}) $$
+
+* 对误差项做去质心化处理：
+
+$$
+\begin{aligned}
+& \frac{1}{2} \sum_{i=1}^n||(\boldsymbol{p}_i-(\boldsymbol{Rp}_i^{\prime}+\boldsymbol{t}))||^2 \\
+= & \frac{1}{2} \sum_{i=1}^n||\boldsymbol{p}_i-\boldsymbol{Rp}_i^{\prime}-\boldsymbol{t}-\boldsymbol{p}+\boldsymbol{Rp}^{\prime}+\boldsymbol{p}-\boldsymbol{Rp}^{\prime}||^2 \\
+= & \frac{1}{2} \sum_{i=1}^n||(\boldsymbol{p}_i-\boldsymbol{p}-\boldsymbol{R}(\boldsymbol{p}_i^{\prime}-\boldsymbol{p}^{\prime})) + (\boldsymbol{p}-\boldsymbol{Rp}^{\prime}-\boldsymbol{t}) ||^2 \\
+= & \frac{1}{2} \sum_{i=1}^n( ||\boldsymbol{p}_i-\boldsymbol{p}-\boldsymbol{R}(\boldsymbol{p}_i^{\prime}-\boldsymbol{p}^{\prime})||^2 + ||\boldsymbol{p}-\boldsymbol{Rp}^{\prime}-\boldsymbol{t}||^2 \\
+& + 2(\boldsymbol{p}_i-\boldsymbol{p}-\boldsymbol{R}(\boldsymbol{p}_i^{\prime}-\boldsymbol{p}^{\prime}))^T(\boldsymbol{p}-\boldsymbol{Rp}^{\prime}-\boldsymbol{t}) )
+\end{aligned}
+$$
+
+* 上式中$ (\boldsymbol{p}_i-\boldsymbol{p}-\boldsymbol{R}(\boldsymbol{p}_i^{\prime}-\boldsymbol{p}^{\prime})) $在求和之后为零，因此目标函数简化如下：
+
+$$ \min_{\boldsymbol{R,t}}J = \frac{1}{2} \sum_{i=1}^n( ||\boldsymbol{p}_i-\boldsymbol{p}-\boldsymbol{R}(\boldsymbol{p}_i^{\prime}-\boldsymbol{p}^{\prime})||^2 + ||\boldsymbol{p}-\boldsymbol{Rp}^{\prime}-\boldsymbol{t}||^2 $$
+
+* 上式第一项只和$ \boldsymbol{R} $相关，可求出$ \boldsymbol{R} $；第二项有$ \boldsymbol{R,t} $，带入求得的$ \boldsymbol{R} $即可求得$ \boldsymbol{t} $。
+
+**总结：**
+
+* 计算两组质心位置$ \boldsymbol{p,p}^{\prime} $，然后计算每个点的去质心坐标：
+
+$$
+\boldsymbol{p}=\frac{1}{n}\sum_{i=1}^n(\boldsymbol{p}_i), \quad \boldsymbol{p}^{\prime}=\frac{1}{n}\sum_{i=1}^n(\boldsymbol{p}_i^{\prime}) \\
+\boldsymbol{q}_i=\boldsymbol{p}_i-\boldsymbol{p}, \quad \boldsymbol{q}_i^{\prime}=\boldsymbol{p}_i^{\prime}-\boldsymbol{p}^{\prime}
+$$
+
+* 根据以下优化问题$ \boldsymbol{R}^{\ast} = \mathrm{arg} \min_{\boldsymbol{R}} {\frac{1}{2} \sum_{i=1}^n||\boldsymbol{q}_i-\boldsymbol{Rq}_i^{\prime}||^2} $，计算旋转矩阵$ \boldsymbol{R} $：
+  * 展开关于$ \boldsymbol{R} $的误差模型：
+$$ \frac{1}{2} \sum_{i=1}^n||\boldsymbol{q}_i-\boldsymbol{Rq}_i^{\prime}||^2 = \frac{1}{2} \sum_{i=1}^n \boldsymbol{q}_i^T\boldsymbol{q}_i + \boldsymbol{q}_i^{\prime T}\boldsymbol{R}^T\boldsymbol{Rq}_i^{\prime} - 2\boldsymbol{q}_i^T\boldsymbol{Rq}_i^{\prime} $$
+  * 上式第1项和$ \boldsymbol{R} $无关，第二项$ \boldsymbol{R}^T\boldsymbol{R}=\boldsymbol{I} $(旋转矩阵为正交矩阵)也与$ \boldsymbol{R} $无关。因此优化目标函数展开为：
+$$ \sum_{i=1}^n -\boldsymbol{q}_i^T\boldsymbol{Rq}_i^{\prime} = \sum_{i=1}^n -\mathrm{tr}(\boldsymbol{Rq}_i^{\prime}\boldsymbol{q}_i^T) = -\mathrm{tr}(\boldsymbol{R}\sum_{i=1}^n \boldsymbol{q}_i^{\prime}\boldsymbol{q}_i^T) $$
+  * 通过SVD解出上述问题中的最优$ \boldsymbol{R} $，定义矩阵：
+$$ \boldsymbol{W}=\sum_{i=1}^n\boldsymbol{q}_i\boldsymbol{q}_i^{\prime T} $$
+  * $ \boldsymbol{W} $是一个$ 3 \times 3 $的矩阵，对$ \boldsymbol{W} $进行SVD分解，得：
+$$ \boldsymbol{W}=\boldsymbol{U \Sigma V}^T $$
+  * 其中$ \boldsymbol{\Sigma} $为奇异值组成的对角矩阵，对角线元素从大到小排列，而$ \boldsymbol{U,V} $为正交矩阵，当$ \boldsymbol{W} $满秩时，$ \boldsymbol{R} $的最优化解为：
+$$ \boldsymbol{R}^{\ast} = \boldsymbol{UV}^T $$
+
+* 根据第2步得到的$ \boldsymbol{R} $，计算$ \boldsymbol{t} $
+
+### 1.4.2 非线性优化方法
+
+该方法与PnP类似，以迭代的方式去寻找最优值，。以李代数表示位姿，目标函数可写为：
+
+$$ \min_{\boldsymbol{\xi}} = \frac{1}{2} \sum_{i=1}^n ||(\boldsymbol{p}_i-\mathrm{exp}(\boldsymbol{\xi}^{\wedge})\boldsymbol{p}_i^{\prime})||_2^2 $$
+
+单个误差项关于位姿导数已经在BA问题中推导，使用李代数扰动模型即可。
+
+$$ \frac{\partial \boldsymbol{e}}{\partial \delta \boldsymbol{\xi}} = -(\mathrm{exp}(\boldsymbol{\xi}^{\wedge})\boldsymbol{p}_i^{\prime})^{\odot} $$
+
+* 在非线性优化中只需不断迭代，就能找到极小值，且可证明ICP问题存在唯一解或无穷多解的情况。在唯一解的情况下，只要我们能找到极小值解，那么这个极小值就是全局最优解。
+
+---
+
+# 第2章 直接法、光流法
+
+## 2.1 直接法的引出
+
+**特征点法缺点：**
+
+* 耗时：关键点的提取与描述子的计算非常耗时。
+
+* 图像信息丢失：使用特征点时，忽略了除特征点以外的所有信息。只使用特征点丢弃了大部分可能有用的图像信息。
+
+* 特征缺失：相机有时会运动到特征缺失的地方，这些地方没有明显的纹理信息，可能找不到足够的匹配点来计算相机运动。
+
+**光流法：**
+
+使用光流跟踪替换描述子匹配，估计相机运动仍使用对极几何、PnP、ICP算法。
+
+* 保留特征点，但只计算关键点，不计算描述子。
+
+* 使用光流来跟踪特征点的运动。这样可以回避计算和匹配描述子带来的时间。但光流本身的计算需要一定时间。
+
+**直接法：**
+
+根据图像的像素灰度信息（最小化广度误差）计算相机运动：
+
+* 只计算关键点，不计算描述子。同时使用直接法计算特征点在下一时刻图像的位置。这样可以跳过描述子的计算过程，而且直接法的计算更加简单。
+
+* 既不计算关键点，也不计算描述子，而是根据像素灰度的差异，直接计算相机运动。
+
+**直接法分类：**
+
+稀疏、稠密、半稠密。（特征点法只能重构稀疏特征点，构建稀疏地图）
+
+## 2.2 光流法
+
+### 2.2.1 光流
+
+光流：一种描述像素随着时间，在图像之间运动的方法。计算部分像素运动的为稀疏光流，计算所有像素的为稠密光流。
+
+![SLAM-VO2-1]()
+
+### 2.2.2 LK光流法推导
+
+**灰度不变假设：**
+
+同一个空间点的像素灰度值，在各个图像中是固定不变的。如$ t $时刻位于$ (x,y) $处的像素，$ t+\mathrm{t} $时刻运动到$ (x+\mathrm{d}x, y+\mathrm{d}y) $处，灰度不变：
+
+$$ \boldsymbol{I}(x+\mathrm{d}x, y+\mathrm{d}y, t+\mathrm{d}t) = \boldsymbol{I}(x, y, t) $$
+
+该假设是一个很强的假设，实际当中很可能不成立。
+
+**推导：**
+
+* 进行一阶泰勒展开，并根据灰度不变假设，有以下结果
+
+$$ \boldsymbol{I}(x+\mathrm{d}x, y+\mathrm{d}y, t+\mathrm{d}t) \approx \boldsymbol{I}(x,y,t) + \frac{\partial \boldsymbol{I}}{\partial x}\rm{d}x + \frac{\partial \boldsymbol{I}}{\partial y}\rm{d}y + \frac{\partial \boldsymbol{I}}{\partial t}\rm{d}t $$
+
+$$ \frac{\partial \boldsymbol{I}}{\partial x}\rm{d}x + \frac{\partial \boldsymbol{I}}{\partial y}\rm{d}y + \frac{\partial \boldsymbol{I}}{\partial t}\rm{d}t = 0 $$
+
+$$ \frac{\partial \boldsymbol{I}}{\partial x}\frac{\rm{d}x}{\rm{d}t} + \frac{\partial \boldsymbol{I}}{\partial y}\frac{\rm{d}y}{\rm{d}t} = -\frac{\partial \boldsymbol{I}}{\partial t} $$
+
+* 记$ u=\rm{d}x/\rm{d}t $、$ v=\rm{d}y/\rm{d}t $分别为像素在两轴方向的速度；$ \boldsymbol{I}_x=\partial \boldsymbol{I} / \partial x $、$ \boldsymbol{I}_y=\partial \boldsymbol{I} / \partial y $分别为图像在该点处两轴方向上的梯度。$ \boldsymbol{I}_t $为图像灰度对时间的变化量。
+
+$$ \begin{bmatrix} \boldsymbol{I}_x & \boldsymbol{I}_y \end{bmatrix} \begin{bmatrix} u \\ v \end{bmatrix} = -\boldsymbol{I}_t $$
+
+* 光流法的目标是跟踪特征点的运动，因此目标是求解$ u,v $。考虑一个大小为$ {\omega}^2 $的窗口，含有$ {\omega}^2 $数量的像素。该窗口内像素具有同样的运动：
+
+$$ \boldsymbol{A} \begin{bmatrix} u\\v \end{bmatrix} = -\boldsymbol{b} $$
+
+$$ \boldsymbol{A}=\begin{bmatrix} {\begin{bmatrix} \boldsymbol{I}_x&\boldsymbol{I}_y \end{bmatrix}}_1 \\ \vdots \\ {\begin{bmatrix} \boldsymbol{I}_x&\boldsymbol{I}_y \end{bmatrix}}_k \end{bmatrix}, \quad \boldsymbol{b}=\begin{bmatrix} \boldsymbol{I}_{t1} \\ \vdots \\ \boldsymbol{I}_{tk} \end{bmatrix}, \quad k={\omega}^2 $$
+
+* 利用最小二乘法，求解该超定线性方程。关于最小二乘法：http://www.dengke.xyz/archives/2573。
+
+$$ {\begin{bmatrix} u \\ v \end{bmatrix}} = -(\boldsymbol{A}^T \boldsymbol{A})^{-1}\boldsymbol{A}^T \boldsymbol{b} $$
+
+## 2.3 直接法
+
+### 2.3.1 推导
+
+**目的：**
+
+求第一帧到第二帧的相对位姿变换。
+
+* 世界坐标$ P=[X,Y,Z] $
+
+* 非齐次像素坐标$ \boldsymbol{p}_1,\boldsymbol{p}_2 $
+
+![SLAM-VO2-2]()
+
+**优化目标及求导：**
+
+优化相机的位姿，来寻找与$ \boldsymbol{p}_1 $更相似的$ \boldsymbol{p}_2 $。（因为没有特征匹配，无法得知哪一个$ \boldsymbol{p}_1 $和$ \boldsymbol{p}_2 $对应同一个空间点）
+
+* 定义光度误差：
+
+$$
+e = \boldsymbol{I}_1 (\boldsymbol{p}_1) - \boldsymbol{I}_2 (\boldsymbol{p}_2)
+$$
+
+$$
+\begin{cases}
+\boldsymbol{p}_1 = {\begin{bmatrix} u\\v\\1 \end{bmatrix}}_1 = \frac{1}{Z_1}\boldsymbol{KP} \\
+\boldsymbol{p}_2 = {\begin{bmatrix} u\\v\\1 \end{bmatrix}}_2 = \frac{1}{Z_2}\boldsymbol{K}(\boldsymbol{RP}+\boldsymbol{t}) = \frac{1}{Z_2}\boldsymbol{K}(\mathrm{exp}(\boldsymbol{\xi}^{\wedge})\boldsymbol{P})_{1:3}
+\end{cases}
+$$
+
+* 定义优化目标：优化相机位姿，使得光度误差最小（依赖灰度不变假设）。
+
+$$
+\min_{\boldsymbol{\xi}}J(\boldsymbol{\xi}) = \min_{\boldsymbol{\xi}}||e||^2 = \min_{\boldsymbol{\xi}} \sum_{i=1}^N e_i^T e_i
+$$
+
+* 建立导数关系：根据非线性优化方法求解上述最小二乘问题，需要用到导数。参考BA问题，使用李代数的扰动模型求导，给$ \mathrm{exp}(\boldsymbol{\xi}) $左乘扰动$ \mathrm{exp}(\delta \boldsymbol{\xi}) $：
+  * 展开
+$$ \begin{aligned} e(\boldsymbol{\xi} \bigoplus \delta \boldsymbol{\xi}) &= \boldsymbol{I}_1(\frac{1}{Z_1}\boldsymbol{KP}) - \boldsymbol{I}_2(\frac{1}{Z_2}\boldsymbol{K}\mathrm{exp}(\delta \boldsymbol{\xi}^{\wedge}) \mathrm{exp}(\boldsymbol{\xi}^{\wedge})\boldsymbol{P}) \\ &\approx \boldsymbol{I}_1(\frac{1}{Z_1}\boldsymbol{KP}) - \boldsymbol{I}_2(\frac{1}{Z_2}\boldsymbol{K}(1+\delta \boldsymbol{\xi}^{\wedge}) \mathrm{exp}(\boldsymbol{\xi}^{\wedge})\boldsymbol{P}) \\ &= \boldsymbol{I}_1(\frac{1}{Z_1}\boldsymbol{KP}) - \boldsymbol{I}_2(\frac{1}{Z_2}\boldsymbol{K}\mathrm{exp}(\boldsymbol{\xi}^{\wedge})\boldsymbol{P} + \frac{1}{Z_2}\boldsymbol{K} \delta \boldsymbol{\xi}^{\wedge} \mathrm{exp}(\boldsymbol{\xi}^{\wedge})\boldsymbol{P}) \end{aligned} $$
+  * 记$ \boldsymbol{q,u} $，其中$ \boldsymbol{q} $为$ \boldsymbol{P} $在扰动后，位于第二个相机坐标系下的坐标；而为$ \boldsymbol{u} $它的像素坐标。代入上式并进行一阶泰勒展开：
+$$ \boldsymbol{q}=\delta \boldsymbol{\xi}^{\wedge} \mathrm{exp}(\boldsymbol{\xi}^{\wedge}) \boldsymbol{P}, \quad \boldsymbol{u}=\frac{1}{Z_2}\boldsymbol{Kq} $$
+$$ \begin{aligned} e(\boldsymbol{\xi} \bigoplus \delta \boldsymbol{\xi}) &= \boldsymbol{I}_1(\frac{1}{Z_1}\boldsymbol{KP}) - \boldsymbol{I}_2(\frac{1}{Z_2}\boldsymbol{K}\mathrm{exp}(\boldsymbol{\xi}^{\wedge})\boldsymbol{P} + \boldsymbol{u}) \\ & \approx \boldsymbol{I}_1(\frac{1}{Z_1}\boldsymbol{KP}) - \boldsymbol{I}_2(\frac{1}{Z_2}\boldsymbol{K}\mathrm{exp}(\boldsymbol{\xi}^{\wedge})\boldsymbol{P}) - \frac{\partial \boldsymbol{I}_2}{\partial \boldsymbol{u}} \frac{\partial \boldsymbol{u}}{\partial \boldsymbol{q}} \frac{\partial \boldsymbol{q}}{\partial \delta \boldsymbol{\xi}} \delta \boldsymbol{\xi} \\ &= e(\boldsymbol{\xi}) - \frac{\partial \boldsymbol{I}_2}{\partial \boldsymbol{u}} \frac{\partial \boldsymbol{u}}{\partial \boldsymbol{q}} \frac{\partial \boldsymbol{q}}{\partial \delta \boldsymbol{\xi}} \delta \boldsymbol{\xi} \end{aligned} $$
+
+* 求解3项偏导数：参考BA问题，根据上式得出的扰动结果即可求出导数，其中上式右侧三项偏导数分别如下。
+  * $ \frac{\partial \boldsymbol{I}_2}{\partial \boldsymbol{u}} $：$ \boldsymbol{u} $处的像素梯度。
+  * $ \frac{\partial \boldsymbol{u}}{\partial \boldsymbol{q}} $：投影方程关于相机坐标系下的三维点的导数。记$ \boldsymbol{q}=[X,Y,Z]^T $，根据BA问题中的推导，该偏导为：
+$$ \frac{\partial \boldsymbol{u}}{\partial \boldsymbol{q}} = \begin{bmatrix} \frac{\partial u}{\partial X} & \frac{\partial u}{\partial X} & \frac{\partial u}{\partial X} \\ \frac{\partial u}{\partial X} & \frac{\partial u}{\partial X} & \frac{\partial u}{\partial X} \end{bmatrix} = \begin{bmatrix} \frac{f_x}{Z} & 0 & -\frac{f_x X}{Z^2} \\ 0 & \frac{f_y}{Z} & -\frac{f_y Y}{Z^2} \end{bmatrix}$$
+  * $ \frac{\partial \boldsymbol{q}}{\partial \delta \boldsymbol{\xi}} $：变换后的三维点对变换的导数，根据李代数扰动模型求导结果，且同BA问题中只取前三维，可得
+$$ \frac{\partial \boldsymbol{q}}{\partial \delta \boldsymbol{\xi}} = [\boldsymbol{I},-\boldsymbol{q}^{\wedge}] $$
+
+* 3项偏导的后两项只与三维点$ \boldsymbol{q} $有关，而与图像无关，相乘合并。得到优化问题中的雅克比矩阵。
+
+$$
+\frac{\partial \boldsymbol{u}}{\partial \delta \boldsymbol{\xi}} = -\begin{bmatrix} \frac{f_x}{Z^{\prime}} & 0 & -\frac{f_x X^{\prime}}{Z^{\prime 2}} & -\frac{f_x X^{\prime} Y^{\prime}}{Z^{\prime 2}} & f_x+\frac{f_x X^2}{Z^{\prime 2}} & -\frac{f_x Y^{\prime}}{Z^{\prime}} \\ 0 & \frac{f_y}{Z^{\prime}} & -\frac{f_y Y^{\prime}}{Z^{\prime 2}} & -f_y-\frac{f_y Y^{\prime 2}}{Z^{\prime 2}} & \frac{f_y X^{\prime} Y^{\prime}}{Z^{\prime 2}} & \frac{f_y X^{\prime}}{Z^{\prime 2}} \end{bmatrix}
+$$
+
+$$
+\boldsymbol{J} = -\frac{\partial \boldsymbol{I}_2}{\partial \boldsymbol{u}} \frac{\partial \boldsymbol{u}}{\partial \delta \boldsymbol{\xi}}
+$$
+
+* 对于N个点的问题，可使用上述方法得到优化问题的雅克比矩阵，然后使用G-N或L-M方法计算增量，迭代求解。
+
+### 2.3.2 总结
+
+**分类：**
+
+直接法推导中$ P $是一个已知位置的空间点，。根据$ P $的来源，直接法可分为以下几类：
+
+* 稀疏直接法：$ P $点来自稀疏关键点。通常使用数百个至上千个关键点，并且像 L-K 光流那样，假设它周围像素也是不变的。这种稀疏直接法不必计算描述子，并且只使用数百个像素，因此速度最快，但只能计算稀疏的重构。
+
+* 半稠密直接法：$ P $来自部分像素。如果像素梯度为零，上述雅可比就为零，不会对计算运动增量有任何贡献。因此，可以考虑只使用带有梯度的像素点，舍弃像素梯度不明显的地方。这称之为半稠密（Semi-Dense）的直接法，可以重构一个半稠密结构。
+
+* 稠密直接法：$ P $为所有像素。P 为所有像素，称为稠密直接法。稠密重构需要计算所有像素（一般几十万至几百万个），因此多数不能在现有的 CPU 上实时计算，需要 GPU 的加速。但是，如前面所讨论的，梯度不明显的点，在运动估计中不会有太大贡献，在重构时也会难以估计位置
+
+**优点：**
+
+* 可以省去计算特征点、描述子的时间。
+
+* 只要求有像素梯度即可，无须特征点。因此，直接法可以在特征缺失的场合下使用。比较极端的例子是只有渐变的一张图像。它可能无法提取角点类特征，但可以用直接法估计它的运动。
+
+* 可以构建半稠密乃至稠密的地图，这是特征点法无法做到的。
+
+**缺点：**
+
+* 非凸性：直接法完全依靠梯度搜索，降低目标函数来计算相机位姿。其目标函数中需要取像素点的灰度值，而图像是强烈非凸的函数。这使得优化算法容易进入极小，只在运动很小时直接法才能成功。
+
+* 单个像素没有区分度：找一个和他像的实在太多了！于是要么计算图像块，要么计算复杂的相关性。由于每个像素对改变相机运动的“意见”不一致。只能少数服从多数，以数量代替质量。
+
+* 灰度值不变是很强的假设：如果相机是自动曝光的，当它调整曝光参数时，会使得图像整体变亮或变暗。光照变化时亦会出现这种情况。特征点法对光照具有一定的容忍性，而直接法由于计算灰度间的差异，整体灰度变化会破坏灰度不变假设，使算法失败。针对这一点，目前的直接法开始使用更细致的光度模型标定相机，以便在曝光时间变化时也能让直接法工作。
