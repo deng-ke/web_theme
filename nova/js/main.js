@@ -7,7 +7,7 @@
 
     var Nova = {
         js: (typeof nova_js !== 'undefined') ? nova_js : {},
-        init: false,
+        inited: false,
 
         /**
          * 统一 AJAX 请求
@@ -27,7 +27,7 @@
                 timeout: options.timeout || 30000
             }).done(function (res) {
                 if (res && res.success) {
-                    if (typeof success === 'function') success(res.data || {});
+                    if (typeof success === 'function') success((res.data && res.data.data) || {});
                 } else {
                     var msg = (res && res.data && res.data.msg) ? res.data.msg : '操作失败，请重试';
                     if (typeof error === 'function') {
@@ -196,6 +196,56 @@
                 setTimeout(function () { $img.removeClass('nova-lazy'); }, 100);
             };
             tmp.src = src;
+        },
+
+        /**
+         * 首页轮播
+         */
+        homeSlider: function () {
+            $('.nova-slider').each(function () {
+                var $s = $(this);
+                var $slides = $s.find('.nova-slide');
+                if ($slides.length < 2) return;
+                var $dots = $s.find('.nova-slider-dots');
+                var idx = 0;
+                var timer = null;
+                var interval = parseInt($s.data('interval') || '4000', 10);
+
+                $slides.each(function (i) {
+                    $dots.append('<button type="button" class="nova-dot' + (i === 0 ? ' nova-active' : '') + '" data-i="' + i + '"></button>');
+                });
+
+                function go(i) {
+                    idx = (i + $slides.length) % $slides.length;
+                    $slides.removeClass('nova-active').eq(idx).addClass('nova-active');
+                    $dots.find('.nova-dot').removeClass('nova-active').eq(idx).addClass('nova-active');
+                }
+                function play() {
+                    stop();
+                    timer = setInterval(function () { go(idx + 1); }, interval);
+                }
+                function stop() {
+                    if (timer) { clearInterval(timer); timer = null; }
+                }
+
+                $s.on('mouseenter', stop).on('mouseleave', play);
+                $s.find('.nova-slider-next').on('click', function () { play(); go(idx + 1); });
+                $s.find('.nova-slider-prev').on('click', function () { play(); go(idx - 1); });
+                $dots.on('click', '.nova-dot', function () { play(); go(parseInt($(this).data('i'), 10)); });
+
+                //触摸滑动
+                var sx = null;
+                $s.on('touchstart', function (e) { sx = e.originalEvent.touches[0].clientX; stop(); });
+                $s.on('touchend', function (e) {
+                    if (sx === null) return;
+                    var dx = e.originalEvent.changedTouches[0].clientX - sx;
+                    if (Math.abs(dx) > 40) { go(dx > 0 ? idx - 1 : idx + 1); }
+                    sx = null;
+                    play();
+                });
+
+                play();
+            });
         },
 
         /**
@@ -418,11 +468,21 @@
          */
         captcha: function () {
             $(document).on('click', '.nova-captcha-img', function () {
-                var $img = $(this);
-                var src = $img.attr('src');
-                var sep = src.indexOf('?') > -1 ? '&' : '?';
-                $img.attr('src', src.split('?')[0] + sep + 'r=' + Math.random());
+                Nova.refreshCaptcha($(this));
             });
+        },
+        
+        /**
+         * 刷新验证码图片（传入图片元素或其所在表单）
+         */
+        refreshCaptcha: function ($el) {
+            if (!$el || !$el.length) return;
+            var $img = $el.hasClass('nova-captcha-img') ? $el : $el.find('.nova-captcha-img');
+            if (!$img.length) return;
+            var src = $img.attr('src');
+            // 保留原有参数（action/nonce），仅追加随机数破缓存
+            var sep = src.indexOf('?') > -1 ? '&' : '?';
+            $img.attr('src', src + sep + 'r=' + Math.random());
         },
 
         /**
@@ -494,15 +554,18 @@
                 Nova.ajax('nova_signin', {
                     username: $form.find('[name="username"]').val(),
                     password: $form.find('[name="password"]').val(),
-                    remember: $form.find('[name="remember"]').is(':checked') ? 1 : 0
+                    remember: $form.find('[name="remember"]').is(':checked') ? 1 : 0,
+                    captcha: $form.find('[name="captcha"]').val()
                 }, function () {
                     Nova.toast('登录成功', 'success');
                     var redirect = Nova.getParam('redirect_to');
                     setTimeout(function () {
                         window.location.href = redirect || (Nova.js.home_url || '/') + '/user';
                     }, 800);
-                }, function () {
+                }, function (msg) {
                     $btn.removeClass('btn-disabled');
+                    Nova.toast(msg || '登录失败', 'error');
+                    Nova.refreshCaptcha($form);
                 });
             });
 
@@ -521,12 +584,15 @@
                     username: $form.find('[name="username"]').val(),
                     email: $form.find('[name="email"]').val(),
                     email_code: $form.find('[name="email_code"]').val(),
+                    captcha: $form.find('[name="captcha"]').val(),
                     password: p1
                 }, function () {
                     Nova.toast('注册成功，正在登录…', 'success');
                     setTimeout(function () { window.location.reload(); }, 1000);
-                }, function () {
+                }, function (msg) {
                     $btn.removeClass('btn-disabled');
+                    Nova.toast(msg || '注册失败', 'error');
+                    Nova.refreshCaptcha($form);
                 });
             });
 
@@ -538,14 +604,17 @@
                 Nova.ajax('nova_lostpwd', {
                     email: $form.find('[name="email"]').val(),
                     email_code: $form.find('[name="email_code"]').val(),
+                    captcha: $form.find('[name="captcha"]').val(),
                     password: $form.find('[name="password"]').val()
                 }, function () {
                     Nova.toast('密码重置成功，请登录', 'success');
                     setTimeout(function () {
                         window.location.href = (Nova.js.home_url || '/') + '/signin';
                     }, 1000);
-                }, function () {
+                }, function (msg) {
                     $btn.removeClass('btn-disabled');
+                    Nova.toast(msg || '重置失败', 'error');
+                    Nova.refreshCaptcha($form);
                 });
             });
         },
@@ -1000,14 +1069,349 @@
         },
 
         /**
+         * 代码高亮 + 复制
+         */
+        codeHighlight: function () {
+            var langs = {
+                php: ['function','return','if','else','elseif','foreach','for','while','echo','class','public','private','protected','static','new','require','include','array','true','false','null','isset','empty','const','use','namespace','extends','implements','global','break','continue','switch','case','default','die','exit'],
+                javascript: ['function','return','if','else','for','while','var','let','const','new','class','extends','this','true','false','null','undefined','typeof','instanceof','import','export','from','async','await','try','catch','finally','throw','switch','case','default','break','continue','of','in'],
+                typescript: ['function','return','if','else','for','while','var','let','const','new','class','extends','this','true','false','null','undefined','typeof','instanceof','import','export','from','async','await','try','catch','finally','throw','switch','case','default','break','continue','interface','type','enum','public','private','readonly','implements'],
+                python: ['def','return','if','elif','else','for','while','class','import','from','as','with','try','except','finally','raise','lambda','None','True','False','and','or','not','in','is','pass','break','continue','global','yield','print'],
+                css: ['@media','@import','@keyframes','@font-face','important'],
+                bash: ['if','then','else','elif','fi','for','while','do','done','case','esac','function','echo','export','source','sudo','cd','exit','return','local','readonly'],
+                c: ['int','char','float','double','void','long','short','unsigned','signed','struct','union','enum','typedef','sizeof','return','if','else','for','while','switch','case','break','continue','static','const','extern','include','define','NULL','true','false'],
+                cpp: ['int','char','float','double','void','long','short','unsigned','signed','struct','class','namespace','using','template','typename','public','private','protected','virtual','override','const','static','sizeof','return','if','else','for','while','switch','case','break','continue','new','delete','nullptr','true','false','include','define','std'],
+                java: ['public','private','protected','class','interface','extends','implements','static','final','void','int','long','double','float','boolean','char','new','return','if','else','for','while','switch','case','break','continue','try','catch','finally','throw','throws','import','package','this','super','true','false','null'],
+                go: ['func','package','import','return','if','else','for','range','var','const','type','struct','interface','map','chan','go','defer','select','case','default','break','continue','switch','true','false','nil','make','new','append','len','cap','panic','recover'],
+                json: ['true','false','null'],
+                sql: ['SELECT','FROM','WHERE','INSERT','INTO','UPDATE','DELETE','CREATE','TABLE','DROP','ALTER','AND','OR','NOT','NULL','ORDER','BY','GROUP','HAVING','JOIN','LEFT','RIGHT','INNER','OUTER','ON','AS','COUNT','SUM','AVG','MAX','MIN','DISTINCT','LIMIT','OFFSET','PRIMARY','KEY','FOREIGN','REFERENCES','VALUES','SET','INDEX','UNIQUE','DESC','ASC'],
+                ruby: ['def','end','if','else','elsif','unless','while','for','class','module','require','include','attr_accessor','true','false','nil','return','yield','self','new','lambda','proc','do','begin','rescue','ensure'],
+                rust: ['fn','let','mut','pub','use','mod','struct','enum','impl','trait','match','if','else','loop','while','for','return','true','false','None','Some','Ok','Err','self','Self','crate','async','await','move','ref','where','type','const','static'],
+                swift: ['func','let','var','if','else','for','while','class','struct','enum','protocol','extension','import','return','true','false','nil','guard','switch','case','default','break','continue','public','private','internal','static','lazy','inout','throws','try','catch','self','init','deinit'],
+                kotlin: ['fun','val','var','if','else','for','while','class','object','interface','package','import','return','true','false','null','when','in','is','as','try','catch','finally','throw','data','sealed','enum','this','super','override','open','abstract','final','const','lateinit','by','companion'],
+                yaml: ['true','false','null'],
+                xml: [],
+                markdown: [],
+                latex: ['documentclass','usepackage','frac','sum','int','alpha','beta','gamma','theta','lambda','pi','sigma','omega','begin','end']
+            };
+
+            var esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+
+            function highlight(code, lang) {
+                var pool = [];
+                var stash = function (s, cls) {
+                    pool.push('<span class="nova-tok-' + cls + '">' + s + '</span>');
+                    return '\u0000' + (pool.length - 1) + '\u0000';
+                };
+                code = code.replace(/(\/\/[^\n]*|#[^\n]*|\/\*[\s\S]*?\*\/|<!--[\s\S]*?-->)/g, function (m) { return stash(m, 'comment'); });
+                code = code.replace(/(&quot;[^&]*?&quot;|&amp;quot;[^&]*?&amp;quot;|'[^'\n]*'|"[^"\n]*"|`[^`]*`)/g, function (m) { return stash(m, 'string'); });
+                var kws = langs[lang] || [];
+                if (kws.length) {
+                    var re = new RegExp('\\b(' + kws.join('|') + ')\\b', 'g');
+                    code = code.replace(re, function (m) { return stash(m, 'keyword'); });
+                }
+                code = code.replace(/\b(\d+\.?\d*)\b/g, function (m) { return stash(m, 'number'); });
+                code = code.replace(/([A-Za-z_][A-Za-z0-9_]*)(?=\s*\()/g, function (m) { return stash(m, 'func'); });
+                return code.replace(/\u0000(\d+)\u0000/g, function (m, i) { return pool[parseInt(i, 10)]; });
+            }
+
+            $('.nova-code-block').each(function () {
+                var $code = $(this).find('code');
+                if (!$code.length) return;
+                var lang = $(this).data('lang') || '';
+                $code.html(highlight(esc($code.text()), lang));
+            });
+
+            $(document).on('click', '.nova-code-copy', function () {
+                var $btn = $(this);
+                var text = $btn.closest('.nova-code-block').find('code').text();
+                var done = function () {
+                    var old = $btn.html();
+                    $btn.html('<i class="nova-icon-check"></i>已复制');
+                    setTimeout(function () { $btn.html(old); }, 1500);
+                };
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text).then(done, function () {
+                        Nova.fallbackCopy(text, done);
+                    });
+                } else {
+                    Nova.fallbackCopy(text, done);
+                }
+            });
+        },
+
+        fallbackCopy: function (text, done) {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                if (typeof done === 'function') done();
+            } catch (e) {
+                Nova.toast(Nova.i18n('复制失败'), 'error');
+            }
+            document.body.removeChild(ta);
+        },
+
+        /**
+         * 评论表情面板
+         */
+        smilies: function () {
+            var faces = ['😀','😁','😂','🤣','😃','😄','😅','😉','😊','😋','😎','😍','😘','🥰','🤗','🤩','🤔','🤨','😏','😣','😥','😮','😯','😪','😫','😴','😌','😛','😜','😝','🤤','😒','😓','😔','🙄','😤','😢','😭','😱','🥵','🥶','😳','🤪','😵','😡','🤬','😇','🤠','🥳','🥺','🤫','🤭','🧐','😈','👻','👽','🤖','💩','💘','💝','💖','❤️','🧡','💛','💚','💙','💜','🤍','💯','💢','💥','💫','👏','👍','👎','🙏','💪','✌️','👌','🤝','🎉','🎁','🔥','⚡','🌟','🐶','🐱'];
+            $(document).on('nova-ready', function () { Nova.initSmilies(); });
+            Nova.initSmilies = function () {
+                var $area = $('#commentform textarea#comment');
+                if (!$area.length) $area = $('.nova-comment-form textarea#comment');
+                if (!$area.length || $area.siblings('.nova-smilies-wrap').length) return;
+                var $wrap = $('<div class="nova-smilies-wrap"><button class="nova-smilies-toggle" type="button"><i class="nova-icon-face"></i>表情</button><div class="nova-smilies-panel"></div></div>').insertAfter($area);
+                var $panel = $wrap.find('.nova-smilies-panel');
+                faces.forEach(function (f) {
+                    $('<span class="nova-face" title="' + f + '">' + f + '</span>').appendTo($panel);
+                });
+                $wrap.find('.nova-smilies-toggle').on('click', function (e) {
+                    e.preventDefault();
+                    $panel.toggleClass('nova-open');
+                });
+                $panel.on('click', '.nova-face', function () {
+                    var el = $area[0];
+                    var val = $(this).text();
+                    if (document.selection) {
+                        el.focus();
+                        document.selection.createRange().text = val;
+                    } else if (el.selectionStart !== undefined) {
+                        var s = el.selectionStart;
+                        var e = el.selectionEnd;
+                        var v = $area.val();
+                        $area.val(v.substring(0, s) + val + v.substring(e));
+                        el.selectionStart = el.selectionEnd = s + val.length;
+                    } else {
+                        $area.val($area.val() + val);
+                    }
+                    el.focus();
+                });
+                $(document).on('click', function (e) {
+                    if (!$(e.target).closest('.nova-smilies-wrap').length) {
+                        $panel.removeClass('nova-open');
+                    }
+                });
+            };
+            Nova.initSmilies();
+        },
+
+        /**
+         * 前端发布文章页
+         */
+        newpost: function () {
+            var $form = $('#nova-newpost-form');
+            if (!$form.length) return;
+            var $area = $form.find('.nova-newpost-content');
+            var $btn = $form.find('.nova-newpost-submit-btn');
+
+            // 包裹选区（支持 textarea 选区）
+            function wrapSel(before, after, ph) {
+                var el = $area[0];
+                var val = $area.val();
+                var s = el.selectionStart;
+                var e = el.selectionEnd;
+                var sel = val.slice(s, e) || (ph || '');
+                var text = val.slice(0, s) + before + sel + after + val.slice(e);
+                $area.val(text);
+                el.focus();
+                el.selectionStart = s + before.length;
+                el.selectionEnd = el.selectionStart + sel.length;
+            }
+
+            // 行首插入
+            function insertLine(mark, ph) {
+                var el = $area[0];
+                var val = $area.val();
+                var s = el.selectionStart;
+                var lineStart = val.lastIndexOf('\n', s - 1) + 1;
+                var text = val.slice(0, lineStart) + mark + val.slice(lineStart);
+                $area.val(text);
+                el.focus();
+                el.selectionStart = el.selectionEnd = lineStart + mark.length;
+            }
+
+            $form.find('.nova-newpost-tool').on('click', function () {
+                var tool = $(this).data('tool');
+                switch (tool) {
+                    case 'b': wrapSel('**', '**', '加粗文字'); break;
+                    case 'i': wrapSel('*', '*', '斜体文字'); break;
+                    case 'h2': insertLine('## ', '二级标题'); break;
+                    case 'quote': insertLine('> ', '引用内容'); break;
+                    case 'list': insertLine('- ', '列表项'); break;
+                    case 'code': wrapSel('```\n', '\n```', '代码'); break;
+                    case 'separator': insertLine('\n---\n', ''); break;
+                    case 'link':
+                        var url = prompt('请输入链接地址', 'https://');
+                        if (url) wrapSel('[' + '链接文字' + '](' + url + ')', '', '');
+                        break;
+                }
+            });
+
+            // 封面上传
+            var $thumbBox = $('#nova-newpost-thumb');
+            $thumbBox.on('click', '#nova-thumb-upload, .nova-thumb-change', function () {
+                var frame = wp.media({
+                    title: '选择封面图片',
+                    library: { type: 'image' },
+                    multiple: false
+                });
+                frame.on('select', function () {
+                    var att = frame.state().get('selection').first().toJSON();
+                    var url = (att.sizes && att.sizes.medium) ? att.sizes.medium.url : att.url;
+                    $thumbBox.html('<img src="' + url + '" alt="thumb"><button type="button" class="nova-thumb-remove" id="nova-thumb-remove"><i class="nova-icon-close"></i></button><button type="button" class="nova-thumb-change">更换封面</button><input type="hidden" name="thumb_id" value="' + att.id + '">');
+                });
+                frame.open();
+            });
+            $thumbBox.on('click', '#nova-thumb-remove', function () {
+                $thumbBox.html('<button type="button" class="nova-thumb-upload" id="nova-thumb-upload"><i class="nova-icon-upload"></i>上传封面</button><input type="hidden" name="thumb_id" value="0">');
+            });
+
+            // 表单提交
+            $form.on('submit', function (e) {
+                e.preventDefault();
+                if (!$area.val().trim() || !$form.find('input[name="title"]').val().trim()) {
+                    Nova.toast('请填写标题和内容', 'error');
+                    return;
+                }
+                $btn.prop('disabled', true);
+                Nova.ajax('nova_submit_post', {
+                    title: $form.find('input[name="title"]').val(),
+                    content: $area.val(),
+                    cat: $form.find('select[name="cat"]').val(),
+                    tags: $form.find('input[name="tags"]').val(),
+                    thumb_id: $form.find('input[name="thumb_id"]').val(),
+                    edit_id: $form.find('input[name="edit_id"]').val()
+                }, function (data) {
+                    Nova.toast('操作成功', 'success');
+                    setTimeout(function () {
+                        window.location.href = data.redirect || Nova.js.home_url;
+                    }, 600);
+                }, function (msg) {
+                    Nova.toast(msg, 'error');
+                    $btn.prop('disabled', false);
+                });
+            });
+        },
+
+        /**
+         * 夜间模式切换
+         */
+        darkMode: function () {
+            var $btn = $('#nova-dark-toggle');
+            if (!$btn.length) return;
+            var $html = $('html');
+            $btn.on('click', function () {
+                var isDark = $html.hasClass('nova-dark');
+                if (isDark) {
+                    $html.removeClass('nova-dark');
+                    $btn.attr('title', '夜间模式');
+                } else {
+                    $html.addClass('nova-dark');
+                    $btn.attr('title', '日间模式');
+                }
+                try {
+                    localStorage.setItem('nova_dark', isDark ? '0' : '1');
+                } catch (e) { /* 忽略隐私模式异常 */ }
+            });
+        },
+
+        /**
+         * 图片灯箱
+         */
+        lightbox: function () {
+            var $body = $('body');
+            var imgs = function () { return $('.nova-post-content img, .nova-comment-content img').not('.nova-no-lightbox'); };
+            var $mask = $('<div class="nova-lightbox"><img class="nova-lightbox-img" src="" alt=""><button class="nova-lightbox-close" type="button" aria-label="关闭"><i class="nova-icon-close"></i></button><button class="nova-lightbox-arrow nova-lightbox-prev" type="button" aria-label="上一张"><i class="nova-icon-left"></i></button><button class="nova-lightbox-arrow nova-lightbox-next" type="button" aria-label="下一张"><i class="nova-icon-right"></i></button></div>').appendTo($body);
+            var $img = $mask.find('.nova-lightbox-img');
+            var idx = 0;
+
+            function show(i) {
+                var list = imgs();
+                if (!list.length) return;
+                idx = (i + list.length) % list.length;
+                $img.attr('src', $(list[idx]).attr('src') || '').attr('alt', $(list[idx]).attr('alt') || '');
+                $mask.addClass('nova-open');
+                $body.css('overflow', 'hidden');
+            }
+            function hide() {
+                $mask.removeClass('nova-open');
+                $body.css('overflow', '');
+                setTimeout(function () { $img.attr('src', ''); }, 300);
+            }
+
+            $(document).on('click', '.nova-post-content img, .nova-comment-content img', function (e) {
+                if ($(this).closest('a').length) return;
+                e.preventDefault();
+                show(imgs().index(this));
+            });
+            $mask.find('.nova-lightbox-close').on('click', hide);
+            $mask.on('click', function (e) { if (e.target === this) hide(); });
+            $mask.find('.nova-lightbox-next').on('click', function (e) { e.stopPropagation(); show(idx + 1); });
+            $mask.find('.nova-lightbox-prev').on('click', function (e) { e.stopPropagation(); show(idx - 1); });
+            $(document).on('keyup', function (e) {
+                if (!$mask.hasClass('nova-open')) return;
+                if (e.keyCode === 27) hide();
+                if (e.keyCode === 37) show(idx - 1);
+                if (e.keyCode === 39) show(idx + 1);
+            });
+        },
+
+        /**
+         * 短代码交互（折叠面板/付费下载）
+         */
+        shortcodes: function () {
+            //折叠面板
+            $(document).on('click', '.nova-panel-head', function () {
+                $(this).closest('.nova-panel').toggleClass('nova-open');
+            });
+            //付费下载
+            $(document).on('click', '.nova-download-btn', function () {
+                var $btn = $(this);
+                Nova.requireLogin(function () {
+                    var href = $btn.data('href') || '';
+                    var price = parseFloat($btn.data('price') || '0');
+                    var points = parseInt($btn.data('points') || '0', 10);
+                    if (!price && !points) {
+                        if (href) window.location.href = href;
+                        return;
+                    }
+                    Nova.ajax('nova_buy_download', { href: href, price: price, points: points }, function (res) {
+                        if (res.url) {
+                            Nova.toast(Nova.i18n('购买成功，开始下载'), 'success');
+                            window.location.href = res.url;
+                        } else if (res.href) {
+                            Nova.toast(Nova.i18n('下载开始'), 'success');
+                            window.location.href = res.href;
+                        } else {
+                            Nova.toast(Nova.i18n('操作成功'), 'success');
+                        }
+                    });
+                });
+            });
+        },
+
+        /**
          * 初始化
          */
         init: function () {
-            if (Nova.init) return;
-            Nova.init = true;
+            if (Nova.inited) return;
+            Nova.inited = true;
             Nova.pageLoader();
             Nova.mobileNav();
             Nova.lazyLoad();
+            Nova.homeSlider();
+            Nova.lightbox();
+            Nova.codeHighlight();
+            Nova.smilies();
+            Nova.newpost();
+            Nova.shortcodes();
+            Nova.darkMode();
             Nova.backTop();
             Nova.indexTabs();
             Nova.loadMore();

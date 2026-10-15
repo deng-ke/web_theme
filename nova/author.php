@@ -21,7 +21,7 @@ $author_id = get_queried_object_id();
                     echo '<div class="nova-posts-list">';
                     while (have_posts()) {
                         the_post();
-                        echo nova_post_card('card'); // phpcs:ignore
+                        echo nova_post_card(); // phpcs:ignore
                     }
                     echo '</div>';
                 } else {

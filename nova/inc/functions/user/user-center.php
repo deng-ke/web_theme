@@ -116,6 +116,9 @@ function nova_user_posts_html()
         'post_status'    => array('publish', 'pending', 'draft'),
     ));
     $html = '<div class="nova-uc-posts">';
+    if (nova_newpost_enabled()) {
+        $html .= '<div class="nova-uc-posts-toolbar"><a class="btn btn-primary" href="' . esc_url(nova_newpost_url()) . '"><i class="nova-icon-edit"></i>' . esc_html__('发布文章', 'nova') . '</a></div>';
+    }
     if (!$query->have_posts()) {
         $html .= nova_empty_box(__('暂无文章', 'nova'), __('你还没有发布过文章', 'nova'));
     } else {

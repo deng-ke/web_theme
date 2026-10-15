@@ -23,7 +23,7 @@ function nova_comment_list($comment, $args, $depth)
                         <img src="<?php echo esc_url(nova_get_user_avatar($user_id, 100)); ?>" alt="avatar">
                     </a>
                 <?php else : ?>
-                    <?php echo get_avatar($comment, 100); ?>
+                    <img src="<?php echo esc_url(nova_default_avatar()); ?>" alt="avatar">
                 <?php endif; ?>
             </div>
             <div class="nova-comment-body">

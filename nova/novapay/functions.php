@@ -1132,3 +1132,38 @@ function nova_pay_url()
 {
     return home_url('/pay');
 }
+
+/* ============================================================
+ * 短代码付费下载：积分/余额购买后返回下载地址
+ * ============================================================ */
+function nova_ajax_buy_download()
+{
+    check_ajax_referer('nova_ajax_nonce', 'nonce');
+    $user_id = get_current_user_id();
+    if (!$user_id) nova_ajax_error('请先登录');
+
+    $href   = isset($_POST['href']) ? esc_url_raw(wp_unslash($_POST['href'])) : '';
+    $price  = isset($_POST['price']) ? (float) $_POST['price'] : 0;
+    $points = isset($_POST['points']) ? (int) $_POST['points'] : 0;
+    if (!$href) nova_ajax_error('下载地址无效');
+
+    //积分下载
+    if ($points > 0 && $price <= 0) {
+        $mine = NovaDB::get_user_points($user_id);
+        if ($mine < $points) nova_ajax_error('积分不足，请先获取积分');
+        NovaDB::update_user_points($user_id, -$points, 'sub', __('购买文件下载权限', 'nova'));
+        nova_ajax_success(array('href' => $href), '购买成功，开始下载');
+    }
+
+    //余额下载
+    if ($price > 0) {
+        if (!nova_get_setting('pay_balance_s', '1')) nova_ajax_error('余额支付未开启');
+        $balance = NovaDB::get_user_balance($user_id);
+        if ($balance < $price) nova_ajax_error('余额不足，请先充值');
+        NovaDB::update_user_balance($user_id, -$price, __('购买文件下载权限', 'nova'));
+        nova_ajax_success(array('href' => $href), '购买成功，开始下载');
+    }
+
+    nova_ajax_success(array('href' => $href));
+}
+add_action('wp_ajax_nova_buy_download', 'nova_ajax_buy_download');

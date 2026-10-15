@@ -1,0 +1,17 @@
+/*
+Theme Name: GitBook
+Theme URI: https://example.com/gitbook-theme
+Author: DK
+Author URI: https://example.com
+Description: 一个 GitBook 风格的文档/知识库 WordPress 主题。左侧章节导航、右侧页内目录、上下篇导航、深浅色模式，并融入现代化的蓝紫渐变、毛玻璃与卡片悬浮微交互。
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.7
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: gitbook
+Tags: documentation, knowledge-base, blog, one-column, two-columns, custom-menu, featured-images, translation-ready
+*/
+
+/* 主要样式请见 assets/css/main.css */

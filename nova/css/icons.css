@@ -270,3 +270,38 @@
     -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm5.4 6.1l1.9.6-3.7 5.2-.7 5.1h-1.2l-.6-5.1-3.7-5.2 1.9-.6 3.1 2.9 3.1-2.9zM9 14.5l.4 3.3H6.6l.4-3.3-2.1-3.2-1 4.6-3.3.6 1-5.2-3.9-1.6 1.1-3.5 4 1.6 4.1-.7-1.8 2.7L9 14.5z"/></svg>');
     mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm5.4 6.1l1.9.6-3.7 5.2-.7 5.1h-1.2l-.6-5.1-3.7-5.2 1.9-.6 3.1 2.9 3.1-2.9zM9 14.5l.4 3.3H6.6l.4-3.3-2.1-3.2-1 4.6-3.3.6 1-5.2-3.9-1.6 1.1-3.5 4 1.6 4.1-.7-1.8 2.7L9 14.5z"/></svg>');
 }
+/* 解锁 */
+.nova-icon-unlock {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17a2 2 0 002-2 2 2 0 00-2-2 2 2 0 00-2 2 2 2 0 002 2zm6-9a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V10a2 2 0 012-2h1V6a5 5 0 0110 0 1 1 0 01-2 0 3 3 0 00-6 0v2h7z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17a2 2 0 002-2 2 2 0 00-2-2 2 2 0 00-2 2 2 2 0 002 2zm6-9a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V10a2 2 0 012-2h1V6a5 5 0 0110 0 1 1 0 01-2 0 3 3 0 00-6 0v2h7z"/></svg>');
+}
+/* 下载 */
+.nova-icon-download {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>');
+}
+/* 复制 */
+.nova-icon-copy {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 00-2 2v14h2V3h12V1zm3 4H8a2 2 0 00-2 2v14a2 2 0 002 2h11a2 2 0 002-2V7a2 2 0 00-2-2zm0 16H8V7h11v14z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 00-2 2v14h2V3h12V1zm3 4H8a2 2 0 00-2 2v14a2 2 0 002 2h11a2 2 0 002-2V7a2 2 0 00-2-2zm0 16H8V7h11v14z"/></svg>');
+}
+/* 对勾 */
+.nova-icon-check {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>');
+}
+/* 笑脸 */
+.nova-icon-face {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8 8 8 0 01-8 8zM8.5 10a1.5 1.5 0 101.5 1.5A1.5 1.5 0 008.5 10zm7 0a1.5 1.5 0 101.5 1.5A1.5 1.5 0 0015.5 10zM12 17.5a5.5 5.5 0 004.9-3h-9.8a5.5 5.5 0 004.9 3z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8 8 8 0 01-8 8zM8.5 10a1.5 1.5 0 101.5 1.5A1.5 1.5 0 008.5 10zm7 0a1.5 1.5 0 101.5 1.5A1.5 1.5 0 0015.5 10zM12 17.5a5.5 5.5 0 004.9-3h-9.8a5.5 5.5 0 004.9 3z"/></svg>');
+}
+/* 月亮（夜间模式） */
+.nova-icon-moon {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.3 4.9c.4-.2.6-.6.4-1s-.4-.6-.8-.6a9 9 0 106.8 6.8c0-.4-.4-.7-.8-.5-.1 0-.2.1-.2.1a7 7 0 01-5.4-4.8z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.3 4.9c.4-.2.6-.6.4-1s-.4-.6-.8-.6a9 9 0 106.8 6.8c0-.4-.4-.7-.8-.5-.1 0-.2.1-.2.1a7 7 0 01-5.4-4.8z"/></svg>');
+}
+/* 太阳（日间模式） */
+.nova-icon-sun {
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 105 5 5 5 0 00-5-5zm0 8a3 3 0 113-3 3 3 0 01-3 3zM11 2h2v3h-2zm0 17h2v3h-2zM2 11h3v2H2zm17 0h3v2h-3zM4.2 4.2l2.1 2.1-1.4 1.4-2.1-2.1zm14.1 14.1l2.1 2.1-1.4 1.4-2.1-2.1zM4.2 19.8l2.1-2.1 1.4 1.4-2.1 2.1zm14.1-14.1l2.1-2.1 1.4 1.4-2.1 2.1z"/></svg>');
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 105 5 5 5 0 00-5-5zm0 8a3 3 0 113-3 3 3 0 01-3 3zM11 2h2v3h-2zm0 17h2v3h-2zM2 11h3v2H2zm17 0h3v2h-3zM4.2 4.2l2.1 2.1-1.4 1.4-2.1-2.1zm14.1 14.1l2.1 2.1-1.4 1.4-2.1-2.1zM4.2 19.8l2.1-2.1 1.4 1.4-2.1 2.1zm14.1-14.1l2.1-2.1 1.4 1.4-2.1 2.1z"/></svg>');
+}

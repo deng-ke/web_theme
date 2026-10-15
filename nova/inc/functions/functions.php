@@ -31,6 +31,9 @@ nova_require(array(
     'bbs/bbs',
     'shop/shop',
     'widget',
+    'shortcode',
+    'newpost',
+    'baidu',
 ), false, 'inc/functions/');
 
 if (is_admin()) {

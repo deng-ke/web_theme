@@ -23,6 +23,7 @@ function nova_user_routes()
     add_rewrite_rule('^checkout/?$', 'index.php?nova_page=checkout', 'top');
     add_rewrite_rule('^pay/?$', 'index.php?nova_page=pay', 'top');
     add_rewrite_rule('^links/?$', 'index.php?nova_page=links', 'top');
+    add_rewrite_rule('^newposts/?$', 'index.php?nova_page=newposts', 'top');
 }
 add_action('init', 'nova_user_routes');
 
@@ -46,7 +47,7 @@ function nova_template_include($template)
     $nova_page = get_query_var('nova_page');
     if (!$nova_page) return $template;
 
-    $pages = array('signin', 'signup', 'lostpwd', 'user', 'forum', 'shop', 'checkout', 'pay', 'links');
+    $pages = array('signin', 'signup', 'lostpwd', 'user', 'forum', 'shop', 'checkout', 'pay', 'links', 'newposts');
     if (in_array($nova_page, $pages)) {
         status_header(200);
         $file = get_theme_file_path('pages/' . $nova_page . '.php');

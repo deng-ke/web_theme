@@ -58,11 +58,14 @@ function nova_bbs_get_plates()
     $plates = get_terms(array(
         'taxonomy'   => 'forum_plate',
         'hide_empty' => false,
-        'orderby'    => 'meta_value_num',
-        'order'      => 'ASC',
-        'meta_key'   => 'nova_plate_order',
     ));
     if (is_wp_error($plates)) return array();
+    // 按排序值手动排序（无 meta 的板块默认 0），避免 meta_key INNER JOIN 将无排序值的板块排除
+    usort($plates, function ($a, $b) {
+        $oa = (int) get_term_meta($a->term_id, 'nova_plate_order', true);
+        $ob = (int) get_term_meta($b->term_id, 'nova_plate_order', true);
+        return $oa - $ob;
+    });
     return $plates;
 }
 

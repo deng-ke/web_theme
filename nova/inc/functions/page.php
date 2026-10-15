@@ -94,3 +94,93 @@ function nova_get_the_content()
 {
     return apply_filters('the_content', get_the_content());
 }
+
+/**
+ * 归档页统计卡片（文章数/评论数/标签数/最后更新）
+ */
+function nova_archives_stats_html()
+{
+    $counts   = wp_count_posts('post');
+    $post_n   = isset($counts->publish) ? (int) $counts->publish : 0;
+    $comment_n = (int) get_comments(array('count' => true));
+    $tags     = wp_count_terms('post_tag');
+    $tag_n    = is_wp_error($tags) ? 0 : (int) $tags;
+    $last     = get_posts(array('numberposts' => 1, 'orderby' => 'date', 'order' => 'DESC', 'post_status' => 'publish'));
+    $last_time = !empty($last) ? get_the_time('Y-m-d', $last[0]) : '-';
+
+    $items = array(
+        array('icon' => 'nova-icon-post', 'num' => nova_count_format($post_n), 'label' => esc_html__('文章总数', 'nova')),
+        array('icon' => 'nova-icon-comment', 'num' => nova_count_format($comment_n), 'label' => esc_html__('评论总数', 'nova')),
+        array('icon' => 'nova-icon-tag', 'num' => nova_count_format($tag_n), 'label' => esc_html__('标签总数', 'nova')),
+        array('icon' => 'nova-icon-time', 'num' => esc_html($last_time), 'label' => esc_html__('最后更新', 'nova')),
+    );
+
+    $html = '<div class="nova-archives-stats">';
+    foreach ($items as $it) {
+        $html .= '<div class="nova-archives-stat card"><div class="nova-stat-icon"><i class="' . esc_attr($it['icon']) . '"></i></div>';
+        $html .= '<div class="nova-stat-info"><span class="nova-stat-num">' . $it['num'] . '</span><span class="nova-stat-label muted-2-color">' . $it['label'] . '</span></div></div>';
+    }
+    $html .= '</div>';
+    return $html;
+}
+
+/**
+ * 归档页时间线（按月分组列出全部文章）
+ */
+function nova_archives_timeline_html()
+{
+    $query = new WP_Query(array(
+        'post_type'           => 'post',
+        'post_status'         => 'publish',
+        'posts_per_page'      => -1,
+        'orderby'             => 'date',
+        'order'               => 'DESC',
+        'ignore_sticky_posts' => true,
+        'no_found_rows'       => true,
+        'update_post_term_cache' => false,
+    ));
+
+    if (!$query->have_posts()) {
+        wp_reset_postdata();
+        return '<div class="card nova-archives-empty muted-2-color">' . esc_html__('暂无文章', 'nova') . '</div>';
+    }
+
+    // 按月分组收集
+    $groups = array();
+    while ($query->have_posts()) {
+        $query->the_post();
+        $pid   = get_the_ID();
+        $key   = get_the_time('Y') . '-' . get_the_time('n');
+        if (!isset($groups[$key])) {
+            $groups[$key] = array('title' => get_the_time('Y') . esc_html__('年', 'nova') . get_the_time('n') . esc_html__('月', 'nova'), 'items' => array());
+        }
+        $groups[$key]['items'][] = $pid;
+    }
+    wp_reset_postdata();
+
+    $html = '<div class="nova-archives-timeline">';
+    foreach ($groups as $group) {
+        $html .= '<div class="nova-archives-group card">';
+        $html .= '<h3 class="nova-archives-month"><i class="nova-icon-folder"></i>' . esc_html($group['title']) . '<span class="nova-archives-count muted-2-color">' . esc_html__('共', 'nova') . ' ' . count($group['items']) . ' ' . esc_html__('篇', 'nova') . '</span></h3>';
+        $html .= '<div class="nova-archives-list">';
+        foreach ($group['items'] as $pid) {
+            $cats_html = '';
+            $cats = get_the_category($pid);
+            if (!empty($cats)) {
+                $cats_html = '<a class="nova-archive-cat" href="' . esc_url(get_category_link($cats[0])) . '">' . esc_html($cats[0]->name) . '</a>';
+            }
+            $html .= '<div class="nova-archive-item">';
+            $html .= '<span class="nova-archive-day">' . get_the_time('d', $pid) . '</span>';
+            $html .= '<div class="nova-archive-info">';
+            $html .= '<a class="nova-archive-title" href="' . esc_url(get_permalink($pid)) . '">' . get_the_title($pid) . '</a>';
+            $html .= '<span class="nova-archive-meta muted-2-color">' . $cats_html;
+            $html .= '<span class="nova-archive-views"><i class="nova-icon-view"></i>' . nova_count_format(nova_get_post_views($pid)) . '</span>';
+            $html .= '<span class="nova-archive-comments"><i class="nova-icon-comment"></i>' . (int) get_comments_number($pid) . '</span>';
+            $html .= '</span></div></div>';
+        }
+        $html .= '</div></div>';
+    }
+    $html .= '</div>';
+
+    return $html;
+}

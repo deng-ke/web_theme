@@ -280,6 +280,60 @@ class Nova_Widget_About extends Nova_Widget_Base
 }
 
 /* ============================================================
+ * 网站数据
+ * ============================================================ */
+class Nova_Widget_Site_Data extends Nova_Widget_Base
+{
+    public function __construct()
+    {
+        parent::__construct('nova_site_data', __('[Nova] 网站数据', 'nova'));
+    }
+
+    public function widget($args, $instance)
+    {
+        echo $args['before_widget']; // phpcs:ignore
+        echo $this->widget_title($instance); // phpcs:ignore
+        echo nova_widget_site_data_html(); // phpcs:ignore
+        echo $args['after_widget']; // phpcs:ignore
+    }
+
+    public function form($instance)
+    {
+        $this->form_title_field($instance);
+    }
+}
+
+/* ============================================================
+ * 用户信息
+ * ============================================================ */
+class Nova_Widget_User extends Nova_Widget_Base
+{
+    public function __construct()
+    {
+        parent::__construct('nova_widget_user', __('[Nova] 用户信息', 'nova'));
+    }
+
+    public function widget($args, $instance)
+    {
+        echo $args['before_widget']; // phpcs:ignore
+        echo $this->widget_title($instance); // phpcs:ignore
+        if (is_user_logged_in()) {
+            echo nova_widget_user_card_html(); // phpcs:ignore
+        } else {
+            echo '<div class="nova-widget-user-guest"><p class="muted-2-color">' . esc_html__('登录后查看更多内容', 'nova') . '</p>';
+            echo '<a class="btn btn-primary nova-block" href="' . esc_url(nova_signin_url()) . '">' . esc_html__('立即登录', 'nova') . '</a>';
+            echo '<a class="btn btn-outline nova-block" href="' . esc_url(nova_signup_url()) . '">' . esc_html__('注册账号', 'nova') . '</a></div>';
+        }
+        echo $args['after_widget']; // phpcs:ignore
+    }
+
+    public function form($instance)
+    {
+        $this->form_title_field($instance);
+    }
+}
+
+/* ============================================================
  * 注册所有小工具
  * ============================================================ */
 function nova_register_widgets()
@@ -292,5 +346,7 @@ function nova_register_widgets()
     register_widget('Nova_Widget_Cats');
     register_widget('Nova_Widget_Search');
     register_widget('Nova_Widget_About');
+    register_widget('Nova_Widget_Site_Data');
+    register_widget('Nova_Widget_User');
 }
 add_action('widgets_init', 'nova_register_widgets');

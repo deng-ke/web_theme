@@ -18,6 +18,11 @@ if (!defined('ABSPATH')) exit;
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
+<?php if (nova_get_setting('dark_mode_s', '1')) : ?>
+<script>//提前应用夜间模式，避免闪烁
+(function(){try{var d=localStorage.getItem('nova_dark');var auto=<?php echo nova_get_setting('dark_auto_s', '1') ? '1' : '0'; ?>;if(d==='1'){document.documentElement.classList.add('nova-dark');}else if(d!=='0'&&auto===1){if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.classList.add('nova-dark');}}}catch(e){}})();</script>
+<?php endif; ?>
+
 <?php nova_page_loader(); ?>
 
 <div id="nova-app" class="nova-app">

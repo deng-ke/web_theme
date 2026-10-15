@@ -1,0 +1,15 @@
+/*
+Theme Name: ePiDK
+Theme URI: https://example.com/epidk
+Author: DK
+Author URI: https://example.com
+Description: 优雅的知识库风格 WordPress 主题。主页为全屏大图 Hero + 图标卡片 + 文章卡片列表（支持按更新/浏览/点赞/评论排序）；文章页为左侧知识库树 + 正文 + 右侧自动目录三栏布局。支持深浅色切换、浏览量统计、点赞、后台自定义 Hero 与图标卡片。
+Version: 1.0.0
+Requires at least: 5.8
+Tested up to: 6.7
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: epidk
+Tags: blog, three-columns, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
+*/

@@ -19,6 +19,10 @@ $tab = nova_index_tab_html();
 
     <div class="nova-index-layout">
         <div class="nova-content">
+            <?php echo nova_home_slider(); // phpcs:ignore ?>
+
+            <?php echo nova_home_notice(); // phpcs:ignore ?>
+
             <?php echo nova_sticky_posts(); // phpcs:ignore ?>
 
             <?php if (is_active_sidebar('home_top_content')) : ?>
@@ -38,7 +42,7 @@ $tab = nova_index_tab_html();
                     echo '<div class="nova-posts-list">';
                     while ($query->have_posts()) {
                         $query->the_post();
-                        echo nova_post_card('card'); // phpcs:ignore
+                        echo nova_post_card(); // phpcs:ignore
                     }
                     echo '</div>';
                     wp_reset_postdata();

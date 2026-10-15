@@ -1,0 +1,82 @@
+/*
+ * GitBook 主题 - 编辑器样式（Gutenberg）
+ * 让后台编辑器预览接近前台排版效果。
+ */
+
+:root {
+	--gb-accent: #6366f1;
+	--gb-accent-2: #a855f7;
+}
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+}
+
+.wp-block {
+	max-width: 780px;
+}
+
+.editor-styles-wrapper {
+	font-size: 16.5px;
+	line-height: 1.85;
+}
+
+.editor-styles-wrapper h1 {
+	font-size: 34px;
+	font-weight: 800;
+	letter-spacing: -0.4px;
+}
+
+.editor-styles-wrapper h2 {
+	font-size: 26px;
+	font-weight: 800;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #e4e7f2;
+}
+
+.editor-styles-wrapper h3 { font-size: 21px; font-weight: 700; }
+.editor-styles-wrapper h4 { font-size: 18px; font-weight: 700; }
+
+.editor-styles-wrapper a {
+	color: var(--gb-accent);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.editor-styles-wrapper blockquote {
+	padding: 16px 20px;
+	background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(168, 85, 247, 0.06));
+	border-left: 3px solid var(--gb-accent);
+	border-radius: 0 12px 12px 0;
+}
+
+.editor-styles-wrapper code {
+	padding: 2.5px 7px;
+	font-family: "SF Mono", Consolas, monospace;
+	font-size: 0.86em;
+	color: var(--gb-accent);
+	background: rgba(99, 102, 241, 0.09);
+	border-radius: 6px;
+}
+
+.editor-styles-wrapper pre {
+	padding: 18px 20px;
+	font-size: 14px;
+	line-height: 1.7;
+	background: #131722;
+	color: #e2e6f3;
+	border-radius: 12px;
+}
+
+.editor-styles-wrapper table {
+	width: 100%;
+	border-collapse: collapse;
+}
+.editor-styles-wrapper th,
+.editor-styles-wrapper td {
+	padding: 10px 14px;
+	border-bottom: 1px solid #e4e7f2;
+}
+.editor-styles-wrapper th {
+	background: rgba(99, 102, 241, 0.07);
+}

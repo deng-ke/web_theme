@@ -94,11 +94,7 @@ function nova_is_mobile()
  */
 function nova_placeholder_img($type = 'card')
 {
-    static $cache = array();
-    if (isset($cache[$type])) return $cache[$type];
-    $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500"><rect width="800" height="500" fill="#f1f2f3"/><g fill="#c9cdd4"><circle cx="320" cy="200" r="60"/><path d="M140 350l110-120 90 90 80-70 150 100z"/></g></svg>';
-    $cache[$type] = 'data:image/svg+xml,' . rawurlencode($svg);
-    return $cache[$type];
+    return NOVA_TEMPLATE_DIRECTORY_URI . '/img/thumbnail.svg';
 }
 
 /**

@@ -135,7 +135,7 @@ function nova_widget_comments_html($num = 5)
     $html = '<div class="nova-widget-comment-list">';
     foreach ($comments as $comment) {
         $html .= '<div class="nova-widget-comment-item">';
-        $html .= '<a class="nova-avatar-sm" href="' . esc_url(get_comment_link($comment)) . '">' . get_avatar($comment, 80) . '</a>';
+        $html .= '<a class="nova-avatar-sm" href="' . esc_url(get_comment_link($comment)) . '"><img src="' . esc_url(nova_get_user_avatar($comment->user_id, 80)) . '" alt="avatar"></a>';
         $html .= '<div class="nova-widget-comment-body">';
         $html .= '<div class="nova-widget-comment-head"><a class="nova-widget-comment-author" href="' . esc_url(get_comment_link($comment)) . '">' . esc_html($comment->comment_author) . '</a><span class="muted-2-color">' . esc_html(nova_time_ago($comment->comment_date)) . '</span></div>';
         $html .= '<div class="nova-widget-comment-content muted-color">' . esc_html(mb_substr(wp_strip_all_tags($comment->comment_content), 0, 40)) . '</div>';
@@ -241,6 +241,38 @@ function nova_widget_user_card_html($user_id = 0)
     $html .= '<a href="' . esc_url(nova_user_center_url('fans')) . '"><b>' . nova_count_format(count((array) get_user_meta($user_id, 'nova_fans', true))) . '</b><span>' . esc_html__('粉丝', 'nova') . '</span></a>';
     $html .= '<a href="' . esc_url(nova_user_center_url('follows')) . '"><b>' . nova_count_format(count((array) get_user_meta($user_id, 'nova_follows', true))) . '</b><span>' . esc_html__('关注', 'nova') . '</span></a>';
     $html .= '</div>';
+    $html .= '</div>';
+    return $html;
+}
+
+/**
+ * 网站数据统计 HTML（小工具用）
+ */
+function nova_widget_site_data_html()
+{
+    $post_n    = (int) wp_count_posts()->publish;
+    $comment_n = (int) wp_count_comments()->approved;
+    $users     = count_users();
+    $user_n    = (int) $users['total_users'];
+    $tags      = wp_count_terms('post_tag');
+    $tag_n     = is_wp_error($tags) ? 0 : (int) $tags;
+    $cats      = wp_count_terms('category');
+    $cat_n     = is_wp_error($cats) ? 0 : (int) $cats;
+    $installed = get_option('nova_install_date');
+    $run_days  = $installed ? (int) floor((time() - (int) strtotime($installed)) / 86400) : 0;
+
+    $items = array(
+        array('nova-icon-post', nova_count_format($post_n), esc_html__('文章', 'nova')),
+        array('nova-icon-comment', nova_count_format($comment_n), esc_html__('评论', 'nova')),
+        array('nova-icon-user', nova_count_format($user_n), esc_html__('用户', 'nova')),
+        array('nova-icon-tag', nova_count_format($tag_n), esc_html__('标签', 'nova')),
+        array('nova-icon-folder', nova_count_format($cat_n), esc_html__('分类', 'nova')),
+        array('nova-icon-time', $run_days, esc_html__('运行天数', 'nova')),
+    );
+    $html = '<div class="nova-site-data">';
+    foreach ($items as $it) {
+        $html .= '<div class="nova-site-data-item"><i class="' . esc_attr($it[0]) . '"></i><b>' . esc_html($it[1]) . '</b><span>' . esc_html($it[2]) . '</span></div>';
+    }
     $html .= '</div>';
     return $html;
 }

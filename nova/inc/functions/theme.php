@@ -65,6 +65,11 @@ function nova_enqueue_scripts()
     wp_enqueue_script('jquery');
     wp_enqueue_script('nova-main', $dir_uri . '/js/main.js', array('jquery'), NOVA_VERSION, true);
 
+    //前端发布页：加载媒体库
+    if ('newposts' === get_query_var('nova_page')) {
+        wp_enqueue_media();
+    }
+
     //评论回复
     if (is_singular() && comments_open() && get_option('thread_comments')) {
         wp_enqueue_script('comment-reply');
@@ -186,7 +191,8 @@ function nova_get_user_avatar($user_id = 0, $size = 96)
     $user_id = $user_id ?: get_current_user_id();
     $avatar_url = get_user_meta($user_id, 'nova_avatar', true);
     if (!$avatar_url) {
-        $avatar_url = get_avatar_url($user_id, array('size' => $size, 'default' => nova_default_avatar()));
+        // 无自定义头像时使用本地默认头像（避免依赖 gravatar 外网服务）
+        $avatar_url = nova_default_avatar();
     }
     return $avatar_url;
 }
@@ -283,3 +289,26 @@ function nova_get_page_title()
     }
     return $title;
 }
+
+/**
+ * 允许访问附件页面（禁用 WP 默认跳转到原文件的 canonical 重定向）
+ */
+function nova_keep_attachment_page($redirect_url, $requested_url)
+{
+    if (is_attachment()) {
+        return false;
+    }
+    return $redirect_url;
+}
+add_filter('redirect_canonical', 'nova_keep_attachment_page', 10, 2);
+
+/**
+ * 主题激活时记录安装日期（运行天数统计用）
+ */
+function nova_record_install_date()
+{
+    if (!get_option('nova_install_date')) {
+        update_option('nova_install_date', current_time('Y-m-d H:i:s'));
+    }
+}
+add_action('after_switch_theme', 'nova_record_install_date');

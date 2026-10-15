@@ -9,23 +9,26 @@
 :root {
     --nova-color: #1e80ff;
     --nova-color-dark: #1664d8;
-    --nova-color-light: #e8f2ff;
+    --nova-color-light: rgba(30, 128, 255, 0.12);
     --nova-color-soft: #f0f7ff;
+    --nova-focus-shadow: rgba(30, 128, 255, 0.32);
     --nova-radius: 8px;
-    --nova-radius-sm: 5px;
+    --nova-radius-sm: 4px;
     --nova-container: 1200px;
-    --nova-bg: #f5f6f8;
+    --nova-bg: #f5f6f7;
     --nova-card: #ffffff;
-    --nova-border: #eaecef;
-    --nova-text: #333333;
-    --nova-text-2: #666666;
+    --nova-border: rgba(50, 50, 50, 0.06);
+    --nova-key: #333333;
+    --nova-text: #4e5358;
+    --nova-text-2: #777777;
     --nova-text-3: #999999;
-    --nova-red: #f1404b;
-    --nova-orange: #ff8212;
-    --nova-green: #12b76a;
+    --nova-text-4: #c0c4cc;
+    --nova-red: #ff5473;
+    --nova-orange: #ff6f06;
+    --nova-green: #12b928;
     --nova-vip: #ffd21f;
-    --nova-shadow: 0 1px 6px rgba(80, 80, 80, 0.04);
-    --nova-shadow-hover: 0 6px 24px rgba(80, 80, 80, 0.12);
+    --nova-shadow: 0 0 10px rgba(116, 116, 116, 0.08);
+    --nova-shadow-hover: 0 0 20px rgba(116, 116, 116, 0.15);
     --nova-transition: all 0.2s ease;
 }
 
@@ -182,41 +185,58 @@ table {
     align-items: center;
     justify-content: center;
     gap: 5px;
-    padding: 8px 20px;
-    font-size: 14px;
+    padding: 7px 15px;
+    font-size: 13px;
     line-height: 1.5;
     text-align: center;
-    border-radius: var(--nova-radius-sm);
+    border-radius: 4px;
     border: 1px solid transparent;
-    transition: var(--nova-transition);
+    transition: 0.15s;
     white-space: nowrap;
     user-select: none;
+    font-weight: normal;
 }
 
 .btn:hover {
-    opacity: 0.88;
+    opacity: 0.8;
+    color: inherit;
+}
+
+.btn:active {
+    box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.08);
 }
 
 .btn-primary {
     background: var(--nova-color);
     color: #fff;
     border-color: var(--nova-color);
+    box-shadow: 0 2px 6px var(--nova-focus-shadow);
 }
 
 .btn-primary:hover {
-    background: var(--nova-color-dark);
+    background: var(--nova-color);
     color: #fff;
 }
 
 .btn-outline {
     background: transparent;
-    color: var(--nova-text-2);
-    border-color: #d5d9df;
+    color: var(--nova-color);
+    border-color: var(--nova-color);
 }
 
 .btn-outline:hover {
-    color: var(--nova-color);
-    border-color: var(--nova-color);
+    background: var(--nova-color);
+    color: #fff;
+}
+
+.btn-gray {
+    background: rgba(136, 136, 136, 0.1);
+    color: #888;
+}
+
+.btn-gray:hover {
+    background: rgba(136, 136, 136, 0.16);
+    color: #888;
 }
 
 .btn-block {
@@ -225,14 +245,56 @@ table {
 }
 
 .btn-sm {
-    padding: 5px 12px;
+    padding: 4px 10px;
     font-size: 12px;
     border-radius: 4px;
 }
 
 .btn-lg {
-    padding: 12px 28px;
+    padding: 10px 24px;
     font-size: 15px;
+}
+
+/* 彩色按钮（对齐 Zibll but 体系） */
+.btn.b-red {
+    background: #ff5473;
+    color: #fff;
+}
+
+.btn.b-yellow {
+    background: #ff6f06;
+    color: #fff;
+}
+
+.btn.b-blue {
+    background: #2997f7;
+    color: #fff;
+}
+
+.btn.b-cyan {
+    background: #08c4c1;
+    color: #fff;
+}
+
+.btn.b-green {
+    background: #12b928;
+    color: #fff;
+}
+
+.btn.b-purple {
+    background: #d448f5;
+    color: #fff;
+}
+
+.btn.b-vip {
+    background: linear-gradient(135deg, #ffd21f, #ff9d00);
+    color: #7a5b00;
+}
+
+.btn.btn-radius {
+    border-radius: 50px;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 
 .btn-disabled,
@@ -247,7 +309,7 @@ table {
     background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     overflow: hidden;
 }
 
@@ -261,7 +323,7 @@ table {
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 20px;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 /* 空状态 */
@@ -273,7 +335,7 @@ table {
     text-align: center;
     color: var(--nova-text-3);
     font-size: 14px;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 .nova-empty-icon {
@@ -283,23 +345,29 @@ table {
     display: block;
 }
 
-/* 标题块 */
+/* 标题块（Zibll 风格：底部主题色短条） */
 .nova-block-title {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--nova-key);
     margin-bottom: 16px;
     display: flex;
     align-items: center;
     gap: 8px;
+    position: relative;
+    padding-bottom: 8px;
 }
 
 .nova-block-title::before {
     content: "";
-    width: 4px;
-    height: 16px;
+    position: absolute;
+    left: 0;
+    bottom: 3px;
+    width: 40px;
+    height: 3px;
     background: var(--nova-color);
-    border-radius: 2px;
-    display: inline-block;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px -1px var(--nova-color);
 }
 
 /* 高亮文字 */
@@ -370,10 +438,10 @@ table {
     left: 0;
     right: 0;
     z-index: 999;
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 1px 8px rgba(80, 80, 80, 0.06);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--nova-border);
 }
 
 .nova-header-inner {
@@ -450,7 +518,7 @@ table {
     top: 100%;
     left: 0;
     min-width: 150px;
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius-sm);
     box-shadow: var(--nova-shadow-hover);
     padding: 6px 0;
@@ -495,17 +563,17 @@ table {
 .nova-search-form {
     display: flex;
     align-items: center;
-    background: #f2f3f5;
+    background: rgba(136, 136, 136, 0.1);
     border-radius: 20px;
     padding: 0 6px 0 14px;
-    height: 36px;
+    height: 34px;
     width: 170px;
     transition: var(--nova-transition);
 }
 
 .nova-search-form:focus-within {
-    background: #eef0f3;
-    box-shadow: 0 0 0 2px rgba(30, 128, 255, 0.15);
+    background: var(--nova-card);
+    box-shadow: 0 0 2px 3px var(--nova-focus-shadow);
 }
 
 .nova-search-input {
@@ -546,7 +614,7 @@ table {
     top: 110%;
     right: 0;
     min-width: 150px;
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius-sm);
     box-shadow: var(--nova-shadow-hover);
     padding: 6px 0;
@@ -609,7 +677,7 @@ table {
 }
 
 .nova-mobile-nav-inner {
-    background: #fff;
+    background: var(--nova-card);
     max-height: 70%;
     overflow-y: auto;
     padding: 10px 0;
@@ -687,16 +755,12 @@ table {
     padding-top: 16px;
 }
 
-/* 首页 Tab */
+/* 首页 Tab（Zibll 风格：药丸直接浮于灰底） */
 .nova-index-tabs {
     display: flex;
     align-items: center;
     gap: 4px;
-    background: #fff;
-    border-radius: var(--nova-radius);
-    box-shadow: var(--nova-shadow);
-    padding: 4px;
-    margin-bottom: 16px;
+    margin-bottom: 15px;
 }
 
 .nova-tab-nav {
@@ -709,9 +773,10 @@ table {
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 8px 20px;
-    border-radius: var(--nova-radius-sm);
-    font-size: 14px;
+    padding: 3px 13px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
     color: var(--nova-text-2);
     transition: var(--nova-transition);
 }
@@ -725,22 +790,39 @@ table {
     color: #fff;
 }
 
-/* 首页轮播 */
+/* 首页轮播（Zibll 风格） */
 .nova-slider {
     position: relative;
     border-radius: var(--nova-radius);
     overflow: hidden;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     box-shadow: var(--nova-shadow);
+    background: #f1f2f3;
 }
 
-.nova-slider a {
+.nova-slider-track {
+    position: relative;
+    height: 300px;
+}
+
+.nova-slide {
+    position: absolute;
+    inset: 0;
     display: block;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.45s ease;
 }
 
-.nova-slider img {
+.nova-slide.nova-active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+}
+
+.nova-slider-img {
     width: 100%;
-    height: 280px;
+    height: 100%;
     object-fit: cover;
     display: block;
 }
@@ -750,11 +832,94 @@ table {
     left: 0;
     right: 0;
     bottom: 0;
-    padding: 30px 20px 16px;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+    z-index: 2;
+    padding: 44px 120px 18px 24px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
     color: #fff;
-    font-size: 16px;
-    font-weight: 500;
+}
+
+.nova-slider-title {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.nova-slider-desc {
+    margin-top: 5px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.82);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 箭头 */
+.nova-slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.65);
+    color: #555;
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.25s;
+}
+
+.nova-slider:hover .nova-slider-arrow {
+    opacity: 1;
+}
+
+.nova-slider-arrow:hover {
+    background: var(--nova-card);
+    color: var(--nova-color);
+}
+
+.nova-slider-prev {
+    left: 12px;
+}
+
+.nova-slider-next {
+    right: 12px;
+}
+
+/* 指示器 */
+.nova-slider-dots {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nova-slider-dots .nova-dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.25s;
+}
+
+.nova-slider-dots .nova-dot.nova-active {
+    width: 20px;
+    background: var(--nova-card);
 }
 
 /* 置顶文章 */
@@ -768,7 +933,7 @@ table {
 .nova-sticky-card {
     display: flex;
     gap: 14px;
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 16px;
@@ -820,32 +985,51 @@ table {
 .nova-posts-list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 15px;
     margin-bottom: 16px;
 }
 
-/* 文章卡片 */
+/* 文章卡片（对齐 Zibll posts-item：20px 内距/190px 缩略图/极轻弥散阴影） */
 .nova-post-card {
     display: flex;
-    gap: 18px;
-    background: #fff;
+    gap: 20px;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 20px;
-    transition: var(--nova-transition);
+    transition: box-shadow 0.3s;
 }
 
 .nova-post-card:hover {
     box-shadow: var(--nova-shadow-hover);
-    transform: translateY(-2px);
 }
 
 .nova-post-thumb {
-    width: 220px;
-    height: 138px;
-    border-radius: var(--nova-radius-sm);
-    object-fit: cover;
+    position: relative;
+    width: 190px;
+    height: 133px;
+    border-radius: var(--nova-radius);
+    overflow: hidden;
     flex-shrink: 0;
+}
+
+.nova-post-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s;
+}
+
+.nova-post-card:hover .nova-post-thumb img {
+    transform: scale(1.06);
+}
+
+.nova-post-thumb .nova-post-cat {
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    margin: 0;
 }
 
 .nova-post-body {
@@ -858,22 +1042,77 @@ table {
 .nova-post-cat {
     display: inline-flex;
     align-self: flex-start;
-    font-size: 12px;
-    color: var(--nova-color);
-    background: var(--nova-color-light);
-    padding: 2px 10px;
-    border-radius: 3px;
+    font-size: 11px;
+    color: #fff;
+    background: var(--nova-color);
+    padding: 2px 6px;
+    border-radius: 4px;
     margin-bottom: 8px;
+    transition: var(--nova-transition);
 }
 
 .nova-post-cat:hover {
+    opacity: 0.8;
     color: #fff;
-    background: var(--nova-color);
+}
+
+/* 分类彩色药丸（与 Zibll 一致的多彩标签体系） */
+.nova-post-cat.nova-cat-c1,
+.nova-meta-tags a.nova-cat-c1 {
+    background: #2997f7;
+}
+
+.nova-post-cat.nova-cat-c2,
+.nova-meta-tags a.nova-cat-c2 {
+    background: #12b928;
+}
+
+.nova-post-cat.nova-cat-c3,
+.nova-meta-tags a.nova-cat-c3 {
+    background: #ff6f06;
+}
+
+.nova-post-cat.nova-cat-c4,
+.nova-meta-tags a.nova-cat-c4 {
+    background: #ff5473;
+}
+
+.nova-post-cat.nova-cat-c5,
+.nova-meta-tags a.nova-cat-c5 {
+    background: #08c4c1;
+}
+
+.nova-post-cat.nova-cat-c6,
+.nova-meta-tags a.nova-cat-c6 {
+    background: #d448f5;
+}
+
+/* 卡片 meta 行内标签（Zibll 彩色小药丸） */
+.nova-meta-tags {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.nova-meta-tags a {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    color: #fff;
+    background: #818b95;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: var(--nova-transition);
+}
+
+.nova-meta-tags a:hover {
+    opacity: 0.8;
+    color: #fff;
 }
 
 .nova-post-title {
-    font-size: 17px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 700;
     line-height: 1.5;
     margin-bottom: 8px;
     display: -webkit-box;
@@ -883,7 +1122,7 @@ table {
 }
 
 .nova-post-title a {
-    color: var(--nova-text);
+    color: var(--nova-key);
 }
 
 .nova-post-title a:hover {
@@ -905,9 +1144,9 @@ table {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 10px;
-    font-size: 12px;
+    gap: 12px;
+    margin-top: 12px;
+    font-size: 13px;
     color: var(--nova-text-3);
 }
 
@@ -940,7 +1179,7 @@ table {
     gap: 4px;
 }
 
-/* 分页 */
+/* 分页（Zibll but 风格：小方钮） */
 .nova-paging {
     display: flex;
     align-items: center;
@@ -956,21 +1195,21 @@ table {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 36px;
-    height: 36px;
+    min-width: 32px;
+    height: 32px;
     padding: 0 10px;
     font-size: 13px;
-    background: #fff;
-    border-radius: var(--nova-radius-sm);
-    box-shadow: var(--nova-shadow);
-    color: var(--nova-text-2);
-    transition: var(--nova-transition);
+    background: rgba(136, 136, 136, 0.1);
+    border-radius: 4px;
+    color: #888;
+    transition: 0.15s;
 }
 
 .nova-page-num:hover,
 .nova-page-prev:hover,
 .nova-page-next:hover {
-    color: var(--nova-color);
+    opacity: 0.8;
+    color: #888;
 }
 
 .nova-page-num.nova-current {
@@ -1000,7 +1239,7 @@ table {
 
 /* 列表加载动画 */
 .nova-posts-loading {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
 }
@@ -1027,7 +1266,7 @@ table {
     top: 44px;
     left: 0;
     right: 0;
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius-sm);
     box-shadow: var(--nova-shadow-hover);
     padding: 6px 0;
@@ -1063,7 +1302,7 @@ table {
 
 .nova-single-body,
 .nova-product-single {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 28px;
@@ -1093,7 +1332,7 @@ table {
 .nova-post-content {
     font-size: 15px;
     line-height: 1.9;
-    color: #444;
+    color: var(--nova-text);
     padding: 20px 0;
     word-wrap: break-word;
 }
@@ -1110,13 +1349,25 @@ table {
 .nova-post-content h6 {
     margin: 28px 0 14px;
     line-height: 1.4;
-    color: var(--nova-text);
+    color: var(--nova-key);
 }
 
 .nova-post-content h2 {
-    font-size: 21px;
-    padding-left: 12px;
-    border-left: 4px solid var(--nova-color);
+    font-size: 20px;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.nova-post-content h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 3px;
+    background: var(--nova-color);
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px -1px var(--nova-color);
 }
 
 .nova-post-content h3 {
@@ -1253,7 +1504,7 @@ table {
     gap: 10px;
 }
 
-/* 文章标签 */
+/* 文章标签（彩色药丸） */
 .nova-post-tags {
     display: flex;
     flex-wrap: wrap;
@@ -1274,16 +1525,34 @@ table {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    font-size: 12px;
-    color: var(--nova-text-2);
-    background: #f2f3f5;
-    padding: 3px 12px;
-    border-radius: 20px;
+    font-size: 11px;
+    color: #fff;
+    background: #818b95;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: var(--nova-transition);
 }
 
 .nova-post-tags a:hover {
+    opacity: 0.8;
     color: #fff;
-    background: var(--nova-color);
+}
+
+/* 标签轮转彩色 */
+.nova-post-tags a:nth-child(4n + 1) {
+    background: #2997f7;
+}
+
+.nova-post-tags a:nth-child(4n + 2) {
+    background: #12b928;
+}
+
+.nova-post-tags a:nth-child(4n + 3) {
+    background: #ff6f06;
+}
+
+.nova-post-tags a:nth-child(4n + 4) {
+    background: #ff5473;
 }
 
 /* 文章底部操作栏 */
@@ -1366,7 +1635,7 @@ table {
 .nova-author-card {
     display: flex;
     gap: 16px;
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 20px;
@@ -1411,7 +1680,7 @@ table {
 .nova-post-nav-item {
     flex: 1;
     min-width: 0;
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 14px 18px;
@@ -1452,7 +1721,7 @@ table {
 }
 
 .nova-related-card {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     overflow: hidden;
@@ -1541,7 +1810,7 @@ table {
    7. 评论
    ========================================================= */
 .nova-single-comments {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 24px 28px;
@@ -1678,7 +1947,7 @@ table {
     border-radius: var(--nova-radius-sm);
     padding: 10px 14px;
     font-size: 14px;
-    background: #fff;
+    background: var(--nova-card);
     transition: var(--nova-transition);
 }
 
@@ -1711,15 +1980,16 @@ table {
     position: relative;
     display: flex;
     align-items: center;
-    border: 1px solid #e3e6ea;
-    border-radius: var(--nova-radius-sm);
-    background: #fff;
-    transition: var(--nova-transition);
+    border: 1px solid transparent;
+    border-radius: var(--nova-radius);
+    background: var(--nova-bg);
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
 .nova-input-wrap:focus-within {
     border-color: var(--nova-color);
-    box-shadow: 0 0 0 2px rgba(30, 128, 255, 0.12);
+    box-shadow: 0 0 2px 3px var(--nova-focus-shadow);
+    background: var(--nova-card);
 }
 
 .nova-input-wrap .nova-icon {
@@ -1846,7 +2116,7 @@ table {
 
 .nova-archive-header,
 .nova-search-header {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 26px 28px;
@@ -1919,7 +2189,7 @@ table {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius-sm);
     box-shadow: var(--nova-shadow);
     padding: 8px 16px;
@@ -1946,7 +2216,7 @@ table {
 
 .nova-404-box {
     text-align: center;
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 60px 20px;
@@ -1980,28 +2250,35 @@ table {
    10. 侧边栏小工具
    ========================================================= */
 .nova-sidebar .widget {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
-    padding: 20px;
-    margin-bottom: 16px;
+    padding: 15px;
+    margin-bottom: 20px;
 }
 
 .nova-sidebar .widget-title {
     font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 14px;
+    font-weight: 700;
+    color: var(--nova-key);
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
     gap: 8px;
+    position: relative;
+    padding-bottom: 8px;
 }
 
 .nova-sidebar .widget-title::before {
     content: "";
-    width: 4px;
-    height: 14px;
+    position: absolute;
+    left: 0;
+    bottom: 3px;
+    width: 40px;
+    height: 3px;
     background: var(--nova-color);
-    border-radius: 2px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px -1px var(--nova-color);
 }
 
 .nova-widgets-fluid .widget {
@@ -2115,7 +2392,7 @@ table {
 .nova-widget-search .nova-search-form {
     width: 100%;
     border: 1px solid #e3e6ea;
-    background: #fff;
+    background: var(--nova-card);
 }
 
 /* 标签云 */
@@ -2131,7 +2408,7 @@ table {
     gap: 4px;
     font-size: 12px;
     color: var(--nova-text-2);
-    background: #f2f3f5;
+    background: var(--nova-bg);
     padding: 4px 12px;
     border-radius: 20px;
 }
@@ -2258,7 +2535,7 @@ table {
 
 /* 用户信息卡 */
 .nova-uc-user {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 24px 18px;
@@ -2312,7 +2589,7 @@ table {
 
 /* 用户中心菜单 */
 .nova-uc-menu {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     overflow: hidden;
@@ -2350,7 +2627,7 @@ table {
 .nova-uc-comments,
 .nova-uc-likes,
 .nova-uc-shop-orders {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 24px;
@@ -2558,7 +2835,7 @@ table {
    12. 消息中心
    ========================================================= */
 .nova-msg-center {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 24px;
@@ -2705,7 +2982,7 @@ table {
 
 /* 板块头部 */
 .nova-plate-header {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 22px 26px;
@@ -2765,7 +3042,7 @@ table {
 }
 
 .nova-plate-card {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 20px;
@@ -2820,7 +3097,7 @@ table {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: #fff;
+    background: var(--nova-card);
     border-radius: 20px;
     box-shadow: var(--nova-shadow);
     padding: 6px 16px;
@@ -2838,7 +3115,7 @@ table {
 .nova-bbs-post-list {
     display: flex;
     flex-direction: column;
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 0 20px;
@@ -2916,7 +3193,7 @@ table {
 
 /* 帖子详情 */
 .nova-bbs-content {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 28px;
@@ -2995,7 +3272,7 @@ table {
 
 /* 发帖编辑 */
 .nova-bbs-edit-form {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 24px;
@@ -3008,7 +3285,7 @@ table {
     border-radius: var(--nova-radius-sm);
     padding: 10px 14px;
     font-size: 14px;
-    background: #fff;
+    background: var(--nova-card);
 }
 
 .nova-bbs-edit-form textarea {
@@ -3040,7 +3317,7 @@ table {
 }
 
 .nova-shop-cat-header {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 22px 26px;
@@ -3066,7 +3343,7 @@ table {
     align-items: center;
     font-size: 13px;
     color: var(--nova-text-2);
-    background: #f2f3f5;
+    background: var(--nova-bg);
     padding: 4px 14px;
     border-radius: 20px;
 }
@@ -3086,7 +3363,7 @@ table {
 }
 
 .nova-product-card {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     overflow: hidden;
@@ -3248,7 +3525,7 @@ table {
 
 /* 商品详情内容 */
 .nova-product-content {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 24px 28px;
@@ -3278,7 +3555,7 @@ table {
 }
 
 .nova-cart-list {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 0 20px;
@@ -3340,7 +3617,7 @@ table {
 }
 
 .nova-cart-summary {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 20px 24px;
@@ -3367,7 +3644,7 @@ table {
 }
 
 .nova-checkout-form {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 24px;
@@ -3444,7 +3721,7 @@ table {
 
 /* 订单信息 */
 .nova-pay-order {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 24px;
@@ -3472,7 +3749,7 @@ table {
 
 /* 支付通道 */
 .nova-pay-channels {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 24px;
@@ -3586,7 +3863,7 @@ table {
 /* 支付结果页 */
 .nova-return-box {
     text-align: center;
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 60px 20px;
@@ -3634,7 +3911,7 @@ table {
 }
 
 .nova-vip-card {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 24px;
@@ -3698,7 +3975,7 @@ table {
 
 /* 充值卡 */
 .nova-card-form {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 28px;
@@ -3715,7 +3992,7 @@ table {
 
 /* 提现 */
 .nova-withdraw-form {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 24px;
@@ -3736,7 +4013,7 @@ table {
 }
 
 .nova-withdraw-list {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 0 20px;
@@ -3806,7 +4083,7 @@ table {
 }
 
 .nova-points-item {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 20px;
@@ -3844,7 +4121,7 @@ table {
 .nova-sign-calendar .nova-sign-day {
     width: 52px;
     padding: 8px 0;
-    background: #f2f3f5;
+    background: var(--nova-bg);
     border-radius: var(--nova-radius-sm);
     text-align: center;
 }
@@ -3899,7 +4176,7 @@ table {
 
 /* 订单列表页 */
 .nova-order-list {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 0 20px;
@@ -3954,7 +4231,7 @@ table {
 
 .nova-order-status.nova-status-3 {
     color: var(--nova-text-3);
-    background: #f2f3f5;
+    background: var(--nova-bg);
 }
 
 .nova-order-body {
@@ -3984,7 +4261,7 @@ table {
 .nova-auth-box {
     max-width: 420px;
     margin: 0 auto;
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 34px 32px;
@@ -4145,7 +4422,7 @@ table {
 }
 
 .nova-author-page-header {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 28px;
@@ -4175,7 +4452,7 @@ table {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    border: 3px solid #fff;
+    border: 3px solid var(--nova-card);
     object-fit: cover;
     box-shadow: var(--nova-shadow);
 }
@@ -4238,7 +4515,7 @@ table {
     display: flex;
     gap: 12px;
     align-items: center;
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     box-shadow: var(--nova-shadow);
     padding: 16px 18px;
@@ -4296,14 +4573,14 @@ table {
    19. 页脚
    ========================================================= */
 .nova-footer {
-    background: #262b33;
-    color: #9aa3ae;
+    background: var(--nova-card);
+    color: var(--nova-text-3);
     margin-top: 20px;
 }
 
 .nova-footer-widgets {
     padding: 34px 0 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--nova-border);
 }
 
 .nova-footer-widgets .widget {
@@ -4311,24 +4588,24 @@ table {
 }
 
 .nova-footer-widgets .widget-title {
-    color: #d5d9df;
+    color: var(--nova-key);
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 14px;
 }
 
 .nova-footer-widgets a {
-    color: #9aa3ae;
+    color: var(--nova-text-2);
     line-height: 2;
 }
 
 .nova-footer-widgets a:hover {
-    color: #fff;
+    color: var(--nova-color);
 }
 
 .nova-footer-widgets .nova-tag-cloud a {
-    background: rgba(255, 255, 255, 0.08);
-    color: #9aa3ae;
+    background: rgba(136, 136, 136, 0.1);
+    color: var(--nova-text-2);
 }
 
 .nova-footer-widgets .nova-tag-cloud a:hover {
@@ -4347,7 +4624,7 @@ table {
 }
 
 .nova-footer-copy {
-    color: #7c848e;
+    color: var(--nova-text-3);
 }
 
 .nova-footer-links {
@@ -4357,11 +4634,11 @@ table {
 }
 
 .nova-footer-links a {
-    color: #9aa3ae;
+    color: var(--nova-text-3);
 }
 
 .nova-footer-links a:hover {
-    color: #fff;
+    color: var(--nova-color);
 }
 
 .nova-beian {
@@ -4408,7 +4685,7 @@ table {
     justify-content: center;
     width: 42px;
     height: 42px;
-    background: #fff;
+    background: var(--nova-card);
     border-radius: 50%;
     box-shadow: 0 2px 12px rgba(80, 80, 80, 0.15);
     font-size: 17px;
@@ -4468,7 +4745,7 @@ table {
 }
 
 .nova-modal {
-    background: #fff;
+    background: var(--nova-card);
     border-radius: var(--nova-radius);
     max-width: 440px;
     width: 100%;
@@ -4538,7 +4815,7 @@ table {
    22. 懒加载图片
    ========================================================= */
 .nova-lazy {
-    background: #f2f3f5 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23c8cdd4" d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8 8 8 0 01-8 8zm1-13h-2v6h2z"/></svg>') no-repeat center;
+    background: var(--nova-bg) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23c8cdd4" d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8 8 8 0 01-8 8zm1-13h-2v6h2z"/></svg>') no-repeat center;
     background-size: 26px;
     transition: opacity 0.3s ease;
 }
@@ -4725,7 +5002,7 @@ table {
         left: 0;
         right: 0;
         z-index: 998;
-        background: #fff;
+        background: var(--nova-card);
         box-shadow: 0 -1px 8px rgba(80, 80, 80, 0.08);
         padding-bottom: env(safe-area-inset-bottom);
     }
@@ -4769,8 +5046,25 @@ table {
         justify-content: flex-start;
     }
 
-    .nova-slider img {
-        height: 180px;
+    .nova-slider-track {
+        height: 190px;
+    }
+
+    .nova-slider-caption {
+        padding: 30px 60px 12px 14px;
+    }
+
+    .nova-slider-title {
+        font-size: 15px;
+    }
+
+    .nova-slider-arrow {
+        display: none;
+    }
+
+    .nova-slider-dots {
+        right: 12px;
+        bottom: 10px;
     }
 
     .nova-comment-list .children {
@@ -4837,5 +5131,1376 @@ table {
     .nova-uc-post-thumb {
         width: 90px;
         height: 62px;
+    }
+}
+
+/* ============ 短代码 ============ */
+/* 隐藏内容 */
+.nova-hide-box {
+    position: relative;
+    margin: 16px 0;
+    border-radius: var(--nova-radius);
+    background: var(--nova-bg);
+    overflow: hidden;
+}
+
+.nova-hide-mask {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 20px;
+    color: var(--nova-text-2);
+    font-size: 14px;
+}
+
+.nova-hide-mask .nova-hide-text {
+    flex: 1;
+}
+
+.nova-hide-btn {
+    flex-shrink: 0;
+}
+
+.nova-hide-box.nova-hide-show {
+    border: 1px dashed var(--nova-color);
+    background: var(--nova-color-light);
+}
+
+.nova-hide-head {
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--nova-color);
+}
+
+.nova-hide-body {
+    padding: 0 16px 16px;
+    color: var(--nova-text);
+}
+
+/* 文章盒子 */
+.nova-postsbox {
+    display: flex;
+    gap: 14px;
+    padding: 12px;
+    margin: 16px 0;
+    align-items: center;
+}
+
+.nova-postsbox-thumb {
+    flex-shrink: 0;
+}
+
+.nova-postsbox-thumb img {
+    width: 140px;
+    height: 84px;
+    border-radius: 6px;
+    object-fit: cover;
+    display: block;
+}
+
+.nova-postsbox-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--nova-key);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.nova-postsbox-meta {
+    margin-top: 8px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nova-postsbox-meta .nova-icon-time,
+.nova-postsbox-meta .nova-icon-view {
+    margin-left: 12px;
+}
+
+/* 短代码文章列表 */
+.nova-posts-lists {
+    margin: 16px 0;
+}
+
+.nova-posts-lists-list .nova-post-list-item {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--nova-border);
+    align-items: center;
+}
+
+.nova-posts-lists-list .nova-post-list-item:last-child {
+    border-bottom: 0;
+}
+
+.nova-post-list-thumb {
+    flex-shrink: 0;
+}
+
+.nova-post-list-thumb img {
+    width: 110px;
+    height: 66px;
+    border-radius: 6px;
+    object-fit: cover;
+    display: block;
+}
+
+.nova-post-list-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--nova-key);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.nova-post-list-meta {
+    margin-top: 5px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nova-post-list-meta .nova-icon-view {
+    margin-left: 10px;
+}
+
+/* 下载盒子 */
+.nova-download-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 14px 16px;
+    margin: 16px 0;
+}
+
+.nova-download-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nova-download-info .nova-icon-download {
+    font-size: 26px;
+    color: var(--nova-color);
+}
+
+.nova-download-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--nova-key);
+}
+
+.nova-download-price {
+    font-size: 13px;
+    color: #ff5473;
+}
+
+.nova-download-points {
+    font-size: 13px;
+    color: var(--nova-orange);
+}
+
+/* 折叠面板 */
+.nova-panel {
+    margin: 16px 0;
+    border: 1px solid var(--nova-border);
+    border-radius: var(--nova-radius);
+    background: var(--nova-card);
+    overflow: hidden;
+}
+
+.nova-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--nova-key);
+}
+
+.nova-panel-head .nova-icon-down {
+    transition: transform 0.25s;
+}
+
+.nova-panel.nova-open .nova-icon-down {
+    transform: rotate(180deg);
+}
+
+.nova-panel-body {
+    display: none;
+    padding: 0 16px 16px;
+    color: var(--nova-text);
+}
+
+.nova-panel.nova-open .nova-panel-body {
+    display: block;
+}
+
+/* 提示框 */
+.nova-tip {
+    margin: 16px 0;
+    padding: 12px 16px;
+    border-radius: var(--nova-radius-sm);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.nova-tip-info {
+    background: rgba(30, 128, 255, 0.08);
+    color: #1664d8;
+}
+
+.nova-tip-success {
+    background: rgba(18, 185, 40, 0.08);
+    color: #0d8a1f;
+}
+
+.nova-tip-warning {
+    background: rgba(255, 111, 6, 0.08);
+    color: #d85c05;
+}
+
+.nova-tip-danger {
+    background: rgba(255, 84, 115, 0.08);
+    color: #e0405e;
+}
+
+/* ============ 图片灯箱 ============ */
+.nova-post-content img,
+.nova-comment-content img {
+    cursor: zoom-in;
+}
+
+.nova-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.86);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.nova-lightbox.nova-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nova-lightbox-img {
+    max-width: 92%;
+    max-height: 88%;
+    border-radius: 4px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+}
+
+.nova-lightbox-close {
+    position: absolute;
+    top: 16px;
+    right: 22px;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.25s;
+}
+
+.nova-lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.nova-lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.25s;
+}
+
+.nova-lightbox-arrow:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.nova-lightbox-prev {
+    left: 20px;
+}
+
+.nova-lightbox-next {
+    right: 20px;
+}
+
+/* ============ 代码块 ============ */
+.nova-code-block {
+    margin: 16px 0;
+    border-radius: var(--nova-radius);
+    background: #1f2530;
+    overflow: hidden;
+    box-shadow: var(--nova-shadow);
+}
+
+.nova-code-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.nova-code-lang {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #8fa6c4;
+}
+
+.nova-code-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border: 0;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #aebdd2;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.nova-code-copy:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+}
+
+.nova-code-pre {
+    margin: 0;
+    padding: 16px;
+    overflow-x: auto;
+    max-height: 560px;
+}
+
+.nova-code-pre code {
+    font-family: Consolas, Monaco, 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #d7e0ea;
+    white-space: pre;
+    background: transparent;
+}
+
+.nova-tok-comment {
+    color: #6f7d94;
+    font-style: italic;
+}
+
+.nova-tok-string {
+    color: #9ecb6c;
+}
+
+.nova-tok-keyword {
+    color: #7fa9ff;
+    font-weight: 500;
+}
+
+.nova-tok-number {
+    color: #f0a15c;
+}
+
+.nova-tok-func {
+    color: #61d6d6;
+}
+
+/* ============ 评论表情 ============ */
+.nova-smilies-wrap {
+    position: relative;
+    margin-top: 6px;
+}
+
+.nova-smilies-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 0;
+    background: transparent;
+    padding: 4px 6px;
+    border-radius: 4px;
+    color: var(--nova-text-2);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.nova-smilies-toggle:hover {
+    color: var(--nova-color);
+    background: var(--nova-color-light);
+}
+
+.nova-smilies-panel {
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    z-index: 30;
+    width: 296px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    background: var(--nova-card);
+    border-radius: var(--nova-radius);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    display: none;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+.nova-smilies-panel.nova-open {
+    display: flex;
+}
+
+.nova-smilies-panel .nova-face {
+    font-size: 20px;
+    line-height: 1;
+    padding: 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.15s;
+}
+
+.nova-smilies-panel .nova-face:hover {
+    transform: scale(1.25);
+    background: var(--nova-bg);
+}
+
+/* ============================================================
+ * 归档页（时间线 + 统计卡片）
+ * ============================================================ */
+.nova-archives-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.nova-archives-stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+}
+
+.nova-archives-stat .nova-stat-icon {
+    width: 44px;
+    height: 44px;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--nova-color-light, rgba(30, 128, 255, 0.12));
+    color: var(--nova-color);
+    font-size: 20px;
+}
+
+.nova-archives-stat .nova-stat-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.4;
+}
+
+.nova-archives-stat .nova-stat-num {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--nova-key);
+}
+
+.nova-archives-stat .nova-stat-label {
+    font-size: 12px;
+}
+
+.nova-archives-timeline .nova-archives-group {
+    padding: 16px 20px;
+    margin-bottom: 14px;
+}
+
+.nova-archives-month {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--nova-key);
+    padding-bottom: 12px;
+    margin-bottom: 6px;
+    border-bottom: 1px dashed var(--nova-border);
+}
+
+.nova-archives-month i {
+    color: var(--nova-color);
+}
+
+.nova-archives-count {
+    font-size: 12px;
+    font-weight: 400;
+    margin-left: auto;
+}
+
+.nova-archive-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 4px;
+}
+
+.nova-archive-item + .nova-archive-item {
+    border-top: 1px solid var(--nova-border-soft, #f1f2f3);
+}
+
+.nova-archive-day {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--nova-color-light, rgba(30, 128, 255, 0.12));
+    color: var(--nova-color);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.nova-archive-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nova-archive-title {
+    font-size: 14px;
+    color: var(--nova-key);
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nova-archive-title:hover {
+    color: var(--nova-color);
+}
+
+.nova-archive-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+}
+
+.nova-archive-cat {
+    color: var(--nova-color);
+}
+
+.nova-archive-meta i {
+    margin-right: 3px;
+    vertical-align: -1px;
+}
+
+.nova-archives-empty {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+/* ============================================================
+ * 附件页
+ * ============================================================ */
+.nova-attachment-head {
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    text-align: center;
+}
+
+.nova-attachment-title {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--nova-key);
+    margin: 0 0 10px;
+}
+
+.nova-attachment-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 12px;
+}
+
+.nova-attachment-meta i {
+    margin-right: 4px;
+    vertical-align: -1px;
+}
+
+.nova-attachment-meta a {
+    color: var(--nova-color);
+}
+
+.nova-attachment-img {
+    padding: 12px;
+    margin-bottom: 14px;
+    text-align: center;
+}
+
+.nova-attachment-img img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+}
+
+.nova-attachment-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--nova-border);
+    font-size: 13px;
+}
+
+.nova-attachment-nav a {
+    color: var(--nova-key);
+}
+
+.nova-attachment-nav a:hover {
+    color: var(--nova-color);
+}
+
+.nova-attachment-caption {
+    padding: 14px 20px;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+    .nova-archives-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ============================================================
+ * 前端发布文章页
+ * ============================================================ */
+.nova-newpost-header {
+    padding: 18px 20px;
+    margin-bottom: 14px;
+}
+
+.nova-newpost-h1 {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--nova-key);
+    margin: 0 0 6px;
+}
+
+.nova-newpost-desc {
+    font-size: 13px;
+}
+
+.nova-newpost-head {
+    padding: 16px 20px 10px;
+    margin-bottom: 14px;
+}
+
+.nova-newpost-title {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--nova-key);
+    background: transparent;
+    padding: 0;
+}
+
+.nova-newpost-title::placeholder {
+    color: var(--nova-text-4);
+    font-weight: 400;
+}
+
+.nova-newpost-subhead {
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.nova-newpost-editor {
+    margin-bottom: 14px;
+    overflow: hidden;
+}
+
+.nova-newpost-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--nova-border);
+    background: var(--nova-bg);
+}
+
+.nova-newpost-tool {
+    min-width: 34px;
+    height: 30px;
+    padding: 0 10px;
+    border: 1px solid var(--nova-border);
+    border-radius: var(--nova-radius-sm);
+    background: var(--nova-card);
+    color: var(--nova-text);
+    font-size: 13px;
+    cursor: pointer;
+    transition: var(--nova-transition);
+}
+
+.nova-newpost-tool:hover {
+    color: var(--nova-color);
+    border-color: var(--nova-color);
+}
+
+.nova-newpost-content {
+    display: block;
+    width: 100%;
+    min-height: 320px;
+    padding: 14px 16px;
+    border: none;
+    outline: none;
+    resize: vertical;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--nova-text);
+    font-family: inherit;
+}
+
+.nova-newpost-editor-tip {
+    padding: 8px 16px;
+    font-size: 12px;
+    border-top: 1px dashed var(--nova-border);
+}
+
+.nova-newpost-settings {
+    padding: 16px 20px;
+    margin-bottom: 14px;
+}
+
+.nova-newpost-settings-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--nova-key);
+    margin: 0 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--nova-border);
+}
+
+.nova-newpost-field {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.nova-newpost-field label {
+    flex: none;
+    width: 76px;
+    font-size: 13px;
+    color: var(--nova-text-2);
+}
+
+.nova-newpost-field select,
+.nova-newpost-field input[type="text"] {
+    flex: 1;
+    height: 36px;
+    padding: 0 12px;
+    border: 1px solid var(--nova-border);
+    border-radius: var(--nova-radius-sm);
+    outline: none;
+    font-size: 13px;
+    color: var(--nova-text);
+    background: var(--nova-card);
+    transition: var(--nova-transition);
+}
+
+.nova-newpost-field select:focus,
+.nova-newpost-field input[type="text"]:focus {
+    border-color: var(--nova-color);
+}
+
+.nova-newpost-thumb {
+    position: relative;
+    flex: 1;
+    min-height: 80px;
+    border: 1px dashed var(--nova-border);
+    border-radius: var(--nova-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nova-newpost-thumb img {
+    max-height: 140px;
+    max-width: 100%;
+    border-radius: var(--nova-radius-sm);
+    padding: 4px;
+}
+
+.nova-thumb-upload,
+.nova-thumb-change {
+    border: none;
+    background: transparent;
+    color: var(--nova-color);
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 12px;
+}
+
+.nova-thumb-remove {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nova-thumb-change {
+    position: absolute;
+    bottom: 6px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 12px;
+}
+
+.nova-newpost-submit {
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nova-uc-posts-toolbar {
+    margin-bottom: 14px;
+}
+
+@media (max-width: 768px) {
+    .nova-newpost-field {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .nova-newpost-field label {
+        width: auto;
+    }
+}
+
+/* ============================================================
+ * 小工具：网站数据 / 用户信息
+ * ============================================================ */
+.nova-site-data {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.nova-site-data-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 6px;
+    border-radius: var(--nova-radius-sm);
+    background: var(--nova-bg);
+}
+
+.nova-site-data-item i {
+    color: var(--nova-color);
+    font-size: 16px;
+}
+
+.nova-site-data-item b {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--nova-key);
+}
+
+.nova-site-data-item span {
+    font-size: 12px;
+    color: var(--nova-text-2);
+}
+
+.nova-widget-user-guest {
+    text-align: center;
+    padding: 8px 0;
+}
+
+.nova-widget-user-guest p {
+    margin: 0 0 12px;
+    font-size: 13px;
+}
+
+.nova-widget-user-guest .nova-block {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+/* ============================================================
+ * 夜间模式
+ * ============================================================ */
+.nova-dark-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--nova-border);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--nova-text);
+    cursor: pointer;
+    font-size: 16px;
+    transition: var(--nova-transition);
+    position: relative;
+}
+
+.nova-dark-toggle:hover {
+    color: var(--nova-color);
+    border-color: var(--nova-color);
+}
+
+/* 白天显示月亮，夜间显示太阳 */
+.nova-dark-toggle .nova-icon-sun {
+    display: none;
+}
+
+html.nova-dark .nova-dark-toggle .nova-icon-moon {
+    display: none;
+}
+
+html.nova-dark .nova-dark-toggle .nova-icon-sun {
+    display: inline-block;
+}
+
+/* 深色主题变量 */
+html.nova-dark {
+    --nova-bg: #1c1e23;
+    --nova-card: #24262c;
+    --nova-border: rgba(255, 255, 255, 0.08);
+    --nova-key: #d8dae0;
+    --nova-text: #b7bac2;
+    --nova-text-2: #9ca0a8;
+    --nova-text-3: #7d828b;
+    --nova-text-4: #5c6068;
+    --nova-color-soft: #2a313a;
+    --nova-color-light: rgba(30, 128, 255, 0.2);
+    --nova-focus-shadow: rgba(30, 128, 255, 0.4);
+    --nova-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    --nova-shadow-hover: 0 0 20px rgba(0, 0, 0, 0.45);
+    color-scheme: dark;
+}
+
+html.nova-dark body {
+    background: var(--nova-bg);
+    color: var(--nova-text);
+}
+
+html.nova-dark .nova-page-loader {
+    background: var(--nova-bg);
+}
+
+html.nova-dark .nova-header {
+    background: rgba(28, 30, 35, 0.9);
+}
+
+/* 深色下弹层/下拉等白底元素 */
+html.nova-dark .nova-user-menu,
+html.nova-dark .nova-mobile-nav,
+html.nova-dark .nova-toast,
+html.nova-dark .nova-lightbox {
+    background: var(--nova-card);
+}
+
+/* 图片轻微压暗 */
+html.nova-dark img:not(.nova-no-dark) {
+    filter: brightness(0.9);
+}
+
+html.nova-dark .nova-dark-toggle,
+html.nova-dark img:hover {
+    filter: brightness(1);
+}
+
+/* =========================================================
+   现代化视觉升级（2026 设计语言）
+   - 弥散光晕背景 / 分层阴影 / 渐变点缀 / 毛玻璃 / 微交互
+   ========================================================= */
+
+/* ---- 1. 设计 token 升级 ---- */
+:root {
+    --nova-bg: #f2f4f8;
+    --nova-radius: 12px;
+    --nova-radius-sm: 8px;
+    --nova-border: rgba(31, 45, 61, 0.08);
+    --nova-shadow: 0 1px 2px rgba(31, 45, 61, 0.04), 0 8px 24px rgba(31, 45, 61, 0.06);
+    --nova-shadow-hover: 0 4px 12px rgba(31, 45, 61, 0.06), 0 16px 40px rgba(31, 45, 61, 0.12);
+    --nova-focus-shadow: rgba(30, 128, 255, 0.18);
+    --nova-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --nova-gradient: linear-gradient(135deg, #1e80ff 0%, #6a5cff 100%);
+    --nova-gradient-soft: linear-gradient(135deg, rgba(30, 128, 255, 0.12) 0%, rgba(106, 92, 255, 0.12) 100%);
+}
+
+/* ---- 2. 弥散光晕背景（aurora 效果） ---- */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(640px 420px at 10% -6%, rgba(30, 128, 255, 0.10), transparent 65%),
+        radial-gradient(720px 480px at 90% 0%, rgba(122, 92, 255, 0.09), transparent 65%),
+        radial-gradient(920px 560px at 50% 112%, rgba(30, 128, 255, 0.05), transparent 60%);
+}
+
+/* ---- 3. 毛玻璃导航 + 渐变下划线菜单 ---- */
+.nova-header {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    border-bottom: 1px solid rgba(31, 45, 61, 0.06);
+}
+
+.nova-menu > li > a {
+    position: relative;
+    transition: color var(--nova-transition);
+}
+
+.nova-menu > li > a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 12px;
+    width: 0;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--nova-gradient);
+    transform: translateX(-50%);
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nova-menu > li > a:hover::after,
+.nova-menu > li.current-menu-item > a::after {
+    width: 20px;
+}
+
+.nova-menu .sub-menu {
+    border-radius: 12px;
+    border: 1px solid var(--nova-border);
+    box-shadow: var(--nova-shadow-hover);
+}
+
+.nova-search-form {
+    background: rgba(31, 45, 61, 0.05);
+    border-radius: 999px;
+    transition: var(--nova-transition);
+}
+
+.nova-search-form:focus-within {
+    background: var(--nova-card);
+    box-shadow: 0 0 0 3px var(--nova-focus-shadow), var(--nova-shadow);
+}
+
+/* ---- 4. 卡片描边 + hover 上浮微交互 ---- */
+.card,
+.nova-post-card,
+.nova-sidebar .widget {
+    border: 1px solid var(--nova-border);
+}
+
+.nova-post-card {
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nova-post-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--nova-shadow-hover);
+}
+
+.nova-post-thumb {
+    border-radius: 10px;
+}
+
+/* 置顶卡片同步上浮 */
+.nova-sticky-card {
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nova-sticky-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--nova-shadow-hover);
+}
+
+/* ---- 5. 渐变按钮与胶囊 tab ---- */
+.btn {
+    border-radius: 8px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background: var(--nova-gradient);
+    border-color: transparent;
+    box-shadow: 0 4px 14px rgba(30, 128, 255, 0.32);
+}
+
+.btn-primary:hover {
+    background: var(--nova-gradient);
+    filter: brightness(1.08);
+    box-shadow: 0 6px 20px rgba(30, 128, 255, 0.42);
+}
+
+.btn-outline:hover {
+    background: var(--nova-gradient);
+    border-color: transparent;
+    box-shadow: 0 4px 14px rgba(30, 128, 255, 0.28);
+}
+
+.nova-tab-link.nova-active {
+    background: var(--nova-gradient);
+    box-shadow: 0 4px 12px rgba(30, 128, 255, 0.3);
+}
+
+.nova-tab-link {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---- 6. 分类徽章胶囊化 ---- */
+.nova-post-cat {
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
+    letter-spacing: 0.3px;
+}
+
+.nova-meta-tags a {
+    border-radius: 999px;
+    padding: 2px 9px;
+}
+
+/* ---- 7. 轮播现代化 ---- */
+.nova-slider {
+    border-radius: 16px;
+    border: 1px solid var(--nova-border);
+    box-shadow: var(--nova-shadow);
+}
+
+.nova-slider-caption {
+    background: linear-gradient(to top, rgba(10, 14, 24, 0.68) 0%, rgba(10, 14, 24, 0.22) 55%, transparent 100%);
+}
+
+.nova-slider-dots .nova-dot {
+    width: 7px;
+    height: 7px;
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.nova-slider-dots .nova-dot.nova-active {
+    width: 22px;
+    background: #fff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+.nova-slider-arrow {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+}
+
+/* ---- 8. 小工具标题渐变短条 ---- */
+.nova-sidebar .widget-title::before {
+    width: 3px;
+    height: 16px;
+    left: -15px;
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--nova-gradient);
+    border-radius: 3px;
+    box-shadow: none;
+}
+
+/* ---- 9. 表单控件柔光 focus ring ---- */
+.nova-input-wrap {
+    border-radius: 10px;
+}
+
+.nova-input-wrap:focus-within {
+    border-color: var(--nova-color);
+    box-shadow: 0 0 0 3px var(--nova-focus-shadow);
+}
+
+.nova-newpost-field input[type="text"],
+.nova-newpost-field textarea,
+.nova-newpost-field select {
+    border-radius: 10px;
+}
+
+.nova-newpost-field input[type="text"]:focus,
+.nova-newpost-field textarea:focus {
+    border-color: var(--nova-color);
+    box-shadow: 0 0 0 3px var(--nova-focus-shadow);
+}
+
+/* ---- 10. 代码块与引用块 ---- */
+.nova-post-content pre {
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.nova-post-content blockquote {
+    border-radius: 0 10px 10px 0;
+}
+
+/* ---- 11. 现代细滚动条 ---- */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(31, 45, 61, 0.18);
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(31, 45, 61, 0.32);
+}
+
+/* ---- 12. 页脚渐变顶线 ---- */
+.nova-footer {
+    position: relative;
+    border-top: 1px solid var(--nova-border);
+}
+
+.nova-footer::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--nova-color), #6a5cff, transparent);
+    opacity: 0.55;
+}
+
+/* ---- 13. 深色模式适配 ---- */
+html.nova-dark .nova-slider {
+    background: #24262c;
+}
+
+html.nova-dark body::before {
+    opacity: 0.45;
+}
+
+html.nova-dark .nova-header {
+    background: rgba(28, 30, 35, 0.78);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+
+html.nova-dark .nova-search-form {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+html.nova-dark .nova-search-form:focus-within {
+    background: var(--nova-card);
+}
+
+html.nova-dark .nova-slider {
+    border-color: var(--nova-border);
+}
+
+html.nova-dark ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+html.nova-dark ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+/* ---- 14. WP 管理栏适配（登录管理员时导航下移） ---- */
+body.admin-bar .nova-header {
+    top: 32px;
+}
+
+/* ---- 15. 无障碍：减少动态效果 ---- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important;
     }
 }

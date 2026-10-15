@@ -52,6 +52,11 @@ function nova_header()
     echo '</form>';
     echo '</div>';
 
+    //夜间模式切换
+    if (nova_get_setting('dark_mode_s', '1')) {
+        echo '<button class="nova-dark-toggle" id="nova-dark-toggle" type="button" title="' . esc_attr__('夜间模式', 'nova') . '"><i class="nova-icon-moon"></i><i class="nova-icon-sun"></i></button>';
+    }
+
     if ($is_login) {
         //用户头像
         echo '<div class="nova-user-box">';

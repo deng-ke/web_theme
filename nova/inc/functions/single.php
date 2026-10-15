@@ -57,7 +57,45 @@ function nova_post_content()
 {
     $content = get_the_content();
     $content = apply_filters('the_content', $content);
+    $content = nova_code_blocks($content);
     echo $content;
+}
+
+/**
+ * 代码块包装：语言标签 + 复制按钮（配合前端高亮）
+ */
+function nova_code_blocks($content)
+{
+    if (false === strpos($content, '<pre')) return $content;
+
+    $content = preg_replace_callback('/<pre([^>]*)>(.*?)<\/pre>/is', function ($m) {
+        $attrs   = $m[1];
+        $code    = $m[2];
+        $lang    = '';
+        if (preg_match('/(?:^|\s)(?:lang|language)-([a-z0-9_+#]+)/i', $attrs, $lm)) {
+            $lang = strtolower($lm[1]);
+        }
+        $lang_map = array(
+            'py' => 'python', 'js' => 'javascript', 'ts' => 'typescript', 'sh' => 'bash',
+            'shell' => 'bash', 'c++' => 'cpp', 'md' => 'markdown',
+        );
+        if (isset($lang_map[$lang])) $lang = $lang_map[$lang];
+        $lang_allow = array('php', 'javascript', 'typescript', 'python', 'css', 'bash', 'c', 'cpp', 'java', 'go', 'json', 'sql', 'ruby', 'rust', 'swift', 'kotlin', 'yaml', 'xml', 'markdown', 'latex');
+        if (!in_array($lang, $lang_allow, true)) $lang = '';
+        //剥离 inner code 标签
+        $code = preg_replace('/^<code[^>]*>|\n?<\/code>$/i', '', trim($code));
+        $code = htmlspecialchars_decode($code, ENT_QUOTES);
+        $code = htmlspecialchars($code, ENT_QUOTES);
+
+        $label = $lang ? strtoupper($lang) : 'CODE';
+        $html  = '<div class="nova-code-block"' . ($lang ? ' data-lang="' . esc_attr($lang) . '"' : '') . '>';
+        $html .= '<div class="nova-code-head"><span class="nova-code-lang">' . esc_html($label) . '</span><button class="nova-code-copy" type="button"><i class="nova-icon-copy"></i>复制</button></div>';
+        $html .= '<pre class="nova-code-pre"><code>' . $code . '</code></pre>';
+        $html .= '</div>';
+        return $html;
+    }, $content);
+
+    return $content;
 }
 
 /**

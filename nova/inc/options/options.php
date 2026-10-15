@@ -35,7 +35,7 @@ function nova_customize_register($wp_customize)
     $fields_base = array(
         'theme_color'      => array(__('主题色', 'nova'), '#1e80ff'),
         'theme_color_dark' => array(__('深色模式主题色', 'nova'), '#0a84ff'),
-        'border_radius'    => array(__('圆角大小(px)', 'nova'), '8'),
+        'border_radius'    => array(__('圆角大小(px)', 'nova'), '12'),
         'page_width'       => array(__('页面宽度(px)', 'nova'), '1200'),
         'site_logo_text'   => array(__('Logo文字(未设置图片Logo时显示)', 'nova'), ''),
         'footer_text'      => array(__('页脚版权文字', 'nova'), ''),
@@ -278,10 +278,18 @@ function nova_customize_register($wp_customize)
         'signup_page'     => array(__('注册页面ID(留空自动创建)', 'nova'), '', 'number'),
         'lostpwd_page'    => array(__('找回密码页面ID(留空自动创建)', 'nova'), '', 'number'),
         'user_page'       => array(__('用户中心页面ID(留空自动创建)', 'nova'), '', 'number'),
-        'home_notice'     => array(__('首页公告(留空不显示)', 'nova'), '', 'textarea'),
-        'home_slides'     => array(__('首页轮播图(JSON数组，如[{"img":"图片URL","url":"链接","title":"标题"}]，留空不显示)', 'nova'), '', 'textarea'),
+        'home_notice'      => array(__('首页公告(留空不显示)', 'nova'), '', 'textarea'),
+        'home_slider_s'    => array(__('首页显示轮播图', 'nova'), '1', 'checkbox'),
+        'home_slider_count' => array(__('轮播图数量(自动取置顶/最新文章)', 'nova'), '5', 'number'),
+        'home_slides'      => array(__('首页轮播图手动配置(JSON数组，如[{"img":"图片URL","url":"链接","title":"标题","desc":"简介"}]，留空自动取文章特色图)', 'nova'), '', 'textarea'),
         'archive_bg_img'  => array(__('归档页顶部背景图URL(留空使用纯色)', 'nova'), '', 'text'),
         'author_bg_img'   => array(__('作者页顶部背景图URL(留空使用纯色)', 'nova'), '', 'text'),
+        'dark_mode_s'     => array(__('开启夜间模式切换', 'nova'), '1', 'checkbox'),
+        'dark_auto_s'     => array(__('夜间模式跟随系统(首次访问)', 'nova'), '1', 'checkbox'),
+        'new_post_s'      => array(__('开启前台发布文章', 'nova'), '1', 'checkbox'),
+        'baidu_push_s'    => array(__('文章发布自动推送百度收录', 'nova'), '1', 'checkbox'),
+        'baidu_daily_s'   => array(__('同时推送快速收录(需开通配额)', 'nova'), '0', 'checkbox'),
+        'baidu_token'     => array(__('百度搜索资源平台推送 token', 'nova'), '', 'text'),
     );
     foreach ($fields_pages as $key => $field) {
         $wp_customize->add_setting('nova_setting[' . $key . ']', array(
@@ -342,7 +350,7 @@ add_action('customize_register', 'nova_customize_register');
 function nova_output_theme_vars()
 {
     $color      = nova_get_setting('theme_color', '#1e80ff');
-    $radius     = (int) nova_get_setting('border_radius', 8);
+    $radius     = (int) nova_get_setting('border_radius', 12);
     $width      = (int) nova_get_setting('page_width', 1200);
     $css = ":root{--nova-color:{$color};--nova-radius:{$radius}px;--nova-container:{$width}px;}";
     echo '<style id="nova-vars">' . $css . '</style>' . "\n";

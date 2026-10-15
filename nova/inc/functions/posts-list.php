@@ -34,6 +34,25 @@ function nova_posts_list($args = array(), $style = '')
 }
 
 /**
+ * 紧凑文章列表项（无图小列表，用于短代码/侧边栏）
+ */
+function nova_post_list_item()
+{
+    $post_id = get_the_ID();
+    $thumb   = nova_post_thumbnail_url($post_id, 'nova-card');
+    $html    = '<div class="nova-post-list-item">';
+    if ($thumb) {
+        $html .= '<a class="nova-post-list-thumb" href="' . esc_url(get_permalink()) . '"><img src="' . esc_url($thumb) . '" alt="' . esc_attr(get_the_title()) . '"></a>';
+    }
+    $html .= '<div class="nova-post-list-body">';
+    $html .= '<a class="nova-post-list-title" href="' . esc_url(get_permalink()) . '">' . esc_html(get_the_title()) . '</a>';
+    $html .= '<div class="nova-post-list-meta muted-2-color"><i class="nova-icon-time"></i>' . esc_html(nova_time_ago(get_post_time('Y-m-d H:i:s'))) . '<i class="nova-icon-view"></i>' . nova_count_format(nova_get_post_views($post_id)) . '</div>';
+    $html .= '</div>';
+    $html .= '</div>';
+    return $html;
+}
+
+/**
  * 单个文章卡片
  */
 function nova_post_card($style = '')
@@ -98,7 +117,7 @@ function nova_post_card_meta()
         $i = 0;
         foreach ($tags as $tag) {
             if ($i > 2) break;
-            $html .= '<a href="' . esc_url(get_tag_link($tag)) . '"># ' . esc_html($tag->name) . '</a>';
+            $html .= '<a class="nova-cat-c' . (($i % 6) + 1) . '" href="' . esc_url(get_tag_link($tag)) . '"># ' . esc_html($tag->name) . '</a>';
             $i++;
         }
         $html .= '</span>';

@@ -20,7 +20,7 @@ get_header();
         <div class="nova-content">
             <article id="post-<?php the_ID(); ?>" <?php post_class('nova-single-post card'); ?>>
                 <?php echo nova_post_header(); // phpcs:ignore ?>
-                <div class="nova-single-body">
+                <div class="nova-single-body nova-post-content">
                     <?php echo nova_post_content(); // phpcs:ignore ?>
                     <?php echo nova_post_tags(); // phpcs:ignore ?>
                 </div>
